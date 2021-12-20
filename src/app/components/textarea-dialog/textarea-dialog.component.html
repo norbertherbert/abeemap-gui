@@ -1,0 +1,14 @@
+<div class="dialog-container">
+    <div mat-dialog-content>
+        <legend>{{data.title}}</legend>
+        <mat-form-field class="geojson-textarea">
+            <textarea matInput rows="20" cols="80" [(ngModel)]="data.inputText"></textarea>
+        </mat-form-field>
+        <button mat-button (click)="onClear()">Clear</button>
+        <button mat-button [cdkCopyToClipboard]="data.inputText">Copy to clipboard</button>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onCancel()">Cancel</button>
+        <button mat-button [mat-dialog-close]="data.inputText" cdkFocusInitial>Apply on Local Map</button>
+    </div>
+</div>

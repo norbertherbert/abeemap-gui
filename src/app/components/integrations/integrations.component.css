@@ -1,0 +1,23 @@
+#main-component-container {
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+  
+#main-component-header {
+    flex: 0 0;
+}
+  
+#main-component-body {
+    flex: 1 1;
+    overflow: auto;
+}
+
+.subcomponent-container {
+    box-sizing:border-box;
+    height: 50%;
+    min-height: 230px;
+    max-height: 330px;
+    margin: 0px;
+    padding: 10px;
+}

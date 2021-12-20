@@ -1,0 +1,57 @@
+<div id="component-container">
+
+  <div id="component-header">
+
+    <h2 *ngIf="!formTypeIsCreate">Edit Binder Config</h2>
+    <h2 *ngIf="formTypeIsCreate">Create Binder Config</h2>
+
+    <button mat-icon-button color="primary" (click)="goBack()">
+      <mat-icon matTooltip="Go back">arrow_back</mat-icon>
+    </button>
+    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()">
+      <mat-icon matTooltip="Create Binder Config">check</mat-icon>
+    </button>
+    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="save()">
+      <mat-icon matTooltip="Save Binder Config">save</mat-icon>
+    </button>
+
+  </div>
+
+  <div id="component-body" class="mat-elevation-z8">
+      
+    <div *ngIf="binderConfig" id="component-form">
+      <p>
+        <mat-form-field *ngIf="!formTypeIsCreate" floatLabel="always"  >
+          <mat-label>ref:</mat-label>
+          <input matInput [(ngModel)]="binderConfig.ref" type="text" id="ref" readonly/>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field floatLabel="always"  >
+          <mat-label>Network Server Server URL:</mat-label>
+          <input matInput [(ngModel)]="binderConfig.callbackURL" type="text" id="callbackURL" />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field floatLabel="always"  >
+          <mat-label>DevEUI List:</mat-label>
+          <input matInput [(ngModel)]="binderConfig.deviceEUIList" type="text" id="deviceEUIList" />
+        </mat-form-field>
+      </p>
+    </div>
+
+  </div>
+
+  <div id="component-footer">
+    <button mat-icon-button color="primary" (click)="goBack()">
+      <mat-icon matTooltip="Go back">arrow_back</mat-icon>
+    </button>
+    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()">
+      <mat-icon matTooltip="Create Binder Config">check</mat-icon>
+    </button>
+    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="save()">
+      <mat-icon matTooltip="Save Binder Config">save</mat-icon>
+    </button>
+  </div>
+
+</div>

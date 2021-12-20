@@ -1,0 +1,57 @@
+<div id="component-container">
+
+  <div id="component-header">
+
+    <h2 *ngIf="!formTypeIsCreate">Edit Connector Config</h2>
+    <h2 *ngIf="formTypeIsCreate">Create Connector Config</h2>
+
+    <button mat-icon-button color="primary" (click)="goBack()">
+      <mat-icon matTooltip="Go back">arrow_back</mat-icon>
+    </button>
+    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()">
+      <mat-icon matTooltip="Create Connector Config">check</mat-icon>
+    </button>
+    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="save()">
+      <mat-icon matTooltip="Save Connector Config">save</mat-icon>
+    </button>
+
+  </div>
+
+  <div id="component-body" class="mat-elevation-z8">
+      
+    <div *ngIf="connectorConfig" id="component-form">
+      <p>
+        <mat-form-field *ngIf="!formTypeIsCreate" floatLabel="always"  >
+          <mat-label>ref:</mat-label>
+          <input matInput [(ngModel)]="connectorConfig.ref" type="text" id="ref" readonly/>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field floatLabel="always"  >
+          <mat-label>App Server URL:</mat-label>
+          <input matInput [(ngModel)]="connectorConfig.applicationServerURL" type="text" id="applicationServerURL" />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field floatLabel="always"  >
+          <mat-label>DevEUI List:</mat-label>
+          <input matInput [(ngModel)]="connectorConfig.deviceEUIList" type="text" id="deviceEUIList" />
+        </mat-form-field>
+      </p>
+    </div>
+
+  </div>
+
+  <div id="component-footer">
+    <button mat-icon-button color="primary" (click)="goBack()">
+      <mat-icon matTooltip="Go back">arrow_back</mat-icon>
+    </button>
+    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()">
+      <mat-icon matTooltip="Create Connector Config">check</mat-icon>
+    </button>
+    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="save()">
+      <mat-icon matTooltip="Save Connector Config">save</mat-icon>
+    </button>
+  </div>
+
+</div>
