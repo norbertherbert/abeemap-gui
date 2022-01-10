@@ -53,8 +53,9 @@ export const CONFIG:any = {
   DEFAULT_MAP_ZOOM: 5,
 
   MQTT_BROKER: 'nano-things.net',
-	MQTT_PROTOCOL: "wss",
-  MQTT_PORT: '880', // wss
+	MQTT_WEBSICKET_PROTOCOL: "wss",
+  MQTT_WEBSOCKET_PATH: 'mqtt',
+  MQTT_PORT: '880', // for wss
   MQTT_CLIENT_ID: 'abeemap-gui-test',
   MQTT_TOPIC: "LE/le-lab/AS/#",
 
