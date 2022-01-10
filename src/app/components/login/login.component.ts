@@ -7,6 +7,11 @@ import { AuthService } from '../../auth/auth.service';
 import { DxAdminApiService } from '../../services/dx-admin-api.service';
 import { MatSnackBar} from '@angular/material/snack-bar';
 
+import jwtDecode from 'jwt-decode';
+
+import { CONFIG } from '../../../environments/environment';
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -57,16 +62,20 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
 
+      const userName = this.form.get('prefix')?.value + '/' + this.form.get('userName')?.value;
+      const password = this.form.get('password')?.value;
+
       this.dxAdminApiService.getToken(
-        'client_credentials',
-        this.form.get('prefix')?.value + '/' + this.form.get('userName')?.value,
-        // this.form.get('userName').value,
-        this.form.get('password')?.value,
-        false,
-        '12hours'
+        'client_credentials', userName, password, false, '12hours'
       ).subscribe(
         data => {
           if (data) {
+
+            const subscriberId = (jwtDecode(data.access_token) as any).scope[0].split(':')[1];
+            sessionStorage.setItem('mqttusr_' + CONFIG.client_id, userName);
+            sessionStorage.setItem('mqttpwd_' + CONFIG.client_id, password);
+            sessionStorage.setItem('mqttsbs_' + CONFIG.client_id, subscriberId);      
+
             const parsedRedirectUri = new URL(this.redirectUri);
             parsedRedirectUri.searchParams.append('access_token', data.access_token);
             parsedRedirectUri.searchParams.append('state', this.state);

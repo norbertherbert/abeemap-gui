@@ -7,6 +7,8 @@ import { ConnectorConfigsComponent } from './components/connector-configs/connec
 import { ConnectorConfigComponent } from './components/connector-config/connector-config.component';
 import { BinderConfigsComponent } from './components/binder-configs/binder-configs.component';
 import { BinderConfigComponent } from './components/binder-config/binder-config.component';
+import { MapComponent } from './components/map/map.component';
+import { LogsComponent } from './components/logs/logs.component';
 import { BluetoothMapComponent } from './components/bluetooth-map/bluetooth-map.component';
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/login/login.component';
@@ -18,6 +20,16 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [ AuthGuard ],
+  },
+  {
+    path: 'map',
+    component: MapComponent,
+    canActivate: [ AuthGuard ],
+  },
+  {
+    path: 'logs',
+    component: LogsComponent,
     canActivate: [ AuthGuard ],
   },
   {

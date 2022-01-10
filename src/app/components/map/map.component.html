@@ -1,0 +1,12 @@
+<div class="map-container">
+  <div class="button-frame">
+
+    <button mat-raised-button (click)="zoomToDevices()" class="control-button">Zoom to Devices</button>
+    <button mat-raised-button (click)="toggleBeaconMap()" class="control-button">Show/hide Floorplan</button>
+    <button mat-raised-button (click)="switchMap()" class="control-button">Switch Map</button>
+
+  </div>
+  <div id="map-container">
+    <div id="map"></div>
+  </div>
+</div>

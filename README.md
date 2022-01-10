@@ -45,6 +45,10 @@ ng g c --skip-tests --module app components/user
 ng g c --skip-tests --module app components/login
 // edit app/app-routing.module.ts
 
+ng g c --skip-tests --module app components/map
+ng g service --skip-tests services/leaflet-map
+ng g service --skip-tests services/mqtt-client
+
 ng g s --skip-tests auth/auth
 
 npm i --save jwt-decode

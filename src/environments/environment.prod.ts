@@ -50,7 +50,13 @@ export const CONFIG:any = {
   ADM_URL: "https://dev1.preview.thingpark.com/abeeway-device-analyzer-new/index.php",
 
   DEFAULT_MAP_CENTER: [11.6739826, 47.0622886],
-  DEFAULT_MAP_ZOOM: 5
+  DEFAULT_MAP_ZOOM: 5,
+
+  MQTT_BROKER: 'nano-things.net',
+	MQTT_PROTOCOL: "wss",
+  MQTT_PORT: '880', // wss
+  MQTT_CLIENT_ID: 'abeemap-gui-test',
+  MQTT_TOPIC: "LE/le-lab/AS/#",
 
 };
 

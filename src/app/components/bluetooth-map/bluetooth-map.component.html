@@ -1,11 +1,12 @@
 <div class="map-container">
   <div class="button-frame">
-    <button mat-raised-button (click)="getBluetoothMap()" class="control-button">Get from TPXLE</button>
+    <button mat-raised-button (click)="zoomToBeacons()" class="control-button">Zoom to Beacons</button>
+    <button mat-raised-button (click)="getBluetoothMap()" class="control-button">Refresh from TPXLE</button>
     <button mat-raised-button (click)="delsetBluetoothMap()" class="control-button">Save to TPXLE</button>
     <button mat-raised-button (click)="deleteBluetoothMap()" class="control-button">Delete from TPXLE</button>
-    <button mat-raised-button (click)="onSwitchMap()" class="control-button">Switch Map</button>
     <button mat-raised-button (click)="clearMap()" class="control-button">Clear Map</button>
-    <button mat-raised-button (click)="onExport1()" class="control-button">Edit GeoJson</button>
+    <button mat-raised-button (click)="exportMap()" class="control-button">Edit GeoJson</button>
+    <button mat-raised-button (click)="switchMap()" class="control-button">Switch Map</button>
 
     <!--
     <input type="file" style="display:none;" id="geojson-file-selector" (change)="setBluetoothMap1($event)" #fileUpload>
@@ -13,7 +14,7 @@
     -->
 
   </div>
-  <div class="map-frame">
+  <div id="map-container">
     <div id="map"></div>
   </div>
 </div>

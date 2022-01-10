@@ -60,7 +60,7 @@ export const CONFIG:any = {
   // https://le-lab.preview.thingpark.com/admin/latest/api/oauth/token?renewToken=true&validityPeriod=7days
 
   DEFAULT_MAP_CENTER: [11.6739826, 47.0622886],
-  DEFAULT_MAP_ZOOM: 5
+  DEFAULT_MAP_ZOOM: 5,
 
   // AS_URL: https://dev1.preview.thingpark.com/community-operator-interface/?TPXLE_TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTk0NDg0MDEsInN1YiI6IjEwMDAwMTE4MCJ9.HI10wFygtGvZvkE7gWAyrRD00DWlvF5f6cwK30-tbs8
   // AS_AUTH_KEY: 4226452948404D635166546A576E5A72
@@ -77,6 +77,11 @@ export const CONFIG:any = {
   // -H "accept: */*" 
   // -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJTVUJTQ1JJQkVSOjIxNjciXSwiZXhwIjoxNjM2OTY1MDQ3LCJqdGkiOiJlMWZiODk4OC1hYTMzLTQ2N2YtOGFhYi1hOGY1NjQ0N2UzM2UiLCJjbGllbnRfaWQiOiJjb21tdW5pdHktYXBpL25vcmJlcnQuaGVyYmVydCtjbXR5QGFjdGlsaXR5LmNvbSJ9.Yn9Qid0J6mVa6L2EvFqBnW8XE2LgGadp2hNPKMQy3IuitZb6F4kmb1llGrd0UNv97p5UjBZGToDeaBNYtR0htA"
 
+  MQTT_BROKER: 'nano-things.net',
+	MQTT_PROTOCOL: "wss",
+  MQTT_PORT: '880', // wss
+  MQTT_CLIENT_ID: 'abeemap-gui-test',
+  MQTT_TOPIC: "LE/le-lab/AS/#",
 
 };
 

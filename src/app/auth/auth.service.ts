@@ -2,7 +2,6 @@ import { CONFIG } from '../../environments/environment';
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-// import * as jwtDecode from 'jwt-decode';
 import jwtDecode from 'jwt-decode';
 
 import {
@@ -30,7 +29,11 @@ export class AuthService {
   // loggedInAsAdmin = false;
 
   constructor() {
-    const token = getCookie('access_token_' + CONFIG.client_id);
+
+
+    // const token = getCookie('access_token_' + CONFIG.client_id);
+    const token = sessionStorage.getItem('access_token_' + CONFIG.client_id);
+
     if (token) {
       this.setSession(token);
     }
@@ -38,7 +41,12 @@ export class AuthService {
 
   login(redirectURI?: string): void {
     const state = generateState();
-    setCookie('state_' + CONFIG.client_id, state, 600, CONFIG.redirect_uri);
+
+    
+    // setCookie('state_' + CONFIG.client_id, state, 600, CONFIG.redirect_uri);
+    sessionStorage.setItem('state_' + CONFIG.client_id, state);
+
+
     window.location.href = CONFIG.authorizationUrl +
       '?response_type=' + encodeURIComponent(CONFIG.response_type) +
       '&redirect_uri=' + encodeURIComponent(redirectURI ? redirectURI : CONFIG.redirect_uri) +
@@ -51,10 +59,19 @@ export class AuthService {
   setSession(token: string, state?: string) {
 
     if ( state ) {
-      const state1 = getCookie('state_' + CONFIG.client_id);
+
+
+      // const state1 = getCookie('state_' + CONFIG.client_id);
+      const state1 = sessionStorage.getItem('state_' + CONFIG.client_id);
+
 
       if (state1) {
-        deleteCookie('state_' + CONFIG.client_id, CONFIG.redirect_uri);
+
+
+        // deleteCookie('state_' + CONFIG.client_id, CONFIG.redirect_uri);
+        sessionStorage.removeItem('state_' + CONFIG.client_id);
+   
+
       } else {
         return false;
       }
@@ -81,7 +98,12 @@ export class AuthService {
     // this.loggedInAsAdmin = ( this.roles.indexOf('admin') !== -1 );
 
     if (state) {
-      setCookie('access_token_' + CONFIG.client_id, this.token, 3600, CONFIG.redirect_uri);
+
+
+      // setCookie('access_token_' + CONFIG.client_id, this.token, 3600, CONFIG.redirect_uri);
+      sessionStorage.setItem('access_token_' + CONFIG.client_id, this.token);
+
+
     }
 
     this.setLoggedIn(true);
@@ -104,7 +126,14 @@ export class AuthService {
     // this.roles = undefined;
     // this.loggedInAsAdmin = undefined;
 
-    deleteCookie('access_token_' + CONFIG.client_id, CONFIG.redirect_uri);
+
+    // deleteCookie('access_token_' + CONFIG.client_id, CONFIG.redirect_uri);
+    sessionStorage.removeItem('access_token_' + CONFIG.client_id);
+    sessionStorage.removeItem('mqttusr_' + CONFIG.client_id);
+    sessionStorage.removeItem('mqttpwd_' + CONFIG.client_id);
+    sessionStorage.removeItem('mqttsbs_' + CONFIG.client_id);
+
+
     this.setLoggedIn(false);
 
   }

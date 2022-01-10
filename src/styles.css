@@ -4,13 +4,15 @@
 
 html,
 body,
+app-home,
+app-map,
+app-logs,
 app-bluetooth-map,
 app-integrations,
 app-connector-configs,
 app-connector-config,
 app-binder-configs,
-app-binder-config,
-app-home
+app-binder-config
 {
   height: 100%;
   margin: 0px;
