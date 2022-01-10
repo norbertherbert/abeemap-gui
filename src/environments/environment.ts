@@ -78,8 +78,9 @@ export const CONFIG:any = {
   // -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJTVUJTQ1JJQkVSOjIxNjciXSwiZXhwIjoxNjM2OTY1MDQ3LCJqdGkiOiJlMWZiODk4OC1hYTMzLTQ2N2YtOGFhYi1hOGY1NjQ0N2UzM2UiLCJjbGllbnRfaWQiOiJjb21tdW5pdHktYXBpL25vcmJlcnQuaGVyYmVydCtjbXR5QGFjdGlsaXR5LmNvbSJ9.Yn9Qid0J6mVa6L2EvFqBnW8XE2LgGadp2hNPKMQy3IuitZb6F4kmb1llGrd0UNv97p5UjBZGToDeaBNYtR0htA"
 
   MQTT_BROKER: 'nano-things.net',
-	MQTT_PROTOCOL: "wss",
-  MQTT_PORT: '880', // wss
+	MQTT_WEBSICKET_PROTOCOL: "wss",
+  MQTT_WEBSOCKET_PATH: 'mqtt',
+  MQTT_PORT: '880', // for wss
   MQTT_CLIENT_ID: 'abeemap-gui-test',
   MQTT_TOPIC: "LE/le-lab/AS/#",
 

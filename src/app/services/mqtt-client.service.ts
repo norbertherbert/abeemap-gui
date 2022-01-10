@@ -21,7 +21,13 @@ export class MqttClientService implements OnInit {
 
   ngOnInit(): void {
 
-    this.client = new PahoMQTT.Client(CONFIG.MQTT_BROKER, Number(CONFIG.MQTT_PORT), CONFIG.MQTT_CLIENT_ID);
+    this.client = new PahoMQTT.Client(
+      `${CONFIG.MQTT_WEBSICKET_PROTOCOL}://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_PORT}/${CONFIG.MQTT_WEBSOCKET_PATH}`, 
+      // Number(CONFIG.MQTT_PORT), 
+      // CONFIG.MQTT_WEBSOCKET_PATH,
+      CONFIG.MQTT_CLIENT_ID
+    );
+    // this.client = new PahoMQTT.Client(CONFIG.MQTT_BROKER, Number(CONFIG.MQTT_PORT), CONFIG.MQTT_CLIENT_ID);
 
     this.client.onConnectionLost = (responseObject:any) => {
       this.connected = false;
