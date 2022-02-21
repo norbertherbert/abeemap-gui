@@ -29,7 +29,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 ## Setup steps
-
+```
 sudo npm install -g @angular/cli
 ng new abeemap --skip-tests
 cd abeemap
@@ -62,4 +62,4 @@ npm i --save @geoman-io/leaflet-geoman-free
 ng add @angular/elements
 https://angular.io/guide/elements
 https://dev.to/brsjsk/angular-custom-elements-introduction-2cen
-
+```
