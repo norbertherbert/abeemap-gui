@@ -10,16 +10,17 @@ import { LogsService } from '../../services/logs.service';
 })
 export class LogsComponent implements OnInit {
 
-  componentTitle = 'Resolved Message Logs';
+  componentTitle = 'Message Logs';
   // elementName = 'device';
   elementIdPropertyName = 'ref';
   displayedColumns: string[] = [
+    'counter',
     'deviceEUI',
     'time',
     'messageType',
-    // 'lon',
-    // 'lat',
-    // 'horizontalAccuracy',
+    'lon',
+    'lat',
+    'horizontalAccuracy',
     // 'age',
     // 'payload',
   ];

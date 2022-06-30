@@ -27,6 +27,7 @@
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.7.1",
     "leaflet.awesome-markers": "^2.0.5",
+    "leaflet.marker.slideto": "^0.3.0",
     "ngx-mqtt": "^9.0.5",
     "paho-mqtt": "^1.1.0",
     "rxjs": "~6.6.0",

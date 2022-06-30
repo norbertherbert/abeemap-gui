@@ -4,6 +4,8 @@ import { Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 
 import { CONFIG } from '../../environments/environment';
 
+import { MatSnackBar} from '@angular/material/snack-bar';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,15 +19,15 @@ export class MqttClientService implements OnInit {
   /// message$ = new ReplaySubject<any>(5);
   locationUpdateMessage$ = new Subject<any>();
 
-  constructor() { }
+  constructor(
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
 
     this.client = new PahoMQTT.Client(
-      `${CONFIG.MQTT_WEBSICKET_PROTOCOL}://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_PORT}/${CONFIG.MQTT_WEBSOCKET_PATH}`, 
-      // Number(CONFIG.MQTT_PORT), 
-      // CONFIG.MQTT_WEBSOCKET_PATH,
-      CONFIG.MQTT_CLIENT_ID
+      `${CONFIG.MQTT_WEBSICKET_PROTOCOL}://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_PORT}/${CONFIG.MQTT_WEBSOCKET_PATH}`,
+      CONFIG.MQTT_CLIENT_ID_PREFIX + Math.floor(Math.random() * 1000000)
     );
     // this.client = new PahoMQTT.Client(CONFIG.MQTT_BROKER, Number(CONFIG.MQTT_PORT), CONFIG.MQTT_CLIENT_ID);
 
@@ -33,7 +35,8 @@ export class MqttClientService implements OnInit {
       this.connected = false;
       this.subscribed = false;
       if (responseObject.errorCode !== 0) {
-        console.log(`CONNECTION LOST:${responseObject.errorMessage}`);
+        console.log(`MQTT CONNECTION LOST:${responseObject.errorMessage}`);
+        this.reportError(`MQTT CONNECTION LOST:${responseObject.errorMessage}`)
       }
     }
 
@@ -61,32 +64,33 @@ export class MqttClientService implements OnInit {
   } 
 
   connect() {
+    setTimeout( () => {
+      const userName = sessionStorage.getItem('mqttusr_' + CONFIG.client_id);
+      const password = sessionStorage.getItem('mqttpwd_' + CONFIG.client_id);
+      const subscriberId = sessionStorage.getItem('mqttsbs_' + CONFIG.client_id);
 
-    const userName = sessionStorage.getItem('mqttusr_' + CONFIG.client_id);
-    const password = sessionStorage.getItem('mqttpwd_' + CONFIG.client_id);
-    const subscriberId = sessionStorage.getItem('mqttsbs_' + CONFIG.client_id);
-
-    if ( !(userName && password && subscriberId) ) {
-      console.log(`CONNECTION FAILURE: No MQTT credentials are cached in localStorage yet!`);
-      return;
-    }
-
-    this.client.connect({
-      userName: userName,
-      password: password,
-      onSuccess: async () => {
-        this.connected = true;
-        console.log(`MQTT CLIENT CONNECTED`);
-        this.subscribe();
-      },
-      onFailure: (responseObject:any) => {
-        this.connected = false;
-        if (responseObject.errorCode !== 0) {
-          console.log(`CONNECTION FAILURE:${responseObject.errorMessage}`);
-        }
+      if ( !(userName && password && subscriberId) ) {
+        console.log(`CONNECTION FAILURE: No MQTT credentials are cached in localStorage yet!`);
+        return;
       }
-    });
 
+      this.client.connect({
+        userName: userName,
+        password: password,
+        onSuccess: async () => {
+          this.connected = true;
+          console.log(`MQTT CLIENT CONNECTED`);
+          this.reportEvent(`MQTT Client Connected to Broker`);
+          this.subscribe();
+        },
+        onFailure: (responseObject:any) => {
+          this.connected = false;
+          if (responseObject.errorCode !== 0) {
+            console.log(`CONNECTION FAILURE:${responseObject.errorMessage}`);
+          }
+        }
+      });
+    }, 1000)
   }
 
   disconnect() {
@@ -148,6 +152,21 @@ export class MqttClientService implements OnInit {
         }
       }
     );
+  }
+
+  reportEvent(event:string) {
+    this.snackBar.open(event, '', {
+      panelClass: ['green-snackbar'],
+      duration: 3000,
+    });
+  }
+
+  reportError(error:string) {
+    this.snackBar.open(
+      'MQTT EVENT: ' + JSON.stringify(error), 
+      'x', 
+      { panelClass: ['red-snackbar'] }
+    );       
   }
 
 }

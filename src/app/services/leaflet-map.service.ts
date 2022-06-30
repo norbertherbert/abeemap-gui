@@ -12,6 +12,7 @@ import { MqttClientService } from './mqtt-client.service';
 
 import * as L from 'leaflet';
 import '@geoman-io/leaflet-geoman-free';
+import 'leaflet.marker.slideto';
 
 import { Inject, Injector }  from '@angular/core';
 import { DOCUMENT } from '@angular/common'
@@ -20,7 +21,49 @@ import { BeaconSettingsPopupComponent } from '../components/beacon-settings-popu
 
 // import { MqttClientService } from './mqtt-client.service';
 
+const DEVICE_NAMES = {
+  '20635f01e10003f5': 'Norbert',
+  '20635f01e10003a4': 'Jean',
+  // '20635f01e1000772': 'Rohit'
+}
+
 const ICONS_FOLDER = './assets/';
+
+const ICON_BLE_BEACON = L.icon({
+  // iconRetinaUrl: ICONS_FOLDER + 'bluetooth.png',
+  iconUrl: ICONS_FOLDER + 'bluetooth.png',
+  shadowUrl: ICONS_FOLDER + 'bluetooth-shadow.png',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -15],
+  tooltipAnchor: [0, 0],
+  shadowSize: [60, 40],
+  shadowAnchor: [20, 40]
+});
+
+const ICON_PERSON = L.icon({
+  iconRetinaUrl: ICONS_FOLDER + 'marker-icon-person-2x.png',
+  iconUrl: ICONS_FOLDER + 'marker-icon-person-1x.png',
+  shadowUrl: ICONS_FOLDER + 'marker-icon-person-shadow.png',
+  iconSize: [32, 44],
+  iconAnchor: [16, 44],
+  popupAnchor: [1, -32],
+  tooltipAnchor: [1, -2],
+  shadowSize: [48, 44],
+  shadowAnchor: [16, 44],
+});
+
+const ICON_PERSON_GREY = L.icon({
+  iconRetinaUrl: ICONS_FOLDER + 'marker-icon-person-grey-2x.png',
+  iconUrl: ICONS_FOLDER + 'marker-icon-person-grey-1x.png',
+  shadowUrl: ICONS_FOLDER + 'marker-icon-person-shadow.png',
+  iconSize: [32, 44],
+  iconAnchor: [16, 44],
+  popupAnchor: [1, -32],
+  tooltipAnchor: [1, -2],
+  shadowSize: [48, 44],
+  shadowAnchor: [16, 44],
+});
 
 const ICON_BLUE = L.icon({
   iconRetinaUrl: ICONS_FOLDER + 'marker-icon-blue-2x.png',
@@ -84,6 +127,29 @@ const DEFAULT_GEOJSON_TEXT = JSON.stringify(
 
 
 
+const FLOORPLAN_IMAGE_URL = './assets/actility_floorplan.png';
+const imageCoordinatesX = 2.3335;
+const imageCoordinatesY = 48.8745900;
+const imageHeight = 0.00029;
+const imageWidth = 0.00057;
+const FLOORPLAN_IMAGE_BOUNDS:any = [
+  [imageCoordinatesY, imageCoordinatesX], 
+  [imageCoordinatesY+imageHeight, imageCoordinatesX+imageWidth]
+];
+
+const FLOORPLAN_IMAGE_URL_1 = './assets/PDC_Floorplan.jpg';
+const imageCoordinatesX_1 = 2.2815;
+const imageCoordinatesY_1 = 48.8784;
+const imageHeight_1 = 0.00135 ;
+const imageWidth_1 = 0.00365;
+const FLOORPLAN_IMAGE_BOUNDS_1:any = [
+  [imageCoordinatesY_1, imageCoordinatesX_1], 
+  [imageCoordinatesY_1+imageHeight_1, imageCoordinatesX_1+imageWidth_1]
+];
+
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +161,9 @@ export class LeafletMapService implements OnInit{
   devices:any = {};
   
   geojsonFile:any;
+
+  myAudioContext: any;
+  beepsEnabled = true;
 
   // document.getElementById('tpxle-ul-textarea').value = defaultTpxleUlText;
   tpxleULTextarea = DEFAULT_TPXLE_UL_TEXT;
@@ -119,6 +188,8 @@ export class LeafletMapService implements OnInit{
       customElements.define('app-beacon-settings-popup', BeaconSettingsPopupElement);
     }
 
+    this.myAudioContext = new window.AudioContext();
+
   }
 
   ngOnInit(): void {
@@ -129,28 +200,71 @@ export class LeafletMapService implements OnInit{
 
   updateDeviceMarker(msg:any) {
     if (this.devices[msg.deviceEUI]) {
-      this.devices[msg.deviceEUI].setLatLng([msg.coordinates[1], msg.coordinates[0]]).update();
+      // this.devices[msg.deviceEUI].setLatLng([msg.coordinates[1], msg.coordinates[0]]).update();
+
+      if (this.beepsEnabled) {
+        this.beep(100, 440, 1);
+      }
+
+      if (msg.age < 120) {
+        this.devices[msg.deviceEUI].setIcon(ICON_PERSON);
+      } else {
+        this.devices[msg.deviceEUI].setIcon(ICON_PERSON_GREY);
+      }
+
+      this.devices[msg.deviceEUI].slideTo( [msg.coordinates[1], msg.coordinates[0]], {
+        duration: 2000,
+        keepAtCenter: false
+      });
+
     } else {
+
+      const t = ( (new Date()).getTime() - (new Date(msg.time)).getTime() ) / 1000;
+      const icon = t<300 ? ICON_PERSON : ICON_PERSON_GREY;
+      // const icon = ICON_PERSON;
+
       this.devices[msg.deviceEUI] = L.marker([msg.coordinates[1], msg.coordinates[0]], {
-        icon: ICON_RED,
-        pmIgnore: true
+        icon,
+        pmIgnore: true,
+        zIndexOffset: 1000,
+        // title: msg.deviceEUI,
       });
       this.devices[msg.deviceEUI].bindPopup(`DevEUI: ${msg.deviceEUI}<br />Time: ${msg.time}`).addTo(this.devicesFeatureGroup);
+      this.devices[msg.deviceEUI].bindTooltip(
+        (DEVICE_NAMES as any)[msg.deviceEUI] ? (DEVICE_NAMES as any)[msg.deviceEUI] : msg.deviceEUI.substring(8), 
+        {
+          permanent: true, 
+          opacity: 0.75,
+          direction: 'bottom' 
+        }
+      ).openTooltip();
     }
+  }
+
+  initFloorplanImage(map:any) {
+    L.imageOverlay(FLOORPLAN_IMAGE_URL, FLOORPLAN_IMAGE_BOUNDS).addTo(map);
+    L.imageOverlay( FLOORPLAN_IMAGE_URL_1, FLOORPLAN_IMAGE_BOUNDS_1).addTo(map);
   }
 
   initDeviceMap(map:any): void {
  
     map.addLayer(TILES_MAPBOX);
     map.addLayer(this.devicesFeatureGroup);
-
-    this.zoomToDevices(map);
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS);
+    // this.zoomToPDCFloorplan(map);
 
   }
 
-  zoomToDevices(map:any) {
-    map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [50, 50]});
+  zoomToPDCFloorplan(map:any) {
+    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [50, 50]});
+    map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS_1);
   }
+
+  zoomToActilityFloorplan(map:any) {
+    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [50, 50]});
+    map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS);
+  }
+
 
   initBeaconMap(map:any): void {
  
@@ -191,7 +305,7 @@ export class LeafletMapService implements OnInit{
     // this.currentLocationMarker.addTo(map);
 
     let blueMarker = map.pm.Toolbar.copyDrawControl('drawMarker',{name: "beaconMarker"})
-    blueMarker.drawInstance.setOptions({markerStyle: {icon : ICON_BLUE}, snappable: false});
+    blueMarker.drawInstance.setOptions({markerStyle: {icon : ICON_BLE_BEACON}, snappable: false});
     
     // let redMarker = map.pm.Toolbar.copyDrawControl('drawMarker',{name: "currentLocationMarker"})
     // redMarker.drawInstance.setOptions({markerStyle: {icon : ICON_RED}});
@@ -285,7 +399,7 @@ export class LeafletMapService implements OnInit{
 
           if ((feature.geometry.type == 'Point') && (layer instanceof L.Marker) ) { 
 
-            layer.setIcon(ICON_BLUE);
+            layer.setIcon(ICON_BLE_BEACON);
 
             if (feature.properties === undefined) throw new Error('Missing "properties" property from "feature"!');
             if (feature.properties.name === undefined) throw new Error('Missing "name" property from "properties"!');
@@ -402,7 +516,43 @@ export class LeafletMapService implements OnInit{
   }
 
 
+  beep(duration:number, frequency:number, volume:number){
 
+    return new Promise<void>((resolve, reject) => {
+      // Set default duration if not provided
+      duration = duration || 200;
+      frequency = frequency || 440;
+      volume = volume || 100;
+
+      try{
+          let oscillatorNode = this.myAudioContext.createOscillator();
+          let gainNode = this.myAudioContext.createGain();
+          oscillatorNode.connect(gainNode);
+
+          // Set the oscillator frequency in hertz
+          oscillatorNode.frequency.value = frequency;
+
+          // Set the type of oscillator
+          oscillatorNode.type= "square";
+          gainNode.connect(this.myAudioContext.destination);
+
+          // Set the gain to the volume
+          gainNode.gain.value = volume * 0.01;
+
+          // Start audio with the desired duration
+          oscillatorNode.start(this.myAudioContext.currentTime);
+          oscillatorNode.stop(this.myAudioContext.currentTime + duration * 0.001);
+
+          // Resolve the promise when the sound is finished
+          oscillatorNode.onended = () => {
+              resolve();
+          };
+      }catch(error){
+          reject(error);
+      }
+    });
+
+  }
 
 
 

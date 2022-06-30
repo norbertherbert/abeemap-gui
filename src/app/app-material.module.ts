@@ -22,7 +22,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 import {ClipboardModule} from '@angular/cdk/clipboard';
+
+import {MatExpansionModule} from '@angular/material/expansion';
 
 const modules = [
     // CommonModule,
@@ -48,7 +52,11 @@ const modules = [
     MatSnackBarModule,
     MatDialogModule,
 
+    MatSlideToggleModule,
+    
     ClipboardModule,
+
+    MatExpansionModule
 ];
 
 @NgModule({

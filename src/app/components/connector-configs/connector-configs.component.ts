@@ -22,7 +22,12 @@ export class ConnectorConfigsComponent implements OnInit {
   elementsRouteName = 'connector-configs';
   // elementPropertyName = 'ref';
 
-  displayedColumns: string[] = ['ref', 'applicationServerURL', 'deviceEUIList', 'tools'];
+  displayedColumns: string[] = [
+    // 'ref', 
+    'applicationServerURL', 
+    // 'deviceEUIList', 
+    'tools'
+  ];
 
   constructor(
     private dxCoreApiService: DxLocationApiService,

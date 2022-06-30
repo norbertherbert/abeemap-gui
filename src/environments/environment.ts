@@ -81,12 +81,13 @@ export const CONFIG:any = {
 	MQTT_WEBSICKET_PROTOCOL: "wss",
   MQTT_WEBSOCKET_PATH: 'mqtt',
   MQTT_PORT: '880', // for wss
-  MQTT_CLIENT_ID: 'abeemap-gui-test',
-  MQTT_TOPIC: "LE/le-lab/AS/#",
+  MQTT_CLIENT_ID_PREFIX: 'abeemap-gui_',
+  // MQTT_TOPIC: "LE/le-lab/AS/#",
+  MQTT_TOPIC: "LE/rnd/AS/#",
 
 };
 
-// ng build --prod --build-optimizer --base-href /abeemap/
+// ng build --prod --build-optimizer --base-href /abeemap_lwe/
 
 
 

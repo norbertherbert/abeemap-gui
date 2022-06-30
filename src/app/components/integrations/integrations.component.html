@@ -1,13 +1,34 @@
-<div id="main-component-container">
+<div id="component-container">
     <div id="component-header">
         <h2>{{ componentTitle }}</h2>
     </div>
-    <div id="main-component-body">
-        <div class="subcomponent-container">
-            <app-connector-configs></app-connector-configs>
-        </div>
-        <div class="subcomponent-container">
-            <app-binder-configs></app-binder-configs>
-        </div>
+    <div id="component-body">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        App Server Connections
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                        Uplink messages will be forwarded to the URLs listed below.
+                    </mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <app-connector-configs></app-connector-configs>
+            </mat-expansion-panel>
+            <br />
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        LoRa NS Connections
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                        Downlink messages will be forwarded to the URLs listed below.
+                    </mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <app-binder-configs></app-binder-configs>
+            </mat-expansion-panel>
+        </mat-accordion>
+
     </div>
+
 </div>

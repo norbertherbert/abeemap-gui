@@ -9,6 +9,9 @@ export class IntegrationsComponent implements OnInit {
 
   componentTitle = 'Integrations';
 
+  appServerConnectionsVisible = false;
+  networkServerConnectionsVisible = false;
+
   constructor() { }
 
   ngOnInit(): void {

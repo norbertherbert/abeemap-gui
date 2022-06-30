@@ -1,7 +1,7 @@
 <div id="component-container">
   <div id="component-header">
-    <h2>{{ componentTitle }}</h2>
-    <p>Uplink messages will be forwarded to the URLs listed below.</p>
+    <!-- <h2>{{ componentTitle }}</h2>
+    <p>Uplink messages will be forwarded to the URLs listed below.</p> -->
     <button mat-icon-button color="primary" routerLink="/{{elementsRouteName}}/create">
       <mat-icon matTooltip="Add new user">add</mat-icon>
     </button>
@@ -11,6 +11,7 @@
   </div>
 
   <div id="component-body" class="mat-elevation-z8">
+
     <div class="loading-shade" *ngIf="isLoading">
       <mat-spinner *ngIf="isLoading"></mat-spinner>
     </div>
@@ -62,4 +63,3 @@
     </div>
   </div>
 </div>
-

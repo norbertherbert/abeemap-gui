@@ -1,10 +1,12 @@
 <div class="map-container">
   <div class="button-frame">
 
-    <button mat-raised-button (click)="zoomToDevices()" class="control-button">Zoom to Devices</button>
-    <button mat-raised-button (click)="toggleBeaconMap()" class="control-button">Show/hide Floorplan</button>
+    <button mat-raised-button (click)="zoomToActilityFloorplan()" class="control-button">To Actility Floorplan</button>
+    <button mat-raised-button (click)="zoomToPDCFloorplan()" class="control-button">To LWE Floorplan</button>
+    <button mat-raised-button (click)="toggleBeaconMap()" class="control-button">Show/hide BLE Map</button>
     <button mat-raised-button (click)="switchMap()" class="control-button">Switch Map</button>
-
+    &nbsp;&nbsp;
+    <mat-slide-toggle [(ngModel)]="beepsEnabled" (change)="updateBeepsEnabled()">Beeps</mat-slide-toggle>
   </div>
   <div id="map-container">
     <div id="map"></div>

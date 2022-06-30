@@ -24,7 +24,12 @@ export class BinderConfigsComponent implements OnInit {
   elementsRouteName = 'binder-configs';
   // elementPropertyName = 'ref';
 
-  displayedColumns: string[] = ['ref', 'callbackURL', 'deviceEUIList', 'tools'];
+  displayedColumns: string[] = [
+    // 'ref', 
+    'callbackURL', 
+    // 'deviceEUIList', 
+    'tools'
+  ];
 
   constructor(
     private dxCoreApiService: DxLocationApiService,

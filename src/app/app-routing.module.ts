@@ -77,13 +77,13 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'map',
     pathMatch: 'full',
     // canActivate: [ AuthGuard ],
   },
   {
     path: '#',
-    redirectTo: 'home',
+    redirectTo: 'map',
     pathMatch: 'full',
     // canActivate: [ AuthGuard ],
   },

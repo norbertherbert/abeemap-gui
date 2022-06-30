@@ -1,5 +1,6 @@
 #component-container {
     height: 100%;
+    width: 100%;
     display: flex;
     flex-flow: column nowrap;
 }
@@ -12,15 +13,15 @@
     flex: 1 1;
     overflow: auto;
     height: 100%;
+    width: 100%;
 }
 
 .table-container {
-    overflow: auto;
-    height: 100%;
+    width: 100%;
 }
 
 table {
-    width: 100%;
+   width: 100%;
 }
 /* table tr:nth-child(even) { 
     background-color: #f2f2f2; 
@@ -28,6 +29,9 @@ table {
 table tr:hover {
     /* background-color: #ddd;  */
     background-color: #f2f2f2; 
+}
+table td {
+    word-break: break-word;
 }
 table td.tools {
     white-space: nowrap;

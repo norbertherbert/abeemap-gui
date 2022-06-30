@@ -36,6 +36,8 @@ import { MqttClientService } from './services/mqtt-client.service';
 import { LeafletMapService } from './services/leaflet-map.service';
 import { LogsService } from './services/logs.service';
 
+import { CONFIG } from '../environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,5 +81,9 @@ export class AppModule { }
 
 export function initFunction(service: MqttClientService|LeafletMapService|LogsService)
 {
-  return ()=> service.ngOnInit();
+  if(sessionStorage.getItem('access_token_' + CONFIG.client_id)) {
+    return () => service.ngOnInit();
+  } else {
+    return () => {}
+  }
 }

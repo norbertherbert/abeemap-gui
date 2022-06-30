@@ -17,13 +17,15 @@ import { LeafletMapService } from '../../services/leaflet-map.service';
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private map: any;
+  beepsEnabled: boolean;
 
   constructor(
     // @Inject(DOCUMENT) document:any,
     private leafletMapService: LeafletMapService,
     // private mqttClientService: MqttClientService,
   ) {
-
+    this.beepsEnabled = false;
+    this.leafletMapService.beepsEnabled = false;
   }
   
   ngOnInit(): void {
@@ -35,13 +37,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     setTimeout( () => {
       this.map = L.map('map', {
+        zoomSnap: 0,
         center: [ 25, 0 ],
         zoom: 3,
       });
+
+      this.leafletMapService.initFloorplanImage(this.map);
+      // this.leafletMapService.initBeaconMap(this.map);
       this.leafletMapService.initDeviceMap(this.map);
       // this.leafletMapService.initGeoman(this.map);
       // setTimeout( ()=> this.mqttClientService.topic().subscribe(), 1000);
-    }, 100)
+    }, 300)
 
   }
 
@@ -52,7 +58,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   switchMap() { this.leafletMapService.switchMap(this.map) }
-  zoomToDevices() { this.leafletMapService.zoomToDevices(this.map) }
+  zoomToActilityFloorplan() { 
+    // this.leafletMapService.zoomToActilityFloorplan(this.map) 
+    this.leafletMapService.zoomToActilityFloorplan(this.map) 
+  }
+  zoomToPDCFloorplan() { 
+    // this.leafletMapService.zoomToActilityFloorplan(this.map) 
+    this.leafletMapService.zoomToPDCFloorplan(this.map) 
+  }
   toggleBeaconMap() {this.leafletMapService.toggleBeaconMap(this.map) }
+  updateBeepsEnabled() {
+    this.leafletMapService.beepsEnabled = this.beepsEnabled; 
+  }
 
 }
