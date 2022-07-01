@@ -22,7 +22,7 @@ import { BeaconSettingsPopupComponent } from '../components/beacon-settings-popu
 // import { MqttClientService } from './mqtt-client.service';
 
 const DEVICE_NAMES = {
-  '20635f01e10003f5': 'Norbert',
+  '20635f02e10003e1': 'Norbert',
   '20635f01e10003a4': 'Jean',
   // '20635f01e1000772': 'Rohit'
 }
