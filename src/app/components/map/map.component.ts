@@ -43,7 +43,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       this.leafletMapService.initFloorplanImage(this.map);
-      // this.leafletMapService.initBeaconMap(this.map);
+      this.leafletMapService.initBeaconMap(this.map);
       this.leafletMapService.initDeviceMap(this.map);
       // this.leafletMapService.initGeoman(this.map);
       // setTimeout( ()=> this.mqttClientService.topic().subscribe(), 1000);

@@ -250,7 +250,7 @@ export class LeafletMapService implements OnInit{
  
     map.addLayer(TILES_MAPBOX);
     map.addLayer(this.devicesFeatureGroup);
-    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS);
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_1);
     // this.zoomToPDCFloorplan(map);
 
   }
