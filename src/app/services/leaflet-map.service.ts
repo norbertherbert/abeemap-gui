@@ -21,11 +21,25 @@ import { BeaconSettingsPopupComponent } from '../components/beacon-settings-popu
 
 // import { MqttClientService } from './mqtt-client.service';
 
+
+
+
+
+
 const DEVICE_NAMES = {
-  '20635f02e10003e1': 'Norbert',
-  '20635f01e10003a4': 'Jean',
-  // '20635f01e1000772': 'Rohit'
+  '20635f01e100073b':	['Skye', 'LoRa Alliance'],
+  '20635f01e100073c':	['Derek', 'LoRa Alliance'],
+
+  '20635f01e1000659':	['Jean', 'Actility'],
+  '20635f01e1000005':	['Pedro',	'Actility'],
+
+  '20635f01e1000716':	['Oscar',	'Microsoft'],
 }
+
+
+
+
+
 
 const ICONS_FOLDER = './assets/';
 
@@ -33,36 +47,48 @@ const ICON_BLE_BEACON = L.icon({
   // iconRetinaUrl: ICONS_FOLDER + 'bluetooth.png',
   iconUrl: ICONS_FOLDER + 'bluetooth.png',
   shadowUrl: ICONS_FOLDER + 'bluetooth-shadow.png',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
   popupAnchor: [0, -15],
   tooltipAnchor: [0, 0],
-  shadowSize: [60, 40],
-  shadowAnchor: [20, 40]
+  shadowSize: [30, 20],
+  shadowAnchor: [10, 20]
 });
 
 const ICON_PERSON = L.icon({
   iconRetinaUrl: ICONS_FOLDER + 'marker-icon-person-2x.png',
   iconUrl: ICONS_FOLDER + 'marker-icon-person-1x.png',
   shadowUrl: ICONS_FOLDER + 'marker-icon-person-shadow.png',
-  iconSize: [32, 44],
-  iconAnchor: [16, 44],
-  popupAnchor: [1, -32],
-  tooltipAnchor: [1, -2],
-  shadowSize: [48, 44],
-  shadowAnchor: [16, 44],
+  iconSize: [24, 33],
+  iconAnchor: [12, 33],
+  popupAnchor: [1, -24],
+  tooltipAnchor: [0, 3],
+  shadowSize: [36, 33],
+  shadowAnchor: [12, 33],
+});
+
+const ICON_PERSON_YELLOW = L.icon({
+  iconRetinaUrl: ICONS_FOLDER + 'marker-icon-person-yellow-2x.png',
+  iconUrl: ICONS_FOLDER + 'marker-icon-person-yelllow-1x.png',
+  shadowUrl: ICONS_FOLDER + 'marker-icon-person-shadow.png',
+  iconSize: [24, 33],
+  iconAnchor: [12, 33],
+  popupAnchor: [1, -24],
+  tooltipAnchor: [0, 3],
+  shadowSize: [36, 33],
+  shadowAnchor: [12, 33],
 });
 
 const ICON_PERSON_GREY = L.icon({
   iconRetinaUrl: ICONS_FOLDER + 'marker-icon-person-grey-2x.png',
   iconUrl: ICONS_FOLDER + 'marker-icon-person-grey-1x.png',
   shadowUrl: ICONS_FOLDER + 'marker-icon-person-shadow.png',
-  iconSize: [32, 44],
-  iconAnchor: [16, 44],
-  popupAnchor: [1, -32],
-  tooltipAnchor: [1, -2],
-  shadowSize: [48, 44],
-  shadowAnchor: [16, 44],
+  iconSize: [24, 33],
+  iconAnchor: [12, 33],
+  popupAnchor: [1, -24],
+  tooltipAnchor: [0, 3],
+  shadowSize: [36, 33],
+  shadowAnchor: [12, 33],
 });
 
 const ICON_BLUE = L.icon({
@@ -199,45 +225,60 @@ export class LeafletMapService implements OnInit{
 
 
   updateDeviceMarker(msg:any) {
-    if (this.devices[msg.deviceEUI]) {
-      // this.devices[msg.deviceEUI].setLatLng([msg.coordinates[1], msg.coordinates[0]]).update();
 
-      if (this.beepsEnabled) {
-        this.beep(100, 440, 1);
-      }
+    let icon:any;
+    
+    if ((DEVICE_NAMES as any)[msg.deviceEUI]) {
 
-      if (msg.age < 120) {
-        this.devices[msg.deviceEUI].setIcon(ICON_PERSON);
-      } else {
-        this.devices[msg.deviceEUI].setIcon(ICON_PERSON_GREY);
-      }
+      if (this.devices[msg.deviceEUI]) {
+        // this.devices[msg.deviceEUI].setLatLng([msg.coordinates[1], msg.coordinates[0]]).update();
 
-      this.devices[msg.deviceEUI].slideTo( [msg.coordinates[1], msg.coordinates[0]], {
-        duration: 2000,
-        keepAtCenter: false
-      });
-
-    } else {
-
-      const t = ( (new Date()).getTime() - (new Date(msg.time)).getTime() ) / 1000;
-      const icon = t<300 ? ICON_PERSON : ICON_PERSON_GREY;
-      // const icon = ICON_PERSON;
-
-      this.devices[msg.deviceEUI] = L.marker([msg.coordinates[1], msg.coordinates[0]], {
-        icon,
-        pmIgnore: true,
-        zIndexOffset: 1000,
-        // title: msg.deviceEUI,
-      });
-      this.devices[msg.deviceEUI].bindPopup(`DevEUI: ${msg.deviceEUI}<br />Time: ${msg.time}`).addTo(this.devicesFeatureGroup);
-      this.devices[msg.deviceEUI].bindTooltip(
-        (DEVICE_NAMES as any)[msg.deviceEUI] ? (DEVICE_NAMES as any)[msg.deviceEUI] : msg.deviceEUI.substring(8), 
-        {
-          permanent: true, 
-          opacity: 0.75,
-          direction: 'bottom' 
+        if (this.beepsEnabled) {
+          this.beep(100, 440, 1);
         }
-      ).openTooltip();
+
+        if (msg.age > 120) {
+          icon = ICON_PERSON_GREY;
+        } else if ( (DEVICE_NAMES as any)[msg.deviceEUI][1] == 'LoRa Alliance' ) {
+          icon = ICON_PERSON_YELLOW;
+        } else {
+          icon = ICON_PERSON;
+        }
+        this.devices[msg.deviceEUI].setIcon(icon);
+
+        this.devices[msg.deviceEUI].slideTo( [msg.coordinates[1], msg.coordinates[0]], {
+          duration: 2000,
+          keepAtCenter: false
+        });
+
+      } else {
+
+        const t = ( (new Date()).getTime() - (new Date(msg.time)).getTime() ) / 1000;
+        if (t>300) {
+          icon = ICON_PERSON_GREY;
+        } else if ( (DEVICE_NAMES as any)[msg.deviceEUI][1] == 'LoRa Alliance' ) {
+          icon = ICON_PERSON_YELLOW;
+        } else {
+          icon = ICON_PERSON;
+        }
+
+        this.devices[msg.deviceEUI] = L.marker([msg.coordinates[1], msg.coordinates[0]], {
+          icon,
+          pmIgnore: true,
+          zIndexOffset: 1000,
+          // title: msg.deviceEUI,
+        });
+        this.devices[msg.deviceEUI].bindPopup(`DevEUI: ${msg.deviceEUI}<br />Time: ${msg.time}`).addTo(this.devicesFeatureGroup);
+        this.devices[msg.deviceEUI].bindTooltip(
+          (DEVICE_NAMES as any)[msg.deviceEUI] ? (DEVICE_NAMES as any)[msg.deviceEUI][0] : msg.deviceEUI.substring(12), 
+          {
+            permanent: true, 
+            opacity: 0.75,
+            direction: 'bottom',
+            className: 'marker-tooltip'
+          }
+        ).openTooltip();
+      }
     }
   }
 
@@ -250,33 +291,31 @@ export class LeafletMapService implements OnInit{
  
     map.addLayer(TILES_MAPBOX);
     map.addLayer(this.devicesFeatureGroup);
-    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_1);
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS, {padding: [150, 150]});
     // this.zoomToPDCFloorplan(map);
 
   }
 
   zoomToPDCFloorplan(map:any) {
-    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [50, 50]});
-    map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS_1);
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_1, {padding: [150, 150]});
+    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
+    // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS_1);
   }
 
   zoomToActilityFloorplan(map:any) {
-    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [50, 50]});
-    map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS);
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS, {padding: [150, 150]});
+    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
+    // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS);
   }
-
-
+  
   initBeaconMap(map:any): void {
- 
     map.addLayer(TILES_MAPBOX);
     map.addLayer(this.beaconsFeatureGroup);
-
-    this.zoomToBeacons(map);
-
   }
 
   zoomToBeacons(map:any) {
-    map.fitBounds(this.beaconsFeatureGroup.getBounds(), {padding: [50, 50]});
+    map.fitBounds(this.beaconsFeatureGroup.getBounds(), {padding: [150, 150]});
+    // map.flyToBounds(this.beaconsFeatureGroup.getBounds()) // , {padding: [50, 50]});
   }
 
   initGeoman(map:any) {
@@ -407,19 +446,21 @@ export class LeafletMapService implements OnInit{
             if ((feature.properties.mac !== '') && (feature.properties.id !== '')) throw new Error('Either "mac" or "id" properties must be specified. It is not allowed to define both!');
             
           }
-          // group.push({layer: layer, name: feature.properties.name, mac: feature.properties.mac});
+
           group.push([layer, feature.properties.name, feature.properties.mac || '', feature.properties.id] || '');
+
+          // this.setupLayer(layer, feature.properties.name, feature.properties.mac || '', feature.properties.id);
+          // layer.addTo(this.beaconsFeatureGroup);
+
         }
       });
 
       this.clearBeaconMap();
+
       group.forEach( (element:[any,string,string,string]) => {
         element[0].addTo(this.beaconsFeatureGroup);
         this.setupLayer(...element);
       });
-
-      // element[0], element[1], element[2]
-      // A spread argument must either have a tuple type or be passed to a rest parameter.
 
     } catch(error:any) {
       this.reportError(error);

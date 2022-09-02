@@ -59,7 +59,7 @@ export const CONFIG:any = {
 
 };
 
-// ng build --prod --build-optimizer --base-href /abeemap_lwe/
+// ng build --prod --build-optimizer --base-href /abeemap/
 
 
 

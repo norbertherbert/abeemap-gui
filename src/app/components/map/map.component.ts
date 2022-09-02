@@ -45,8 +45,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.leafletMapService.initFloorplanImage(this.map);
       this.leafletMapService.initBeaconMap(this.map);
       this.leafletMapService.initDeviceMap(this.map);
+      this.leafletMapService.zoomToBeacons(this.map);
       // this.leafletMapService.initGeoman(this.map);
-      // setTimeout( ()=> this.mqttClientService.topic().subscribe(), 1000);
     }, 300)
 
   }
@@ -59,13 +59,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   switchMap() { this.leafletMapService.switchMap(this.map) }
   zoomToActilityFloorplan() { 
-    // this.leafletMapService.zoomToActilityFloorplan(this.map) 
     this.leafletMapService.zoomToActilityFloorplan(this.map) 
   }
+
   zoomToPDCFloorplan() { 
-    // this.leafletMapService.zoomToActilityFloorplan(this.map) 
     this.leafletMapService.zoomToPDCFloorplan(this.map) 
   }
+
+  zoomToBeacons() {
+    this.leafletMapService.zoomToBeacons(this.map)
+  }
+
   toggleBeaconMap() {this.leafletMapService.toggleBeaconMap(this.map) }
   updateBeepsEnabled() {
     this.leafletMapService.beepsEnabled = this.beepsEnabled; 

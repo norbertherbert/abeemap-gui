@@ -42,3 +42,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background: #0a6b0a;
   width: 100%;
 }
+
+.marker-tooltip {
+  /* background: green; */
+  /* border: 2px solid cyan; */
+  padding: 1px;
+  margin: 1px;
+}
+/*
+.leaflet-tooltip-left.marker-tooltip::before {
+  border-left-color: cyan;
+}
+.leaflet-tooltip-right.marker-tooltip::before {
+  border-right-color: cyan;
+}
+*/

@@ -41,22 +41,27 @@ export class MqttClientService implements OnInit {
     }
 
     this.client.onMessageArrived = (message:any) => {
-      const msg = JSON.parse(message.payloadString);
-      // delete msg.uplinkPayload;
-      delete msg.processedFeed;
-      delete msg.rawPosition;
-      delete msg.resolvedTracker
-      const msgFormatted = `\n\n*****\nTOPIC: "${message.destinationName}"\n*****\n${JSON.stringify(msg)}\n}`;
-      console.log(msgFormatted);
+      try {
+        const msg = JSON.parse(message.payloadString);
+      
+        // delete msg.uplinkPayload;
+        delete msg.processedFeed;
+        delete msg.rawPosition;
+        delete msg.resolvedTracker
+        // const msgFormatted = `\n\n*****\nTOPIC: "${message.destinationName}"\n*****\n${JSON.stringify(msg)}\n}`;
+        // console.log(msgFormatted);
 
-      // this.logsService.addLocationUpdateLogs(msg);
-      this.message$.next(msg);
+        // this.logsService.addLocationUpdateLogs(msg);
+        this.message$.next(msg);
 
-      if (msg.coordinates && msg.coordinates[0] && msg.coordinates[1]) {
-        // this.leafletMapService.updateDeviceMarker(msg);
-        this.locationUpdateMessage$.next(msg);
+        if (msg.coordinates && msg.coordinates[0] && msg.coordinates[1]) {
+          // this.leafletMapService.updateDeviceMarker(msg);
+          this.locationUpdateMessage$.next(msg);
+        }
+      } catch(err:any) {
+        console.log(err.messaage);
+        return;
       }
-
     }
 
     this.connect();

@@ -41,6 +41,7 @@ export class BluetoothMapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.leafletMapService.initFloorplanImage(this.map);
       this.leafletMapService.initBeaconMap(this.map);
       this.leafletMapService.initGeoman(this.map);
+      this.leafletMapService.zoomToBeacons(this.map);
     }, 100)
 
    }
