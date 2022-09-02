@@ -26,15 +26,15 @@ import { BeaconSettingsPopupComponent } from '../components/beacon-settings-popu
 
 
 
-const DEVICE_NAMES = {
-  '20635f01e100073b':	['Skye', 'LoRa Alliance'],
-  '20635f01e100073c':	['Derek', 'LoRa Alliance'],
+// const DEVICE_NAMES = {
+//   '20635f01e100073b':	['Skye', 'LoRa Alliance'],
+//   '20635f01e100073c':	['Derek', 'LoRa Alliance'],
 
-  '20635f01e1000659':	['Jean', 'Actility'],
-  '20635f01e1000005':	['Pedro',	'Actility'],
+//   '20635f01e1000659':	['Jean', 'Actility'],
+//   '20635f01e1000005':	['Pedro',	'Actility'],
 
-  '20635f01e1000716':	['Oscar',	'Microsoft'],
-}
+//   '20635f01e1000716':	['Oscar',	'Microsoft'],
+// }
 
 
 
@@ -219,7 +219,9 @@ export class LeafletMapService implements OnInit{
   }
 
   ngOnInit(): void {
-    this.mqttClientService.locationUpdateMessage$.subscribe( (msg) => this.updateDeviceMarker(msg) );
+    this.mqttClientService.locationUpdateMessage$.subscribe( (msg) => {
+      this.updateDeviceMarker(msg);
+    });
     this.getBluetoothMap();
   }
 
@@ -228,7 +230,7 @@ export class LeafletMapService implements OnInit{
 
     let icon:any;
     
-    if ((DEVICE_NAMES as any)[msg.deviceEUI]) {
+    // if ((DEVICE_NAMES as any)[msg.deviceEUI]) {
 
       if (this.devices[msg.deviceEUI]) {
         // this.devices[msg.deviceEUI].setLatLng([msg.coordinates[1], msg.coordinates[0]]).update();
@@ -239,8 +241,8 @@ export class LeafletMapService implements OnInit{
 
         if (msg.age > 120) {
           icon = ICON_PERSON_GREY;
-        } else if ( (DEVICE_NAMES as any)[msg.deviceEUI][1] == 'LoRa Alliance' ) {
-          icon = ICON_PERSON_YELLOW;
+        // } else if ( (DEVICE_NAMES as any)[msg.deviceEUI][1] == 'LoRa Alliance' ) {
+        //   icon = ICON_PERSON_YELLOW;
         } else {
           icon = ICON_PERSON;
         }
@@ -256,8 +258,8 @@ export class LeafletMapService implements OnInit{
         const t = ( (new Date()).getTime() - (new Date(msg.time)).getTime() ) / 1000;
         if (t>300) {
           icon = ICON_PERSON_GREY;
-        } else if ( (DEVICE_NAMES as any)[msg.deviceEUI][1] == 'LoRa Alliance' ) {
-          icon = ICON_PERSON_YELLOW;
+        // } else if ( (DEVICE_NAMES as any)[msg.deviceEUI][1] == 'LoRa Alliance' ) {
+        //   icon = ICON_PERSON_YELLOW;
         } else {
           icon = ICON_PERSON;
         }
@@ -270,7 +272,8 @@ export class LeafletMapService implements OnInit{
         });
         this.devices[msg.deviceEUI].bindPopup(`DevEUI: ${msg.deviceEUI}<br />Time: ${msg.time}`).addTo(this.devicesFeatureGroup);
         this.devices[msg.deviceEUI].bindTooltip(
-          (DEVICE_NAMES as any)[msg.deviceEUI] ? (DEVICE_NAMES as any)[msg.deviceEUI][0] : msg.deviceEUI.substring(12), 
+          // (DEVICE_NAMES as any)[msg.deviceEUI] ? (DEVICE_NAMES as any)[msg.deviceEUI][0] : msg.deviceEUI.substring(12), 
+          msg.deviceEUI.substring(12),
           {
             permanent: true, 
             opacity: 0.75,
@@ -279,7 +282,7 @@ export class LeafletMapService implements OnInit{
           }
         ).openTooltip();
       }
-    }
+    // }
   }
 
   initFloorplanImage(map:any) {

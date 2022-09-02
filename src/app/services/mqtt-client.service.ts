@@ -16,7 +16,7 @@ export class MqttClientService implements OnInit {
   subscribed = false;
 
   message$ = new Subject<any>();
-  /// message$ = new ReplaySubject<any>(5);
+  // message$ = new ReplaySubject<any>(5);
   locationUpdateMessage$ = new Subject<any>();
 
   constructor(
