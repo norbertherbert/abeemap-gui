@@ -26,15 +26,11 @@ import { BeaconSettingsPopupComponent } from '../components/beacon-settings-popu
 
 
 
-// const DEVICE_NAMES = {
-//   '20635f01e100073b':	['Skye', 'LoRa Alliance'],
-//   '20635f01e100073c':	['Derek', 'LoRa Alliance'],
-
-//   '20635f01e1000659':	['Jean', 'Actility'],
-//   '20635f01e1000005':	['Pedro',	'Actility'],
-
-//   '20635f01e1000716':	['Oscar',	'Microsoft'],
-// }
+const DEVICE_NAMES = {
+  '20635f0281000140':	['JY', 'Actility'],
+  '20635f028100014d':	['MH', 'Actility'],
+  '20635f0281000152':	['CY', 'Actility'],
+}
 
 
 
@@ -163,18 +159,25 @@ const FLOORPLAN_IMAGE_BOUNDS:any = [
   [imageCoordinatesY+imageHeight, imageCoordinatesX+imageWidth]
 ];
 
-const FLOORPLAN_IMAGE_URL_1 = './assets/PDC_Floorplan.jpg';
-const imageCoordinatesX_1 = 2.2815;
-const imageCoordinatesY_1 = 48.8784;
-const imageHeight_1 = 0.00135 ;
-const imageWidth_1 = 0.00365;
+// const FLOORPLAN_IMAGE_URL_1 = './assets/PDC_Floorplan.jpg';
+// const imageCoordinatesX_1 = 2.2815;
+// const imageCoordinatesY_1 = 48.8784;
+// const imageHeight_1 = 0.00135 ;
+// const imageWidth_1 = 0.00365;
+// const FLOORPLAN_IMAGE_BOUNDS_1:any = [
+//   [imageCoordinatesY_1, imageCoordinatesX_1], 
+//   [imageCoordinatesY_1+imageHeight_1, imageCoordinatesX_1+imageWidth_1]
+// ];
+
+const FLOORPLAN_IMAGE_URL_1 = './assets/iWOW_floorplan.gif';
+const imageCoordinatesX_1 = 103.847368;
+const imageCoordinatesY_1 = 1.343034;
+const imageHeight_1 = 0.000120 ;
+const imageWidth_1 = 0.000218;
 const FLOORPLAN_IMAGE_BOUNDS_1:any = [
   [imageCoordinatesY_1, imageCoordinatesX_1], 
   [imageCoordinatesY_1+imageHeight_1, imageCoordinatesX_1+imageWidth_1]
 ];
-
-
-
 
 
 @Injectable({
@@ -272,8 +275,8 @@ export class LeafletMapService implements OnInit{
         });
         this.devices[msg.deviceEUI].bindPopup(`DevEUI: ${msg.deviceEUI}<br />Time: ${msg.time}`).addTo(this.devicesFeatureGroup);
         this.devices[msg.deviceEUI].bindTooltip(
-          // (DEVICE_NAMES as any)[msg.deviceEUI] ? (DEVICE_NAMES as any)[msg.deviceEUI][0] : msg.deviceEUI.substring(12), 
-          msg.deviceEUI.substring(12),
+          (DEVICE_NAMES as any)[msg.deviceEUI] ? (DEVICE_NAMES as any)[msg.deviceEUI][0] : msg.deviceEUI.substring(12), 
+          // msg.deviceEUI.substring(12),
           {
             permanent: true, 
             opacity: 0.75,
@@ -299,16 +302,16 @@ export class LeafletMapService implements OnInit{
 
   }
 
-  zoomToPDCFloorplan(map:any) {
-    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_1, {padding: [150, 150]});
-    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
-    // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS_1);
-  }
-
   zoomToActilityFloorplan(map:any) {
     map.fitBounds(FLOORPLAN_IMAGE_BOUNDS, {padding: [150, 150]});
     // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
     // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS);
+  }
+
+  zoomToFloorplan01(map:any) {
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_1, {padding: [150, 150]});
+    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
+    // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS_1);
   }
   
   initBeaconMap(map:any): void {

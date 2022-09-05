@@ -62,8 +62,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.leafletMapService.zoomToActilityFloorplan(this.map) 
   }
 
-  zoomToPDCFloorplan() { 
-    this.leafletMapService.zoomToPDCFloorplan(this.map) 
+  zoomToFloorplan01() { 
+    this.leafletMapService.zoomToFloorplan01(this.map) 
   }
 
   zoomToBeacons() {
