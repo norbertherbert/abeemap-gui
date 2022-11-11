@@ -169,15 +169,27 @@ const FLOORPLAN_IMAGE_BOUNDS:any = [
 //   [imageCoordinatesY_1+imageHeight_1, imageCoordinatesX_1+imageWidth_1]
 // ];
 
-const FLOORPLAN_IMAGE_URL_1 = './assets/iWOW_floorplan.gif';
-const imageCoordinatesX_1 = 103.847368;
-const imageCoordinatesY_1 = 1.343034;
-const imageHeight_1 = 0.000120 ;
-const imageWidth_1 = 0.000218;
+// const FLOORPLAN_IMAGE_URL_1 = './assets/iWOW_floorplan.gif';
+// const imageCoordinatesX_1 = 103.847368;
+// const imageCoordinatesY_1 = 1.343034;
+// const imageHeight_1 = 0.000120;
+// const imageWidth_1 = 0.000218;
+// const FLOORPLAN_IMAGE_BOUNDS_1:any = [
+//   [imageCoordinatesY_1, imageCoordinatesX_1], 
+//   [imageCoordinatesY_1+imageHeight_1, imageCoordinatesX_1+imageWidth_1]
+// ];
+
+const FLOORPLAN_IMAGE_URL_1 = './assets/Electronica_Floorplan.jpg';
+const imageCoordinatesX_1 = 11.6990227;
+const imageCoordinatesY_1 = 48.1375513;
+const imageHeight_1 = 0.000120;
+const imageWidth_1 = 0.0002507;
 const FLOORPLAN_IMAGE_BOUNDS_1:any = [
   [imageCoordinatesY_1, imageCoordinatesX_1], 
   [imageCoordinatesY_1+imageHeight_1, imageCoordinatesX_1+imageWidth_1]
 ];
+
+
 
 
 @Injectable({
