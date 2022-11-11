@@ -5,10 +5,10 @@ export const environment = {
 export const CONFIG:any = {
  
   authorizationUrl: 'http://localhost:4200/login',
-  // authorizationUrl: 'https://nano-things.net/abeemap_lwe/login',
+  // authorizationUrl: 'https://nano-things.net/abeemap/login',
   response_type: 'token',
   redirect_uri: 'http://localhost:4200',
-  // redirect_uri: 'https://nano-things.net/abeemap_lwe',
+  // redirect_uri: 'https://nano-things.net/abeemap',
   client_id: 'abeemap',
   scope: 'sso_user abeemap_user',
 
@@ -138,7 +138,7 @@ export const CONFIG:any = {
 // };
 
 
-// ng build --prod --build-optimizer --base-href /abeemap_lwe/
+// ng build --prod --build-optimizer --base-href /abeemap/
 
 
 

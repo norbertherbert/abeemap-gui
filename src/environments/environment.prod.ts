@@ -5,10 +5,10 @@ export const environment = {
 export const CONFIG:any = {
 
   // authorizationUrl: 'http://localhost:4200/login',
-  authorizationUrl: 'https://nano-things.net/abeemap_lwe/login',
+  authorizationUrl: 'https://nano-things.net/abeemap/login',
   response_type: 'token',
   // redirect_uri: 'http://localhost:4200',
-  redirect_uri: 'https://nano-things.net/abeemap_lwe',
+  redirect_uri: 'https://nano-things.net/abeemap',
   client_id: 'abeemap',
   scope: 'sso_user abeemap_user',
 
@@ -72,7 +72,7 @@ export const CONFIG:any = {
   // api_url: 'https://nano-things.net/abeemap-api/v100/api',
   // sso_api_url: 'https://nano-things.net/sso-api/v100/api',
 
-  // authorizationUrl: 'https://nano-things.net/abeemap_lwe/login',
+  // authorizationUrl: 'https://nano-things.net/abeemap/login',
   ////// authorizationUrl: '/dev/abeemap/login',
   // authorizationUrl: 'https://abeemap.s3.eu-central-1.amazonaws.com/index.html',
   // authorizationUrl: 'https://2r7c7pjlmc.execute-api.eu-central-1.amazonaws.com/dev/abeemap/login',
@@ -81,7 +81,7 @@ export const CONFIG:any = {
 
   // response_type: 'token',
 
-  // redirect_uri: 'https://nano-things.net/abeemap_lwe',
+  // redirect_uri: 'https://nano-things.net/abeemap',
   ////// redirect_uri: '/dev/abeemap',
   // redirect_uri: 'https://abeemap.s3.eu-central-1.amazonaws.com/index.html',
   // redirect_uri: 'https://2r7c7pjlmc.execute-api.eu-central-1.amazonaws.com/dev/abeemap',
@@ -129,7 +129,7 @@ export const CONFIG:any = {
 
 */
 
-// ng build --build-optimizer --base-href /abeemap_lwe/
+// ng build --build-optimizer --base-href /abeemap/
 
 // rm /home/user/apps/html/abeemap/*
 // cp /home/user/devs/abeemap/dist/* /home/user/apps/html/abeemap/
