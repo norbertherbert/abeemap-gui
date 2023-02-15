@@ -1,16 +1,18 @@
 <div id="component-container">
     <div id="component-header">
         <h2>{{ componentTitle }}</h2>
+        Add the following URL to the list of application server connections: <i>{{targetURL}}</i>
     </div>
     <div id="component-body">
         <mat-accordion>
+            <br />
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         App Server Connections
                     </mat-panel-title>
                     <!-- <mat-panel-description>
-                        Uplink messages will be forwarded to the URLs listed below.
+                        
                     </mat-panel-description> -->
                 </mat-expansion-panel-header>
                 <app-connector-configs></app-connector-configs>
@@ -19,7 +21,7 @@
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        LoRa NS Connections
+                        LoRa Network Server Connections
                     </mat-panel-title>
                     <!-- <mat-panel-description>
                         Downlink messages will be forwarded to the URLs listed below.
@@ -27,6 +29,20 @@
                 </mat-expansion-panel-header>
                 <app-binder-configs></app-binder-configs>
             </mat-expansion-panel>
+            <br />
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        API Keys
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                        You cam manage your API Keys here.
+                    </mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <app-api-keys></app-api-keys>
+            </mat-expansion-panel>
+
+
         </mat-accordion>
 
     </div>

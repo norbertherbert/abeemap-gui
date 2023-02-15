@@ -2,30 +2,53 @@
     AbeeMap
 </mat-toolbar>
 <div class="signin-content">
-    <mat-card>
-        <mat-card-content>
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                <p>Please login to continue</p>
-                <mat-form-field class="full-width-input">
-                    <input matInput placeholder="Prefix" formControlName="prefix" required>
+
+    <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
+    <form [formGroup]="form">
+
+        <mat-card>
+
+            <mat-card-content>
+                <p>Please login with your ThingPark Community credentials!</p>
+                <!-- <mat-form-field class="full-width-input">
+                    <input matInput placeholder="DX profile" formControlName="prefix" required>
                     <mat-error *ngIf="isFieldInvalid('prefix')">
-                        Please inform your prefix
+                        Please inform your DX Profile
                     </mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
                 <mat-form-field class="full-width-input">
-                    <input matInput placeholder="User" formControlName="userName" required>
+                    <input matInput autocomplete="username" placeholder="User name" formControlName="userName" required>
                     <mat-error *ngIf="isFieldInvalid('userName')">
-                        Please inform your user name
+                        Please inform your User name
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="full-width-input">
-                    <input matInput type="password" placeholder="Password" formControlName="password" required>
+                    <input matInput autocomplete="current-password" name="password" type="password" placeholder="Password" formControlName="password" required>
                     <mat-error *ngIf="isFieldInvalid('password')">
-                        Please inform your password
+                        Please inform your Password
                     </mat-error>
                 </mat-form-field>
-                <button mat-raised-button color="primary" type="submit">Login</button>
-            </form>
-        </mat-card-content>
-    </mat-card>
+                <mat-form-field class="full-width-input">
+                    <input matInput id="api-key" type="text" autocomplete="new-password" placeholder="MQTT API Key" formControlName="mqttAPIKey">
+                    <button *ngIf="form.get('mqttAPIKey')?.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearMQTTAPIKey()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="isFieldInvalid('mqttAPIKey')">
+                        Please inform your MQTT API Key
+                    </mat-error>
+                </mat-form-field>
+                <!-- <mat-form-field class="full-width-input">
+                    <input matInput placeholder="MQTT Topic" formControlName="mqttTopic" required>
+                    <mat-error *ngIf="isFieldInvalid('mqttTopic')">
+                        Please inform your MQTT Topic
+                    </mat-error>
+                </mat-form-field> -->
+            </mat-card-content>
+
+            <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Login</button>
+
+        </mat-card>
+
+    </form>
+
 </div>

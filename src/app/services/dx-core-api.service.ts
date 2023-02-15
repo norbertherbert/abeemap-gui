@@ -29,10 +29,7 @@ export class DxCoreApiService {
       // .set('validityPeriod', encodeURIComponent(validityPeriod));
 
     return this.http.get<any>(
-      (
-        CONFIG.DXAPI_URLS[ CONFIG.userId.split('/')[0] ] ||
-        CONFIG.DXAPI_URLS[CONFIG.DXAPI_DEFAULT_PREFIX]
-      ) + '/core/latest/api/devices',
+      `${CONFIG.DXAPI_URL}/core/latest/api/devices`,
       {
         // params: p,
         headers: h
@@ -52,10 +49,7 @@ export class DxCoreApiService {
 
   getGateways(): Observable<any> {
 
-    const url = (
-      CONFIG.DXAPI_URLS[ CONFIG.userId.split('/')[0] ] ||
-      CONFIG.DXAPI_URLS[CONFIG.DXAPI_DEFAULT_PREFIX]
-    ) + '/core/latest/api/baseStations';
+    const url = `${CONFIG.DXAPI_URL}/core/latest/api/baseStations`;
     const h = new HttpHeaders()
       .set('Accept', 'application/json');
     // const p = new HttpParams()

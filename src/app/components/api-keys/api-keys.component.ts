@@ -6,28 +6,25 @@ import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 import { DxLocationApiService } from '../../services/dx-location-api.service';
 
 @Component({
-  selector: 'app-binder-configs',
-  templateUrl: './binder-configs.component.html',
-  styleUrls: ['./binder-configs.component.css']
+  selector: 'app-api-keys',
+  templateUrl: './api-keys.component.html',
+  styleUrls: ['./api-keys.component.css']
 })
-export class BinderConfigsComponent implements OnInit {
-
-
+export class ApiKeysComponent implements OnInit {
   isLoading = true;
   elements = [];
 
-  componentTitle = 'Network Server Connections';
+  componentTitle = 'API Keys';
 
-
-  elementName = 'binderConfig';
-  elementIdPropertyName = 'ref';
-  elementsRouteName = 'binder-configs';
+  elementName = 'apiKey';
+  elementIdPropertyName = 'id';
+  elementsRouteName = 'api-keys';
   // elementPropertyName = 'ref';
 
   displayedColumns: string[] = [
-    // 'ref', 
-    'callbackURL', 
-    // 'deviceEUIList', 
+    'id', 
+    'name',
+    'scope', 
     'tools'
   ];
 
@@ -38,13 +35,12 @@ export class BinderConfigsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.getBinderConfigs();
     this.get();
   }
 
   get(): void {
     this.isLoading = true;
-    this.dxCoreApiService.getBinderConfigs().subscribe(
+    this.dxCoreApiService.getAPIKeys().subscribe(
       (data) => {
         this.isLoading = false;
         this.elements = data;
@@ -68,7 +64,7 @@ export class BinderConfigsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
 
-        this.dxCoreApiService.deleteBinderConfig(element[this.elementIdPropertyName]).subscribe(
+        this.dxCoreApiService.deleteAPIKey(element[this.elementIdPropertyName]).subscribe(
           (data) => {
             this.elements = this.elements.filter(u => u !== element);
             // this.reportSuccess(data.message.message);

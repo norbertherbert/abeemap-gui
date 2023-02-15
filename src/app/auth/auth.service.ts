@@ -129,9 +129,10 @@ export class AuthService {
 
     // deleteCookie('access_token_' + CONFIG.client_id, CONFIG.redirect_uri);
     sessionStorage.removeItem('access_token_' + CONFIG.client_id);
-    sessionStorage.removeItem('mqttusr_' + CONFIG.client_id);
-    sessionStorage.removeItem('mqttpwd_' + CONFIG.client_id);
-    sessionStorage.removeItem('mqttsbs_' + CONFIG.client_id);
+  
+    // sessionStorage.removeItem('mqttusr_' + CONFIG.client_id);
+    // localStorage.removeItem('mqttpwd_' + CONFIG.client_id);
+    // sessionStorage.removeItem('mqtttop_' + CONFIG.client_id);
 
 
     this.setLoggedIn(false);

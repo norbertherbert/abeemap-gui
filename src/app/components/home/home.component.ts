@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService } from '../../auth/auth.service';
-
 import { CONFIG } from '../../../environments/environment';
 
 @Component({
@@ -11,17 +9,12 @@ import { CONFIG } from '../../../environments/environment';
 })
 export class HomeComponent implements OnInit {
 
-  admurl = '';
+  admurl = `${CONFIG.ADM_URL}?dxprofile=${CONFIG.DXAPI_PROFILE}&solver`
 
   constructor(
-    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    const dxprofile:any = this.authService.userId?.split('/')[0].split('-')[0];
-    if(dxprofile) {
-      this.admurl = `${CONFIG.ADM_URL}?dxprofile=${dxprofile}&solver`
-    }
   }
 
 }

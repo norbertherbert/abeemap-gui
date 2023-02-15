@@ -33,7 +33,7 @@
           login
       </a>
       <a *ngIf="userId" mat-button [matMenuTriggerFor]="profilemenuHeader">
-          {{userId.split('/')[1].split('@')[0]}}
+          {{userId.split('@')[0]}}
           <mat-icon>arrow_right</mat-icon>
       </a>
     </div>
@@ -87,7 +87,7 @@
             login
         </a>
         <a *ngIf="userId" mat-menu-item [matMenuTriggerFor]="profilemenuSidebar">
-          {{userId.split('/')[1].split('@')[0]}}
+          {{userId.split('@')[0]}}
             <mat-icon>arrow_right</mat-icon>
         </a>
         <mat-divider></mat-divider>

@@ -24,8 +24,11 @@ import { BeaconSettingsPopupComponent } from './components/beacon-settings-popup
 import { TextareaDialogComponent } from './components/textarea-dialog/textarea-dialog.component';
 import { IntegrationsComponent } from './components/integrations/integrations.component';
 import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
+import { PopupDialogComponent } from './components/popup-dialog/popup-dialog.component';
 import { BinderConfigComponent } from './components/binder-config/binder-config.component';
 import { ConnectorConfigComponent } from './components/connector-config/connector-config.component';
+import { ApiKeyComponent } from './components/api-key/api-key.component';
+import { ApiKeysComponent } from './components/api-keys/api-keys.component';
 
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { MapComponent } from './components/map/map.component';
@@ -52,8 +55,11 @@ import { CONFIG } from '../environments/environment';
     TextareaDialogComponent,
     IntegrationsComponent,
     AlertDialogComponent,
+    PopupDialogComponent,
     BinderConfigComponent,
     ConnectorConfigComponent,
+    ApiKeysComponent,
+    ApiKeyComponent,
     MapComponent,
     LogsComponent,
   ],

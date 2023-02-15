@@ -30,8 +30,6 @@ export class DxAdminApiService {
     });
      */
    
-    const dxApiPrefix: string = clientId.split('/')[0];
-
     const formData = '' +
       'grant_type=' + encodeURIComponent(grantType) +
       '&client_id=' + encodeURIComponent(clientId) +
@@ -45,7 +43,7 @@ export class DxAdminApiService {
       .set('validityPeriod', encodeURIComponent(validityPeriod));
 
     return this.http.post<any>(
-      (CONFIG.DXAPI_URLS[dxApiPrefix] || CONFIG.DXAPI_URLS[CONFIG.DXAPI_DEFAULT_PREFIX]) + '/admin/latest/api/oauth/token',
+      `${CONFIG.DXAPI_URL}/admin/latest/api/oauth/token`,
       formData,
       { params: p, headers: h }
     )

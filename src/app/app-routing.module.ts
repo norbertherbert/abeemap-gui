@@ -7,6 +7,7 @@ import { ConnectorConfigsComponent } from './components/connector-configs/connec
 import { ConnectorConfigComponent } from './components/connector-config/connector-config.component';
 import { BinderConfigsComponent } from './components/binder-configs/binder-configs.component';
 import { BinderConfigComponent } from './components/binder-config/binder-config.component';
+import { ApiKeyComponent } from './components/api-key/api-key.component';
 import { MapComponent } from './components/map/map.component';
 import { LogsComponent } from './components/logs/logs.component';
 import { BluetoothMapComponent } from './components/bluetooth-map/bluetooth-map.component';
@@ -64,6 +65,11 @@ const routes: Routes = [
   {
     path: 'binder-configs/:ref',
     component: BinderConfigComponent,
+    canActivate: [ AuthGuard ],
+  },
+  {
+    path: 'api-keys/:ref',
+    component: ApiKeyComponent,
     canActivate: [ AuthGuard ],
   },
   {

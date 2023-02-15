@@ -6,7 +6,8 @@ server {
     error_log /var/log/nginx/error.log debug;
     location / {
         # proxy_pass https://community.thingpark.io;
-        proxy_pass https://le-lab.preview.thingpark.com;
+        # proxy_pass https://le-lab.preview.thingpark.com;
+        proxy_pass https://dx-api.preview.thingpark.com;
         proxy_ssl_server_name on;
         proxy_set_header Origin http://localhost:8080;
         proxy_hide_header 'Access-Control-Allow-Origin';

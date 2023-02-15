@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ActivatedRoute, Router, UrlTree } from '@angular/router';
 
-import { AuthService } from '../../auth/auth.service';
+// import { AuthService } from '../../auth/auth.service';
 import { DxAdminApiService } from '../../services/dx-admin-api.service';
 import { MatSnackBar} from '@angular/material/snack-bar';
 
-import jwtDecode from 'jwt-decode';
+// import jwtDecode from 'jwt-decode';
 
 import { CONFIG } from '../../../environments/environment';
 
@@ -27,18 +27,26 @@ export class LoginComponent implements OnInit {
   scope!: string;
   state!: string;
 
+  userName = '';
+  password = '';
+  mqttAPIKey: string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthService,
+    // private authService: AuthService,
     private dxAdminApiService: DxAdminApiService,
     private snackBar: MatSnackBar,
   ) {
+
+    this.mqttAPIKey = localStorage.getItem('mqttpwd_' + CONFIG.client_id) || '';
+    
     this.form = this.fb.group({
-      prefix: ['community-api', Validators.required],
+      // prefix: ['community-api', Validators.required],
       userName: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      mqttAPIKey: [this.mqttAPIKey]
     });
   }
 
@@ -59,22 +67,28 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  onSubmit() {
+  onSubmit() { 
     if (this.form.valid) {
-
-      const userName = this.form.get('prefix')?.value + '/' + this.form.get('userName')?.value;
-      const password = this.form.get('password')?.value;
+      this.userName = this.form.get('userName')?.value;
+      this.password = this.form.get('password')?.value;
+      this.mqttAPIKey = this.form.get('mqttAPIKey')?.value;
+      // const mqttTopic = this.form.get('mqttTopic')?.value;
 
       this.dxAdminApiService.getToken(
-        'client_credentials', userName, password, false, '12hours'
+        'client_credentials', `${CONFIG.DXAPI_PROFILE}/${this.userName}`, this.password, false, '12hours'
       ).subscribe(
         data => {
           if (data) {
 
-            const subscriberId = (jwtDecode(data.access_token) as any).scope[0].split(':')[1];
-            sessionStorage.setItem('mqttusr_' + CONFIG.client_id, userName);
-            sessionStorage.setItem('mqttpwd_' + CONFIG.client_id, password);
-            sessionStorage.setItem('mqttsbs_' + CONFIG.client_id, subscriberId);      
+            const decodedAccessToken = JSON.parse(atob(data.access_token.split('.')[1]));
+            // const decodedAccessToken = jwtDecode(data.access_token) as any;
+            const subscriberIdShort = decodedAccessToken.scope[0].split(':')[1];
+            const subscriberId = (100000000 + parseInt(subscriberIdShort, 10)).toString();
+            const mqttTopic = `dev-ope|${subscriberId}/LE_AS/abeemap`;
+
+            sessionStorage.setItem('mqttusr_' + CONFIG.client_id, this.userName);
+            localStorage.setItem('mqttpwd_' + CONFIG.client_id, this.mqttAPIKey);
+            sessionStorage.setItem('mqtttop_' + CONFIG.client_id, mqttTopic);
 
             const parsedRedirectUri = new URL(this.redirectUri);
             parsedRedirectUri.searchParams.append('access_token', data.access_token);
@@ -97,4 +111,11 @@ export class LoginComponent implements OnInit {
     }
     this.formSubmitAttempt = true;
   }
+
+  clearMQTTAPIKey() {
+    this.form.patchValue({mqttAPIKey: ''});
+    localStorage.removeItem('mqttpwd_' + CONFIG.client_id);
+  }
+
 }
+

@@ -43,6 +43,7 @@ ng g c --skip-tests --module app components/page01
 ng g c --skip-tests --module app components/page02
 ng g c --skip-tests --module app components/user
 ng g c --skip-tests --module app components/login
+ng g c --skip-tests --module app components/api-keys
 // edit app/app-routing.module.ts
 
 ng g c --skip-tests --module app components/map

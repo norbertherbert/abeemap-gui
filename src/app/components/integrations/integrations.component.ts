@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { CONFIG } from '../../../environments/environment';
+
 @Component({
   selector: 'app-integrations',
   templateUrl: './integrations.component.html',
@@ -7,14 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IntegrationsComponent implements OnInit {
 
+  targetURL = '';
+  
   componentTitle = 'Integrations';
-
+  
   appServerConnectionsVisible = false;
   networkServerConnectionsVisible = false;
 
-  constructor() { }
+  constructor() { 
+  }
 
   ngOnInit(): void {
+    const mqttTopic = sessionStorage.getItem('mqtttop_' + CONFIG.client_id);
+    this.targetURL = `${CONFIG.nitURL}/mqtt/${mqttTopic}`;
   }
 
 }

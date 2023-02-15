@@ -1,0 +1,58 @@
+<div id="component-container">
+
+  <div id="component-header">
+
+    <h2 *ngIf="formTypeIsCreate">Create API Key</h2>
+    <h2 *ngIf="!formTypeIsCreate">Reset API Key</h2>
+
+    <button mat-icon-button color="primary" (click)="goBack()">
+      <mat-icon matTooltip="Go back">arrow_back</mat-icon>
+    </button>
+    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()">
+      <mat-icon matTooltip="Create API Key">check</mat-icon>
+    </button>
+    &nbsp;&nbsp;
+    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="reset()">
+      <mat-icon matTooltip="Reset API Key">redo</mat-icon>Reset API Key
+    </button>
+
+  </div>
+
+  <div id="component-body" class="mat-elevation-z8">
+      
+    <div *ngIf="apiKey" id="component-form">
+      <p *ngIf="!formTypeIsCreate">
+        <mat-form-field floatLabel="always"  >
+          <mat-label>Id:</mat-label>
+          <input matInput [(ngModel)]="apiKey.id" type="text" id="id" readonly/>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field floatLabel="always"  >
+          <mat-label>Name:</mat-label>
+          <input matInput [(ngModel)]="apiKey.name" type="text" id="name" [readonly]="!formTypeIsCreate" />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field floatLabel="always"  >
+          <mat-label>Scope:</mat-label>
+          <input matInput [(ngModel)]="apiKey.scope" type="text" id="scope" [readonly]="!formTypeIsCreate" />
+        </mat-form-field>
+      </p>
+    </div>
+
+  </div>
+
+  <div id="component-footer">
+    <button mat-icon-button color="primary" (click)="goBack()">
+      <mat-icon matTooltip="Go back">arrow_back</mat-icon>
+    </button>
+    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()">
+      <mat-icon matTooltip="Create API Key">check</mat-icon>
+    </button>
+    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="reset()">
+      <mat-icon matTooltip="Reset API Key">redo</mat-icon>Reset API Key
+    </button>
+  </div>
+
+</div>

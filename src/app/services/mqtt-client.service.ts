@@ -70,18 +70,19 @@ export class MqttClientService implements OnInit {
 
   connect() {
     setTimeout( () => {
-      const userName = sessionStorage.getItem('mqttusr_' + CONFIG.client_id);
-      const password = sessionStorage.getItem('mqttpwd_' + CONFIG.client_id);
-      const subscriberId = sessionStorage.getItem('mqttsbs_' + CONFIG.client_id);
+      const mqttUserName = sessionStorage.getItem('mqttusr_' + CONFIG.client_id);
+      const mqttPassword = localStorage.getItem('mqttpwd_' + CONFIG.client_id);
+      const mqttTopic = sessionStorage.getItem('mqtttop_' + CONFIG.client_id);
 
-      if ( !(userName && password && subscriberId) ) {
-        console.log(`CONNECTION FAILURE: No MQTT credentials are cached in localStorage yet!`);
+      if ( !(mqttUserName && mqttPassword && mqttTopic) ) {
+        console.log(`MQTT CONNECTION FAILURE: No proper MQTT params are cached in localStorage yet!`);
+        this.reportError(`CONNECTION FAILURE: No API Key has been provided!`);
         return;
       }
 
       this.client.connect({
-        userName: userName,
-        password: password,
+        userName: mqttUserName,
+        password: mqttPassword,
         onSuccess: async () => {
           this.connected = true;
           console.log(`MQTT CLIENT CONNECTED`);
@@ -92,6 +93,7 @@ export class MqttClientService implements OnInit {
           this.connected = false;
           if (responseObject.errorCode !== 0) {
             console.log(`CONNECTION FAILURE:${responseObject.errorMessage}`);
+            this.reportError(`MQTT Client Couldn't connect to Broker`);
           }
         }
       });
@@ -114,10 +116,10 @@ export class MqttClientService implements OnInit {
       return;
     }
     
-    const subscriberId = sessionStorage.getItem('mqttsbs_' + CONFIG.client_id);
+    const mqttTopic = sessionStorage.getItem('mqtttop_' + CONFIG.client_id);
 
     this.client.subscribe(
-      `${subscriberId}/${CONFIG.MQTT_TOPIC}`,
+      mqttTopic,
       {
         onSuccess: () => {
           this.subscribed = true;

@@ -27,10 +27,7 @@ export class DxLocationApiService {
       .set('Accept', '*/*');
 
     return this.http.get<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location-alarm-config/latest/api/bluetoothMap',
+      `${CONFIG.DXAPI_URL}/location-alarm-config/latest/api/bluetoothMap`,
       {
         headers: h
       }
@@ -60,10 +57,7 @@ export class DxLocationApiService {
     formData.append('file', featuresTextBlob);
 
     return this.http.post<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location-alarm-config/latest/api/bluetoothMap',
+      `${CONFIG.DXAPI_URL}/location-alarm-config/latest/api/bluetoothMap`,
       formData,
       {
         headers: h
@@ -87,10 +81,7 @@ export class DxLocationApiService {
       .set('Accept', 'application/json');
 
     return this.http.delete<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location-alarm-config/latest/api/bluetoothMap',
+      `${CONFIG.DXAPI_URL}/location-alarm-config/latest/api/bluetoothMap`,
       {
         headers: h
       }
@@ -114,10 +105,7 @@ export class DxLocationApiService {
       .set('accept', 'application/json');
 
     return this.http.get<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location-connector/latest/api/connectorConfigs',
+      `${CONFIG.DXAPI_URL}/location-connector/latest/api/connectorConfigs`,
       {
         headers: h
       }
@@ -136,10 +124,7 @@ export class DxLocationApiService {
 
   getConnectorConfig(ref:string) {
     return this.http.get<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location-connector/latest/api/connectorConfigs/' + ref,
+      `${CONFIG.DXAPI_URL}/location-connector/latest/api/connectorConfigs/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`Connector Config has been retrieved!`)),
@@ -151,10 +136,7 @@ export class DxLocationApiService {
   deleteConnectorConfig(ref:string) {
 
     return this.http.delete<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location-connector/latest/api/connectorConfigs/' + ref,
+      `${CONFIG.DXAPI_URL}/location-connector/latest/api/connectorConfigs/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`The selected Connector Config has been deleted!`)),
@@ -174,10 +156,7 @@ export class DxLocationApiService {
       .set('content-type', 'application/json');
 
     return this.http.post<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location-connector/latest/api/connectorConfigs',
+      `${CONFIG.DXAPI_URL}/location-connector/latest/api/connectorConfigs`,
       connectorConfig,
       {
         headers: h
@@ -207,10 +186,7 @@ export class DxLocationApiService {
       .set('content-type', 'application/json');
 
     return this.http.put<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location-connector/latest/api/connectorConfigs/' + ref,
+      `${CONFIG.DXAPI_URL}/location-connector/latest/api/connectorConfigs/${ref}`,
       connectorConfig,
       {
         headers: h
@@ -246,10 +222,7 @@ export class DxLocationApiService {
       .set('accept', 'application/json');
 
     return this.http.get<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location/latest/api/binderConfigs',
+      `${CONFIG.DXAPI_URL}/location/latest/api/binderConfigs`,
       {
         headers: h
       }
@@ -269,10 +242,7 @@ export class DxLocationApiService {
 
   getBinderConfig(ref:string) {
     return this.http.get<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location/latest/api/binderConfigs/' + ref,
+      `${CONFIG.DXAPI_URL}/location/latest/api/binderConfigs/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`Connector Config has been retrieved!`)),
@@ -284,10 +254,7 @@ export class DxLocationApiService {
   deleteBinderConfig(ref:string) {
 
     return this.http.delete<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location/latest/api/binderConfigs/' + ref,
+      `${CONFIG.DXAPI_URL}/location/latest/api/binderConfigs/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`The selected Connector Config has been deleted!`)),
@@ -307,10 +274,7 @@ export class DxLocationApiService {
       .set('content-type', 'application/json');
 
     return this.http.post<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location/latest/api/binderConfigs',
+      `${CONFIG.DXAPI_URL}/location/latest/api/binderConfigs`,
       binderConfig,
       {
         headers: h
@@ -340,10 +304,7 @@ export class DxLocationApiService {
       .set('content-type', 'application/json');
 
     return this.http.put<any>(
-      (
-        CONFIG.DXAPI_URLS[ this.authService.userId ? this.authService.userId.split('/')[0]: CONFIG.DXAPI_DEFAULT_PREFIX ] ||
-        CONFIG.DXAPI_URLS[ CONFIG.DXAPI_DEFAULT_PREFIX ]
-      ) + '/location/latest/api/binderConfigs/' + ref,
+      `${CONFIG.DXAPI_URL}/location/latest/api/binderConfigs/${ref}`,
       binderConfig,
       {
         headers: h
@@ -361,6 +322,98 @@ export class DxLocationApiService {
 
   }
 
+
+
+
+
+
+
+
+
+  getAPIKeys() {
+
+    const h = new HttpHeaders()
+      .set('accept', 'application/json');
+
+    return this.http.get<any>(
+      `${CONFIG.DXAPI_URL}/location-key-management/latest/api/apiKeys`,
+      {
+        headers: h
+      }
+    )
+      .pipe(
+        tap(_ => this.serviceUtils.log(`API Keys have been retreived`)),
+        catchError(this.serviceUtils.handleError<any>('getAPIKeys'))
+      );
+
+  }
+
+
+  getAPIKey(ref:string) {
+    return this.http.get<any>(
+      `${CONFIG.DXAPI_URL}/location-key-management/latest/api/apiKeys/${ref}`,
+    )
+      .pipe(
+        tap(_ => this.serviceUtils.log(`API Key has been retrieved!`)),
+        catchError(this.serviceUtils.handleError<any>('getAPIKey'))
+      );
+  }
+
+
+  deleteAPIKey(ref:string) {
+
+    return this.http.delete<any>(
+      `${CONFIG.DXAPI_URL}/location-key-management/latest/api/apiKeys/${ref}`,
+    )
+      .pipe(
+        tap(_ => this.serviceUtils.log(`The selected API Key has been deleted!`)),
+        catchError(this.serviceUtils.handleError<any>('deleteAPIKey'))
+      );
+
+  }
+
+  createAPIKey(apiKey:any) {
+
+    if ('ref' in apiKey) {
+      delete apiKey.ref;
+    }
+
+    const h = new HttpHeaders()
+      .set('accept', 'application/json')
+      .set('content-type', 'application/json');
+
+    return this.http.post<any>(
+      `${CONFIG.DXAPI_URL}/location-key-management/latest/api/apiKeys`,
+      apiKey,
+      {
+        headers: h
+      }
+    )
+      .pipe(
+        tap(_ => this.serviceUtils.log(`API Key has been created`)),
+        catchError(this.serviceUtils.handleError<any>('createAPIKey'))
+      );
+
+  }
+
+  resetAPIKey(apiKeyId:string) {
+
+    const h = new HttpHeaders()
+      .set('accept', 'application/json');
+
+    return this.http.put<any>(
+      `${CONFIG.DXAPI_URL}/location-key-management/latest/api/apiKeys/${apiKeyId}`,
+      {},
+      {
+        headers: h
+      }
+    )
+      .pipe(
+        tap(_ => this.serviceUtils.log(`Connector Config has been reset`)),
+        catchError(this.serviceUtils.handleError<any>('resetAPIKey'))
+      );
+
+  }
 
 
 }
