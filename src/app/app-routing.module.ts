@@ -43,6 +43,11 @@ const routes: Routes = [
     component: IntegrationsComponent,
     canActivate: [ AuthGuard ],
   },
+  // {
+  //   path: 'integrations/:openedPanelIndex',
+  //   component: IntegrationsComponent,
+  //   canActivate: [ AuthGuard ],
+  // },
   /*
   {
     path: 'connector-configs/create',

@@ -4,11 +4,20 @@
         <mat-form-field class="geojson-textarea">
             <textarea matInput rows="20" cols="80" [(ngModel)]="data.inputText"></textarea>
         </mat-form-field>
-        <button mat-button (click)="onClear()">Clear</button>
-        <button mat-button [cdkCopyToClipboard]="data.inputText">Copy to clipboard</button>
     </div>
     <div mat-dialog-actions>
-        <button mat-button (click)="onCancel()">Cancel</button>
-        <button mat-button [mat-dialog-close]="data.inputText" cdkFocusInitial>Apply on Local Map</button>
+        <button mat-button (click)="onClear()" matTooltip="Clear content">
+            <mat-icon>check_box_outline_blank</mat-icon>
+        </button>
+        <button mat-button [cdkCopyToClipboard]="data.inputText" matTooltip="Copy to clipboard">
+            <mat-icon>content_copy</mat-icon>
+        </button>
+
+        <button mat-button [mat-dialog-close]="data.inputText" cdkFocusInitial matTooltip="Apply on Local Map">
+            <mat-icon>done</mat-icon>
+        </button>
+        <button mat-button (click)="onCancel()" matTooltip="Cancel">
+            <mat-icon>close</mat-icon>
+        </button>
     </div>
 </div>

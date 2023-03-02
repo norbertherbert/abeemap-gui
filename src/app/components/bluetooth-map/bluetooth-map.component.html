@@ -1,12 +1,27 @@
 <div class="map-container">
   <div class="button-frame">
-    <button mat-raised-button (click)="getBluetoothMap()" class="control-button">Get from TPXLE</button>
-    <button mat-raised-button (click)="delsetBluetoothMap()" class="control-button">Save to TPXLE</button>
-    <button mat-raised-button (click)="deleteBluetoothMap()" class="control-button">Delete from TPXLE</button>
-    <button mat-raised-button (click)="zoomToBeacons()" class="control-button">Zoom to Beacons</button>
-    <button mat-raised-button (click)="clearMap()" class="control-button">Clear Map</button>
-    <button mat-raised-button (click)="exportMap()" class="control-button">Edit GeoJson</button>
-    <button mat-raised-button (click)="switchMap()" class="control-button">Switch Map</button>
+    <button mat-raised-button (click)="getBluetoothMap()" class="control-button" matTooltip="Get from ThingPark Location Engine">
+      <mat-icon>download</mat-icon>
+    </button>
+    <button mat-raised-button (click)="delsetBluetoothMap()" class="control-button" matTooltip="Upload to ThingPark Location Engine">
+      <mat-icon>publish</mat-icon>
+    </button>
+    <button mat-raised-button (click)="deleteBluetoothMap()" class="control-button" matTooltip="Delete from ThingPark Location Engine">
+      <mat-icon>delete</mat-icon>
+    </button>
+    &nbsp;&nbsp;
+    <button mat-raised-button (click)="clearMap()" class="control-button" matTooltip="Clear map locally">
+      <mat-icon>check_box_outline_blank</mat-icon>
+    </button>
+    <button mat-raised-button (click)="exportMap()" class="control-button" matTooltip="Edit GeoJSON locally">
+      <mat-icon>edit_note</mat-icon>
+      &#123;&#125;
+    </button>
+    &nbsp;&nbsp;
+    <button mat-raised-button (click)="zoomToBeacons()" class="control-button" matTooltip="Zoom to Floorplan">
+      <mat-icon>zoom_in_map</mat-icon>
+    </button>
+    <!-- <button mat-raised-button (click)="switchMap()" class="control-button">Switch Map</button> -->
 
     <!--
     <input type="file" style="display:none;" id="geojson-file-selector" (change)="setBluetoothMap1($event)" #fileUpload>

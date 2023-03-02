@@ -12,8 +12,10 @@ import { MatSnackBar} from '@angular/material/snack-bar';
 export class MqttClientService implements OnInit {
 
   client: any;
-  connected = false;
+  //connected = false;
   subscribed = false;
+
+  connected$ = new BehaviorSubject(false);
 
   message$ = new Subject<any>();
   // message$ = new ReplaySubject<any>(5);
@@ -32,7 +34,8 @@ export class MqttClientService implements OnInit {
     // this.client = new PahoMQTT.Client(CONFIG.MQTT_BROKER, Number(CONFIG.MQTT_PORT), CONFIG.MQTT_CLIENT_ID);
 
     this.client.onConnectionLost = (responseObject:any) => {
-      this.connected = false;
+      // this.connected = false;
+      this.connected$.next(false);
       this.subscribed = false;
       if (responseObject.errorCode !== 0) {
         console.log(`MQTT CONNECTION LOST:${responseObject.errorMessage}`);
@@ -84,13 +87,15 @@ export class MqttClientService implements OnInit {
         userName: mqttUserName,
         password: mqttPassword,
         onSuccess: async () => {
-          this.connected = true;
+          // this.connected = true;
+          this.connected$.next(true);
           console.log(`MQTT CLIENT CONNECTED`);
           this.reportEvent(`MQTT Client Connected to Broker`);
           this.subscribe();
         },
         onFailure: (responseObject:any) => {
-          this.connected = false;
+          // this.connected = false;
+          this.connected$.next(false);
           if (responseObject.errorCode !== 0) {
             console.log(`CONNECTION FAILURE:${responseObject.errorMessage}`);
             this.reportError(`MQTT Client Couldn't connect to Broker`);
@@ -101,22 +106,30 @@ export class MqttClientService implements OnInit {
   }
 
   disconnect() {
-    if (!this.connected) {
+    // if (!this.connected) {
+    if (!this.connected$.getValue()) {
       console.log('DISCONNECTION FAILURE: You are not connected to the server!');
       return;
     }
     this.client.disconnect();
-    this.connected = false;
+    // this.connected = false;
+    this.connected$.next(false);
     this.subscribed = false;
+    this.reportEvent(`MQTT Client Disconnected from Broker`);
   }
 
   subscribe() {
-    if (!this.connected) {
+    // if (!this.connected) {
+    if (!this.connected$.getValue()) {
       console.log('SUBSCRIPTION FAILURE: You are not connected to the server!');
       return;
     }
     
     const mqttTopic = sessionStorage.getItem('mqtttop_' + CONFIG.client_id);
+
+    console.log(`****************** TOPIC ********************`);
+    console.log(mqttTopic);
+    console.log(`****************** TOPIC ********************`);
 
     this.client.subscribe(
       mqttTopic,
@@ -135,7 +148,8 @@ export class MqttClientService implements OnInit {
   }
 
   unsubscribe() {
-    if (!this.connected) {
+    // if (!this.connected) {
+    if (!this.connected$.getValue()) {
       console.log('UNSUBSCRIPTION FAILURE: You are not connected to the server!');
       return;
     }
@@ -145,7 +159,6 @@ export class MqttClientService implements OnInit {
     }
 
     const subscriberId = sessionStorage.getItem('mqttsbs_' + CONFIG.client_id);
-
     this.client.unsubscribe(
       `${subscriberId}/${CONFIG.MQTT_TOPIC}`,
       {

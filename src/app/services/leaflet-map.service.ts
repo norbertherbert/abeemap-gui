@@ -13,11 +13,16 @@ import { MqttClientService } from './mqtt-client.service';
 import * as L from 'leaflet';
 import '@geoman-io/leaflet-geoman-free';
 import 'leaflet.marker.slideto';
+import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+
+
+
 
 import { Inject, Injector }  from '@angular/core';
 import { DOCUMENT } from '@angular/common'
 
 import { BeaconSettingsPopupComponent } from '../components/beacon-settings-popup/beacon-settings-popup.component';
+import { createInjectableDefinitionMap } from '@angular/compiler/src/render3/partial/injectable';
 
 // import { MqttClientService } from './mqtt-client.service';
 
@@ -46,7 +51,7 @@ const ICON_BLE_BEACON = L.icon({
   iconSize: [20, 20],
   iconAnchor: [10, 10],
   popupAnchor: [0, -15],
-  tooltipAnchor: [0, 0],
+  tooltipAnchor: [0, 16],
   shadowSize: [30, 20],
   shadowAnchor: [10, 20]
 });
@@ -58,7 +63,7 @@ const ICON_PERSON = L.icon({
   iconSize: [24, 33],
   iconAnchor: [12, 33],
   popupAnchor: [1, -24],
-  tooltipAnchor: [0, 3],
+  tooltipAnchor: [0, 6],
   shadowSize: [36, 33],
   shadowAnchor: [12, 33],
 });
@@ -70,7 +75,7 @@ const ICON_PERSON_YELLOW = L.icon({
   iconSize: [24, 33],
   iconAnchor: [12, 33],
   popupAnchor: [1, -24],
-  tooltipAnchor: [0, 3],
+  tooltipAnchor: [0, 6],
   shadowSize: [36, 33],
   shadowAnchor: [12, 33],
 });
@@ -82,7 +87,7 @@ const ICON_PERSON_GREY = L.icon({
   iconSize: [24, 33],
   iconAnchor: [12, 33],
   popupAnchor: [1, -24],
-  tooltipAnchor: [0, 3],
+  tooltipAnchor: [0, 6],
   shadowSize: [36, 33],
   shadowAnchor: [12, 33],
 });
@@ -111,11 +116,8 @@ const ICON_RED = L.icon({
 
 L.Marker.prototype.options.icon = ICON_RED;
 
-const TILES_OSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  minZoom: 3,
-  maxZoom: 23,
-  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-});
+
+
 
 const TILES_MAPBOX = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
   minZoom: 3,
@@ -127,11 +129,68 @@ const TILES_MAPBOX = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z
   zoomOffset: -1
 });
 
+const TILES_OSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  minZoom: 3,
+  maxZoom: 23,
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+
+const TILES_GOOGLE_STREETS = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+  minZoom: 3,
+  maxZoom: 23,
+  subdomains:['mt0','mt1','mt2','mt3']
+});
+
 const TILES_GOOGLE_SAT = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
   minZoom: 3,
   maxZoom: 23,
   subdomains:['mt0','mt1','mt2','mt3']
 });
+
+const TILES_GOOGLE_HYBRID = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+  minZoom: 3,
+  maxZoom: 23,
+  subdomains:['mt0','mt1','mt2','mt3']
+});
+
+const baseLayers = {
+  'OpenStreetMap': TILES_OSM,
+  'Google Streets': TILES_GOOGLE_STREETS,
+  'Google Sat': TILES_GOOGLE_SAT,
+  'Google Hybrid': TILES_GOOGLE_HYBRID,
+};
+
+
+
+const FLOORPLAN_IMAGE_URL_01 = './assets/actility_floorplan.png';
+const imageCoordinatesX_01 = 2.3335;
+const imageCoordinatesY_01 = 48.8745900;
+const imageHeight_01 = 0.00029;
+const imageWidth_01 = 0.00057;
+const FLOORPLAN_IMAGE_BOUNDS_01:any = [
+  [imageCoordinatesY_01, imageCoordinatesX_01], 
+  [imageCoordinatesY_01+imageHeight_01, imageCoordinatesX_01+imageWidth_01]
+];
+
+const FLOORPLAN_IMAGE_URL_02 = './assets/orlando_hotel_floor_plan.png';
+const imageCoordinatesX_02 = -81.46062;
+const imageCoordinatesY_02 = 28.480985;
+const imageHeight_02 = 0.000936;
+const imageWidth_02 = 0.00115;
+const FLOORPLAN_IMAGE_BOUNDS_02:any = [
+  [imageCoordinatesY_02, imageCoordinatesX_02], 
+  [imageCoordinatesY_02+imageHeight_02, imageCoordinatesX_02+imageWidth_02]
+];
+
+const floorplanImages = L.layerGroup([
+  L.imageOverlay(FLOORPLAN_IMAGE_URL_01, FLOORPLAN_IMAGE_BOUNDS_01),
+  L.imageOverlay( FLOORPLAN_IMAGE_URL_02, FLOORPLAN_IMAGE_BOUNDS_02),
+]);
+
+const baseOverlays = {
+  'Floorplan images': floorplanImages,
+};
+
 
 const DEFAULT_TPXLE_UL_TEXT = JSON.stringify(
   { "coordinates": [ 0, 0, 0 ] },
@@ -146,56 +205,21 @@ const DEFAULT_GEOJSON_TEXT = JSON.stringify(
   null, 4
 );
 
-
-
-
-const FLOORPLAN_IMAGE_URL = './assets/actility_floorplan.png';
-const imageCoordinatesX = 2.3335;
-const imageCoordinatesY = 48.8745900;
-const imageHeight = 0.00029;
-const imageWidth = 0.00057;
-const FLOORPLAN_IMAGE_BOUNDS:any = [
-  [imageCoordinatesY, imageCoordinatesX], 
-  [imageCoordinatesY+imageHeight, imageCoordinatesX+imageWidth]
-];
-
-// const FLOORPLAN_IMAGE_URL_1 = './assets/PDC_Floorplan.jpg';
-// const imageCoordinatesX_1 = 2.2815;
-// const imageCoordinatesY_1 = 48.8784;
-// const imageHeight_1 = 0.00135 ;
-// const imageWidth_1 = 0.00365;
-// const FLOORPLAN_IMAGE_BOUNDS_1:any = [
-//   [imageCoordinatesY_1, imageCoordinatesX_1], 
-//   [imageCoordinatesY_1+imageHeight_1, imageCoordinatesX_1+imageWidth_1]
-// ];
-
-// const FLOORPLAN_IMAGE_URL_1 = './assets/iWOW_floorplan.gif';
-// const imageCoordinatesX_1 = 103.847368;
-// const imageCoordinatesY_1 = 1.343034;
-// const imageHeight_1 = 0.000120;
-// const imageWidth_1 = 0.000218;
-// const FLOORPLAN_IMAGE_BOUNDS_1:any = [
-//   [imageCoordinatesY_1, imageCoordinatesX_1], 
-//   [imageCoordinatesY_1+imageHeight_1, imageCoordinatesX_1+imageWidth_1]
-// ];
-
-const FLOORPLAN_IMAGE_URL_1 = './assets/Electronica_Floorplan.jpg';
-const imageCoordinatesX_1 = 11.6990227;
-const imageCoordinatesY_1 = 48.1375513;
-const imageHeight_1 = 0.000120;
-const imageWidth_1 = 0.0002507;
-const FLOORPLAN_IMAGE_BOUNDS_1:any = [
-  [imageCoordinatesY_1, imageCoordinatesX_1], 
-  [imageCoordinatesY_1+imageHeight_1, imageCoordinatesX_1+imageWidth_1]
-];
-
-
-
+const searchProvider = new OpenStreetMapProvider();
+const searchControl = GeoSearchControl({ 
+  provider: searchProvider,
+  showMarker: true,
+  marker: {
+    icon: ICON_RED,
+    draggable: false,
+  },
+  position: 'topright',
+});
 
 @Injectable({
   providedIn: 'root'
 })
-export class LeafletMapService implements OnInit{
+export class LeafletMapService implements OnInit {
 
   beaconsFeatureGroup = L.featureGroup();
   devicesFeatureGroup = L.featureGroup();
@@ -204,7 +228,7 @@ export class LeafletMapService implements OnInit{
   geojsonFile:any;
 
   myAudioContext: any;
-  beepsEnabled = true;
+  beepsEnabled = false;
 
   // document.getElementById('tpxle-ul-textarea').value = defaultTpxleUlText;
   tpxleULTextarea = DEFAULT_TPXLE_UL_TEXT;
@@ -300,40 +324,68 @@ export class LeafletMapService implements OnInit{
     // }
   }
 
-  initFloorplanImage(map:any) {
-    L.imageOverlay(FLOORPLAN_IMAGE_URL, FLOORPLAN_IMAGE_BOUNDS).addTo(map);
-    L.imageOverlay( FLOORPLAN_IMAGE_URL_1, FLOORPLAN_IMAGE_BOUNDS_1).addTo(map);
-  }
 
-  initDeviceMap(map:any): void {
- 
-    map.addLayer(TILES_MAPBOX);
+  initMap(map:any) {
+
+    map.addLayer(TILES_OSM);
+    map.addLayer(floorplanImages);
     map.addLayer(this.devicesFeatureGroup);
-    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS, {padding: [150, 150]});
-    // this.zoomToPDCFloorplan(map);
+    // map.addLayer(this.beaconsFeatureGroup);
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_02, {padding: [150, 150]});
+    
+    map.addControl(
+      L.control.layers(baseLayers, {
+        'People': this.devicesFeatureGroup,
+        'Beacon map': this.beaconsFeatureGroup,
+        ...baseOverlays
+      })
+    );
+
+    map.addControl(searchControl);
 
   }
 
-  zoomToActilityFloorplan(map:any) {
-    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS, {padding: [150, 150]});
-    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
-    // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS);
+
+  initBluetoothMap(map:any) {
+
+    map.addLayer(TILES_OSM);
+    map.addLayer(floorplanImages);
+    // map.addLayer(this.devicesFeatureGroup);
+    map.addLayer(this.beaconsFeatureGroup);
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_02, {padding: [150, 150]});
+    
+    map.addControl(
+      L.control.layers(baseLayers, {
+        // 'Markers': this.devicesFeatureGroup,
+        // 'Beacon map': this.beaconsFeatureGroup,
+        ...baseOverlays
+      })
+    );
+
+    this.initGeoman(map);
+
+    map.addControl(searchControl);
+
   }
 
   zoomToFloorplan01(map:any) {
-    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_1, {padding: [150, 150]});
-    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
-    // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS_1);
-  }
-  
-  initBeaconMap(map:any): void {
-    map.addLayer(TILES_MAPBOX);
-    map.addLayer(this.beaconsFeatureGroup);
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_01, {padding: [150, 150]});
+    // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS_01, {padding: [150, 150]});
   }
 
+  zoomToFloorplan02(map:any) {
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_02, {padding: [150, 150]});
+    // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS_02, {padding: [150, 150]});
+  }
+  
   zoomToBeacons(map:any) {
     map.fitBounds(this.beaconsFeatureGroup.getBounds(), {padding: [150, 150]});
     // map.flyToBounds(this.beaconsFeatureGroup.getBounds()) // , {padding: [50, 50]});
+  }
+
+  zoomToDevices(map:any) {
+    map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
+    // map.flyToBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
   }
 
   initGeoman(map:any) {
@@ -355,7 +407,7 @@ export class LeafletMapService implements OnInit{
     // setTimeout( () =>  TILES_MAPBOX.addTo(map), 1000);
 
     map.on('pm:create', (e:any) => { // e.shape, e.layer
-      this.setupLayer(e.layer, 'Beacon-XX', '00:00:00:00:00:00', '');
+      this.setupLayer(e.layer, 'Bcn-XX', '00:00:00:00:00:00', '');
       this.onExport();
     });
 
@@ -367,26 +419,7 @@ export class LeafletMapService implements OnInit{
     // let redMarker = map.pm.Toolbar.copyDrawControl('drawMarker',{name: "currentLocationMarker"})
     // redMarker.drawInstance.setOptions({markerStyle: {icon : ICON_RED}});
   }
-  
 
-
-  switchMap(map:any) {
-    if (map.hasLayer(TILES_MAPBOX)) {
-      map.addLayer(TILES_GOOGLE_SAT);
-      map.removeLayer(TILES_MAPBOX);
-    } else {
-      map.addLayer(TILES_MAPBOX);
-      map.removeLayer(TILES_GOOGLE_SAT);
-    }
-  };
-
-  toggleBeaconMap(map:any) {
-    if (map.hasLayer(this.beaconsFeatureGroup)) {
-      map.removeLayer(this.beaconsFeatureGroup);
-    } else {
-      map.addLayer(this.beaconsFeatureGroup);
-    }
-  };
 
   createPopupFunction(leafletId:any, name:any, mac:any, id:any) {
     return (layer:any) => {
@@ -422,6 +455,15 @@ export class LeafletMapService implements OnInit{
         }
       };
       l.bindPopup(this.createPopupFunction(leafletId, name, mac, id) as any);
+      l.bindTooltip(
+        name, 
+        {
+          permanent: true, 
+          opacity: 0.5,
+          direction: 'bottom',
+          className: 'beacon-tooltip'
+        }
+      ).openTooltip();
     };
 
   };
@@ -431,8 +473,12 @@ export class LeafletMapService implements OnInit{
     m.feature.properties.name = name;
     m.feature.properties.mac = mac;
     m.feature.properties.id = id;
-    m.getPopup().setContent(this.createPopupFunction(leafletId, name, mac, id) as any);
-    m.getPopup().update();
+    m.getPopup()
+      .setContent(this.createPopupFunction(leafletId, name, mac, id) as any)
+      .update();
+    m.getTooltip()
+      .setContent(name)
+      .update();
   }
 
   onMarkerChange(leafletId:any, name:string, mac:string, id:string) {
@@ -547,9 +593,10 @@ export class LeafletMapService implements OnInit{
 
   openDialog(geoJsonText:string, map:any): void {
     const dialogRef = this.dialog.open(TextareaDialogComponent, {
-      width: '400px',
-      height: '500px',
-      data: {title: "Please edit the GeoJSON content here!", inputText: geoJsonText}
+      minWidth: '400px',
+      minHeight: '500px',
+      data: {title: "Please edit the GeoJSON content here!", inputText: geoJsonText},
+      panelClass: 'custom-mat-dialog-panel'
     });
 
     dialogRef.afterClosed().subscribe((result:any) => {

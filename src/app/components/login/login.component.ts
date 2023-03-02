@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
             // const decodedAccessToken = jwtDecode(data.access_token) as any;
             const subscriberIdShort = decodedAccessToken.scope[0].split(':')[1];
             const subscriberId = (100000000 + parseInt(subscriberIdShort, 10)).toString();
-            const mqttTopic = `dev-ope|${subscriberId}/LE_AS/abeemap`;
+            const mqttTopic = `actility-tpe-ope|${subscriberId}/LE_AS/abeemap/#`;
 
             sessionStorage.setItem('mqttusr_' + CONFIG.client_id, this.userName);
             localStorage.setItem('mqttpwd_' + CONFIG.client_id, this.mqttAPIKey);

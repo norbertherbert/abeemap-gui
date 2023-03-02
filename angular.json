@@ -50,6 +50,8 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/leaflet/dist/leaflet.css",
+              "./node_modules/leaflet.fullscreen/Control.FullScreen.css",
+              "./node_modules/leaflet-geosearch/dist/geosearch.css",
               "./node_modules/@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css",
               "./node_modules/leaflet.awesome-markers/dist/leaflet.awesome-markers.css",
               "src/styles.css"

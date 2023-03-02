@@ -21,14 +21,30 @@
     <div class="menu-items-left">
 
       <!-- <a mat-button [routerLink]="['/home']" routerLinkActive="active-link-header">Home</a> -->
-      <a mat-button [routerLink]="['/map']" routerLinkActive="active-link-header">Location Map</a>
-      <a mat-button [routerLink]="['/logs']" routerLinkActive="active-link-header">Message Logs</a>
-      <a mat-button [routerLink]="['/bluetooth-map']" routerLinkActive="active-link-header">Edit Floorplan</a>
-      <a mat-button [routerLink]="['/integrations']" routerLinkActive="active-link-header">Edit Integrations</a>
+      <a mat-button [routerLink]="['/map']" routerLinkActive="active-link-header">
+        <mat-icon>person_pin_circle</mat-icon>
+        Location Map
+      </a>
+      <a mat-button [routerLink]="['/logs']" routerLinkActive="active-link-header">
+        <mat-icon>subject</mat-icon>
+        Message Logs
+      </a>
+      <a mat-button [routerLink]="['/bluetooth-map']" routerLinkActive="active-link-header">
+        <mat-icon>edit</mat-icon>
+        Edit Floorplan
+      </a>
+      <a mat-button [routerLink]="['/integrations']" routerLinkActive="active-link-header">
+        <mat-icon>integration_instructions</mat-icon>
+        Integrations
+      </a>
 
     </div>
 
     <div class="menu-items-right">
+      <a mat-button (click)="mqttToggle()"> 
+        <mat-icon *ngIf="mqttConnected" matTooltip="MQTT Client: CONNECTED. Click to disconnect!">link</mat-icon>  
+        <mat-icon *ngIf="!mqttConnected" matTooltip="MQTT Client: DISCONNECTED. Click to connect!">link_off</mat-icon>  
+      </a>
       <a *ngIf="!userId" mat-button (click)="login()">
           login
       </a>
@@ -75,10 +91,22 @@
     <mat-nav-list>
 
       <!-- <a mat-menu-item routerLink="/home" routerLinkActive="active-link-side" (click)="sidenavClose(sidenav)">Home</a> -->
-      <a mat-menu-item routerLink="/map" routerLinkActive="active-link-side" (click)="sidenavClose(sidenav)">Location Map</a>
-      <a mat-menu-item routerLink="/logs" routerLinkActive="active-link-side" (click)="sidenavClose(sidenav)">Message Logs</a>
-      <a mat-menu-item routerLink="/bluetooth-map" routerLinkActive="active-link-side" (click)="sidenavClose(sidenav)">Edit Floorplan</a>
-      <a mat-menu-item routerLink="/integrations" routerLinkActive="active-link-side" (click)="sidenavClose(sidenav)">Edit Integrations</a>
+      <a mat-menu-item routerLink="/map" routerLinkActive="active-link-side" (click)="sidenavClose(sidenav)">
+        <mat-icon>person_pin_circle</mat-icon>
+        Location Map
+      </a>
+      <a mat-menu-item routerLink="/logs" routerLinkActive="active-link-side" (click)="sidenavClose(sidenav)">
+        <mat-icon>list</mat-icon>
+        Message Logs
+      </a>
+      <a mat-menu-item routerLink="/bluetooth-map" routerLinkActive="active-link-side" (click)="sidenavClose(sidenav)">
+        <mat-icon>edit</mat-icon>
+        Edit Floorplan
+      </a>
+      <a mat-menu-item routerLink="/integrations" routerLinkActive="active-link-side" (click)="sidenavClose(sidenav)">
+        <mat-icon>integration_instructions</mat-icon>
+        Integrations
+      </a>
       
       <mat-divider></mat-divider>
 

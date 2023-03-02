@@ -49,6 +49,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 1px;
   margin: 1px;
 }
+
+.beacon-tooltip {
+  /* background: green; */
+  /* border: 2px solid cyan; */
+  padding: 1px;
+  margin: 1px;
+  font-size: 0.7em;
+}
+
+
 /*
 .leaflet-tooltip-left.marker-tooltip::before {
   border-left-color: cyan;
@@ -57,3 +67,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-right-color: cyan;
 }
 */
+
+/* NEEDED FOR RESIZEABLE DIALOGS */
+
+/* .custom-mat-dialog-panel .mat-dialog-container { 
+  resize: both;
+} */
+
+.cdk-overlay-pane{
+  width: unset !important;
+  height: unset !important;
+  max-width: 100% !important;
+}
+
+.mat-dialog-container{
+  max-width: 100%;
+  max-height: 100% !important;
+  resize: both;
+}

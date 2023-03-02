@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 import { AuthService } from '../../auth/auth.service';
+import { MqttClientService } from '../../services/mqtt-client.service';
 
 @Component({
   selector: 'app-navigation',
@@ -15,6 +16,8 @@ export class NavigationComponent  implements OnInit, OnDestroy {
   title = 'AbeeMap';
   userId: string|undefined = '';
 
+  mqttConnected = false;
+
   isHandset: boolean = false;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -24,7 +27,8 @@ export class NavigationComponent  implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private mqttClientService: MqttClientService,
   ) { }
 
   ngOnInit() {
@@ -36,6 +40,13 @@ export class NavigationComponent  implements OnInit, OnDestroy {
         this.userId = this.authService.userId;
       } else {
         this.userId = '';
+      }
+    });
+    this.mqttClientService.connected$.subscribe( connected => {
+      if (connected) {
+        this.mqttConnected = true;
+      } else {
+        this.mqttConnected = false;
       }
     });
   }
@@ -58,6 +69,14 @@ export class NavigationComponent  implements OnInit, OnDestroy {
   logout(): void {
     this.authService.deleteSession();
     this.authService.login(window.location.href);
+  }
+
+  mqttToggle() {
+    if (this.mqttClientService.connected$.getValue()) {
+      this.mqttClientService.disconnect();
+    } else {
+      this.mqttClientService.connect();
+    } 
   }
 
 }

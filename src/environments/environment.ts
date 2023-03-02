@@ -14,11 +14,12 @@ export const CONFIG:any = {
   client_id: 'abeemap',
   scope: 'sso_user abeemap_user',
 
-  DXAPI_URL: 'http://localhost:8080',
+  // DXAPI_URL: 'http://localhost:8080',
+  // DXAPI_URL: 'https://nano-things.net/abeemap_api',
+  DXAPI_URL: 'https://nano-things.net/abeemap_api_preview',
   DXAPI_PROFILE: 'community-api',
 
-  // ADM_URL: "https://dev1.preview.thingpark.com/abeeway-device-analyzer-new/index.php", // Platform specific
-  ADM_URL: "https://dev1.thingpark.com/thingpark/abeewayDeviceAnalyzer/index.php", // Platform specific
+  ADM_URL: "https://dev1.thingpark.com/thingpark/abeewayDeviceAnalyzer/index.php",
 
   DEFAULT_MAP_CENTER: [11.6739826, 47.0622886],
   DEFAULT_MAP_ZOOM: 5,
@@ -33,4 +34,4 @@ export const CONFIG:any = {
 
 };
 
-// ng build --prod --build-optimizer --base-href /abeemap/
+// ng build --build-optimizer --base-href /abeemap/

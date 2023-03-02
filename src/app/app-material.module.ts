@@ -28,6 +28,9 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 
 import {MatExpansionModule} from '@angular/material/expansion';
 
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule, MatChipList } from '@angular/material/chips';
+
 const modules = [
     // CommonModule,
 
@@ -56,7 +59,10 @@ const modules = [
     
     ClipboardModule,
 
-    MatExpansionModule
+    MatExpansionModule,
+
+    MatTooltipModule,
+    MatChipsModule,
 ];
 
 @NgModule({

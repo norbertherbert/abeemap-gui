@@ -4,7 +4,9 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 // import { DOCUMENT } from '@angular/common';
 
 import * as L from 'leaflet';
-import '@geoman-io/leaflet-geoman-free';
+import 'leaflet.fullscreen';
+// import '@geoman-io/leaflet-geoman-free';
+
 import { LeafletMapService } from '../../services/leaflet-map.service';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -33,15 +35,13 @@ export class BluetoothMapComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
 
     setTimeout( () => {
-      // (document.getElementById('map-container') as HTMLElement).innerHTML = "<div id='map' style='width: 100%; height: 100%; z-index: 5;'></div>";
+     
       this.map = L.map('map', {
-        center: [ 25, 0 ],
-        zoom: 3,
+        fullscreenControl: true,
+        fullscreenControlOptions: { position: 'topleft' }, 
       });
-      this.leafletMapService.initFloorplanImage(this.map);
-      this.leafletMapService.initBeaconMap(this.map);
-      this.leafletMapService.initGeoman(this.map);
-      this.leafletMapService.zoomToBeacons(this.map);
+      this.leafletMapService.initBluetoothMap(this.map);
+
     }, 100)
 
    }
@@ -83,9 +83,9 @@ export class BluetoothMapComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
   
-  switchMap() {
-    this.leafletMapService.switchMap(this.map) 
-  }
+  // switchMap() {
+  //   this.leafletMapService.switchMap(this.map) 
+  // }
   
   clearMap() {
     this.leafletMapService.clearBeaconMap()

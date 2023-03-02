@@ -52,6 +52,8 @@ ng g service --skip-tests services/mqtt-client
 
 ng g s --skip-tests auth/auth
 
+ng g s --skip-tests intregrations
+
 npm i --save jwt-decode
 npm i --save @types/jwt-decode
 

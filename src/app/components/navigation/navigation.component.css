@@ -90,8 +90,11 @@ mat-sidenav
 }
 
 .active-link-header {
-  text-decoration: overline;
-  color: pink;
+  /* text-decoration: overline; */
+  color: LightSalmon;
+}
+.toolbar a.active-link-header:hover {
+  color: DarkSalmon;
 }
 
 .title {

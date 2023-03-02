@@ -1,14 +1,44 @@
 <div id="component-container">
     <div id="component-header">
+        <mat-icon>integration_instructions</mat-icon>
+        <br>
+
+        <!-- <mat-chip-listbox aria-label="Data flow">
+            <mat-chip>
+                <mat-icon>contactless</mat-icon>
+                Tracker
+            </mat-chip>
+            <mat-icon>swap_horiz</mat-icon>
+            <mat-chip>
+                <mat-icon>lan</mat-icon>
+                Network Server
+            </mat-chip>
+            <mat-icon>swap_horiz</mat-icon>
+            <mat-chip>
+                <mat-icon>settings</mat-icon>
+                Location Engine
+            </mat-chip>
+            <mat-icon>swap_horiz</mat-icon>
+            <mat-chip>
+                <mat-icon>computer</mat-icon>
+                Application Server
+            <mat-chip>
+        </mat-chip-listbox> -->
+        
         <h2>{{ componentTitle }}</h2>
         Add the following URL to the list of application server connections: <i>{{targetURL}}</i>
     </div>
     <div id="component-body">
         <mat-accordion>
             <br />
-            <mat-expansion-panel>
+            <mat-expansion-panel 
+                [expanded]="integrationsService.panel1Opened" 
+                (opened)="integrationsService.panel1Opened=true"
+                (closed)="integrationsService.panel1Opened=false"
+            >
                 <mat-expansion-panel-header>
                     <mat-panel-title>
+                        <mat-icon>computer</mat-icon>&nbsp;
                         App Server Connections
                     </mat-panel-title>
                     <!-- <mat-panel-description>
@@ -18,9 +48,14 @@
                 <app-connector-configs></app-connector-configs>
             </mat-expansion-panel>
             <br />
-            <mat-expansion-panel>
+            <mat-expansion-panel 
+            [expanded]="integrationsService.panel2Opened" 
+            (opened)="integrationsService.panel2Opened=true"
+            (closed)="integrationsService.panel2Opened=false"
+        >
                 <mat-expansion-panel-header>
                     <mat-panel-title>
+                        <mat-icon>lan</mat-icon>&nbsp;
                         LoRa Network Server Connections
                     </mat-panel-title>
                     <!-- <mat-panel-description>
@@ -30,9 +65,14 @@
                 <app-binder-configs></app-binder-configs>
             </mat-expansion-panel>
             <br />
-            <mat-expansion-panel>
+            <mat-expansion-panel 
+                [expanded]="integrationsService.panel3Opened" 
+                (opened)="integrationsService.panel3Opened=true"
+                (closed)="integrationsService.panel3Opened=false"
+            >
                 <mat-expansion-panel-header>
                     <mat-panel-title>
+                        <mat-icon>vpn_key</mat-icon>&nbsp;
                         API Keys
                     </mat-panel-title>
                     <!-- <mat-panel-description>
