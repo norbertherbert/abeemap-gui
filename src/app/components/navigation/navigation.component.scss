@@ -89,12 +89,12 @@ mat-sidenav
   font-weight: bold;
 }
 
-.active-link-header {
+.toolbar .active-link-header {
   /* text-decoration: overline; */
-  color: LightSalmon;
+  color: #ff96a6;
 }
 .toolbar a.active-link-header:hover {
-  color: DarkSalmon;
+  color: #E35D85;
 }
 
 .title {

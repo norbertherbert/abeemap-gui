@@ -15,7 +15,7 @@ import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 @Component({
   selector: 'app-bluetooth-map',
   templateUrl: './bluetooth-map.component.html',
-  styleUrls: ['./bluetooth-map.component.css']
+  styleUrls: ['./bluetooth-map.component.scss']
 })
 export class BluetoothMapComponent implements OnInit, AfterViewInit, OnDestroy {
 

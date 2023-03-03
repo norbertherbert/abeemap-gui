@@ -8,7 +8,7 @@ import { DxLocationApiService } from '../../services/dx-location-api.service';
 @Component({
   selector: 'app-binder-configs',
   templateUrl: './binder-configs.component.html',
-  styleUrls: ['./binder-configs.component.css']
+  styleUrls: ['./binder-configs.component.scss']
 })
 export class BinderConfigsComponent implements OnInit {
 

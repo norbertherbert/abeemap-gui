@@ -22,7 +22,7 @@ import { Inject, Injector }  from '@angular/core';
 import { DOCUMENT } from '@angular/common'
 
 import { BeaconSettingsPopupComponent } from '../components/beacon-settings-popup/beacon-settings-popup.component';
-import { createInjectableDefinitionMap } from '@angular/compiler/src/render3/partial/injectable';
+// import { createInjectableDefinitionMap } from '@angular/compiler/src/render3/partial/injectable';
 
 // import { MqttClientService } from './mqtt-client.service';
 

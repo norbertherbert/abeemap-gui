@@ -1,17 +1,19 @@
 <div class="form-container">
     <mat-form-field>
+        <mat-label>name:</mat-label>
         <input class="full-width-input"
             [(ngModel)]="params.name" 
             matInput 
             placeholder="name"
             (change)="onChange()"
         >
-    </mat-form-field>
+    </mat-form-field><br/>
     <mat-radio-group aria-label="Select an option" [(ngModel)]="idType" (change)="idTypeChanged()">
         <mat-radio-button value="mac">mac</mat-radio-button>
         <mat-radio-button value="id">id</mat-radio-button>
-    </mat-radio-group>
-    <mat-form-field *ngIf="idType==='mac'">
+    </mat-radio-group><br/>
+    <mat-form-field *ngIf="idType==='mac'" >
+        <mat-label>mac:</mat-label>
         <input class="full-width-input"
             [(ngModel)]="params.mac" 
             matInput 
@@ -19,13 +21,14 @@
             (change)="onChange()"
         >
     </mat-form-field>
-    <mat-form-field *ngIf="idType==='id'">
+    <mat-form-field *ngIf="idType==='id'" >
+        <mat-label>id:</mat-label>
         <input class="full-width-input"
             [(ngModel)]="params.id" 
             matInput 
             placeholder="id"
             (change)="onChange()"
         >
-    </mat-form-field>
+    </mat-form-field><br/>
     <button mat-button (click)="onSave()">Save</button>
 </div>

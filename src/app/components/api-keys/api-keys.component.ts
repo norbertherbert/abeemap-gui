@@ -8,7 +8,7 @@ import { DxLocationApiService } from '../../services/dx-location-api.service';
 @Component({
   selector: 'app-api-keys',
   templateUrl: './api-keys.component.html',
-  styleUrls: ['./api-keys.component.css']
+  styleUrls: ['./api-keys.component.scss']
 })
 export class ApiKeysComponent implements OnInit {
   isLoading = true;

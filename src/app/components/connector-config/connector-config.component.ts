@@ -10,7 +10,7 @@ import { CONFIG } from '../../../environments/environment';
 @Component({
   selector: 'app-connector-config',
   templateUrl: './connector-config.component.html',
-  styleUrls: ['./connector-config.component.css']
+  styleUrls: ['./connector-config.component.scss']
 })
 export class ConnectorConfigComponent implements OnInit {
 

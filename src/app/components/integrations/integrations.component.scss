@@ -13,3 +13,14 @@
     flex: 1 1 auto;
     overflow: auto;
 }
+
+.data-flow {
+    display: flex;
+    align-items: center;
+}
+
+.red {
+    color:red;
+    font-weight: bold;
+    font-style: italic;
+}

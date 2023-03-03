@@ -13,7 +13,7 @@ import { PopupDialogComponent } from '../popup-dialog/popup-dialog.component';
 @Component({
   selector: 'app-api-key',
   templateUrl: './api-key.component.html',
-  styleUrls: ['./api-key.component.css']
+  styleUrls: ['./api-key.component.scss']
 })
 export class ApiKeyComponent implements OnInit {
 

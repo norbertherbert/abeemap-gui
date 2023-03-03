@@ -175,7 +175,7 @@ export class MqttClientService implements OnInit {
   }
 
   reportEvent(event:string) {
-    this.snackBar.open(event, '', {
+    this.snackBar.open(event, 'asdf', {
       panelClass: ['green-snackbar'],
       duration: 3000,
     });

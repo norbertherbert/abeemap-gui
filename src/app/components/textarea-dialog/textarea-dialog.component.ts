@@ -9,7 +9,7 @@ export interface DialogData {
 @Component({
   selector: 'app-textarea-dialog',
   templateUrl: './textarea-dialog.component.html',
-  styleUrls: ['./textarea-dialog.component.css']
+  styleUrls: ['./textarea-dialog.component.scss']
 })
 export class TextareaDialogComponent {
 

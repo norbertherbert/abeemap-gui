@@ -5,7 +5,7 @@ interface PopupParams {leafletId:any, name:string, mac:string, id:string}
 @Component({
   selector: 'app-beacon-settings-popup',
   templateUrl: './beacon-settings-popup.component.html',
-  styleUrls: ['./beacon-settings-popup.component.css']
+  styleUrls: ['./beacon-settings-popup.component.scss']
 })
 export class BeaconSettingsPopupComponent implements OnInit {
 

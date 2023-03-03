@@ -15,8 +15,18 @@
 }
 
 .control-button {
-  margin-left: 4px;
+  //width: 65px !important;
+  min-width: unset !important;
+  height: 30px;
+  margin-left: 5px;
   margin-top: 4px;
+  padding-left: 11px;
+  padding-right: 0px;
+}
+
+.control-button1 {
+  // width: 50px !important;
+  padding-right: 8px;
 }
 
 #map-container {

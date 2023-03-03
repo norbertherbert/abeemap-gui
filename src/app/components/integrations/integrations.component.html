@@ -1,36 +1,37 @@
 <div id="component-container">
     <div id="component-header">
         <mat-icon>integration_instructions</mat-icon>
-        <br>
+        <h2>{{ componentTitle }}</h2>
 
-        <!-- <mat-chip-listbox aria-label="Data flow">
-            <mat-chip>
-                <mat-icon>contactless</mat-icon>
-                Tracker
-            </mat-chip>
-            <mat-icon>swap_horiz</mat-icon>
-            <mat-chip>
+        <p>
+            The dataflow between end-devices and application server is represented by the following diagram:
+        </p>
+
+        <div class="data-flow">
+            <button mat-raised-button>
                 <mat-icon>lan</mat-icon>
-                Network Server
-            </mat-chip>
+                LoRaWAN Network Server
+            </button>
             <mat-icon>swap_horiz</mat-icon>
-            <mat-chip>
+            <button mat-raised-button>
                 <mat-icon>settings</mat-icon>
-                Location Engine
-            </mat-chip>
+                ThingPark Location Solver
+            </button >
             <mat-icon>swap_horiz</mat-icon>
-            <mat-chip>
+            <button mat-raised-button>
                 <mat-icon>computer</mat-icon>
                 Application Server
-            <mat-chip>
-        </mat-chip-listbox> -->
+            </button>
+        </div>
+
+        <br/>
+
         
-        <h2>{{ componentTitle }}</h2>
-        Add the following URL to the list of application server connections: <i>{{targetURL}}</i>
     </div>
     <div id="component-body">
         <mat-accordion>
             <br />
+
             <mat-expansion-panel 
                 [expanded]="integrationsService.panel1Opened" 
                 (opened)="integrationsService.panel1Opened=true"
@@ -38,33 +39,69 @@
             >
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <mat-icon>computer</mat-icon>&nbsp;
-                        App Server Connections
+                        <mat-icon>lan</mat-icon>&nbsp;
+                        <mat-icon>arrow_forward</mat-icon>
+                        <mat-icon>settings</mat-icon>
+                        &nbsp;
+                        LoRaWAN Network Server to Location Solver Connections
                     </mat-panel-title>
-                    <!-- <mat-panel-description>
-                        
-                    </mat-panel-description> -->
                 </mat-expansion-panel-header>
-                <app-connector-configs></app-connector-configs>
+
+                <p>
+                    Please configure your <i>LoRaWAN Network Server</i> so that it publishes uplink messages to the following MQTT topic:
+                    <b><i>{{userId}}/NS_LE/<span class="red">&#123;nsVendor&#125;</span>/<span class="red">&#123;asId&#125;</span></i></b><br/>
+                </p>
+                <p>
+                    Replace <span class="red">&#123;nsVendor&#125;</span> with the name of the vendor of your <i>LoRaWAN Network Server</i> (e.g.: actility, ttn, helium, loriot, senet). 
+                </p>
+                <p>
+                    Replace <span class="red">&#123;asId&#125;</span> with an arbitrary identifier of your <i>Application Server</i> (e.g.: as01, abeemap, etc).<br/>
+                    We recommend that in case you use the AbeeMap application server, you select 'abeemap' as &#123;asId&#125;. 
+                </p>
+
             </mat-expansion-panel>
             <br />
+
             <mat-expansion-panel 
-            [expanded]="integrationsService.panel2Opened" 
-            (opened)="integrationsService.panel2Opened=true"
-            (closed)="integrationsService.panel2Opened=false"
-        >
+                [expanded]="integrationsService.panel2Opened" 
+                (opened)="integrationsService.panel2Opened=true"
+                (closed)="integrationsService.panel2Opened=false"
+            >
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         <mat-icon>lan</mat-icon>&nbsp;
-                        LoRa Network Server Connections
+                        <mat-icon>arrow_backward</mat-icon>
+                        <mat-icon>settings</mat-icon>
+                        &nbsp;
+                        Location solver to LoRaWAN Network Server Connections
                     </mat-panel-title>
-                    <!-- <mat-panel-description>
-                        Downlink messages will be forwarded to the URLs listed below.
-                    </mat-panel-description> -->
                 </mat-expansion-panel-header>
-                <app-binder-configs></app-binder-configs>
+
+                <ol>
+                    <li>
+                        Please configure your <i>LoRaWAN Network Server</i> so that it subscribes to the following MQTT topic for receiving downlink messages:
+                        <b><i>{{userId}}/LE_NS/<span class="red">&#123;nsVendor&#125;</span></i></b><br/>
+                        Replace <span class="red">&#123;nsVendor&#125;</span> with the name of the vendor of your <i>LoRaWAN Network Server</i> (e.g.: actility, ttn, helium, loriot, senet). 
+                    </li>
+                    <li>
+                        In case your <i>LoRaWAN Network Server</i> cannot subscribe to an MQTT topic for receiving downlink messages, you need to apply a workaround:<br/> 
+                        Add the following URL to the list of network server connections below: 
+                        <b><i>https://nano-things.net/tpxle-nit/downlink_to_<span class="red">&#123;nsVendor&#125;</span>/<span class="red">&#123;NIT_API_ID&#125;</span></i></b><br/>
+                        Replace <span class="red">&#123;nsVendor&#125;</span> with the name of the vendor of your <i>LoRaWAN Network Server</i> (e.g.: actility, ttn, helium, loriot, senet). <br/>
+                        Replace <span class="red">&#123;NIT_API_ID&#125;</span> with the <i>NIT API ID</i> you used for configuring the uplink API.<br/>
+                        <app-binder-configs></app-binder-configs>
+                        <br/>
+                        <p>
+                            This workaround uses the <i>Binder Config Module</i> of <i>ThingPark Location Solver</i> to 
+                            forward encoded tracker commands (downlink messages) to your <i>LoRaWAN Network server</i> through a <i>Network Interface Translator</i> (NIT). 
+                        </p>                        
+                    </li>
+                </ol>
+
+
             </mat-expansion-panel>
             <br />
+
             <mat-expansion-panel 
                 [expanded]="integrationsService.panel3Opened" 
                 (opened)="integrationsService.panel3Opened=true"
@@ -72,14 +109,87 @@
             >
                 <mat-expansion-panel-header>
                     <mat-panel-title>
+                        <mat-icon>settings</mat-icon>
+                        <mat-icon>arrow_forward</mat-icon>
+                        <mat-icon>computer</mat-icon>
+                        &nbsp;
+                        Location Solver to App Server Connections
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <ol>
+                    <li>
+                        Please subscribe to the following MQTT topic on your Application Server:
+                        <b><i>{{userId}}/LE_AS/<span class="red">&#123;asId&#125;</span>/#</i></b><br/>
+                        Replace <span class="red">&#123;asId&#125;</span> with an arbitrary identifier of your Application Server (e.g.: as01, abeemap, etc). 
+                        <span class="red">&#123;asId&#125;</span> must be the same as the one you used at the configuration of LoRaWAN Network Server to Location Solver Connections.<br/>
+                        If you only use the <i>AbeeMap</i> application server, you don't need to do anything, since <i>AbeeMap</i> automatically subscribes to the above topic with <i>asId="abeemap"</i>.
+                        <p></p>
+                    </li>
+                    <li>
+                        Since the <i>ThingPark Location Solver</i> cannot publish resolved locations to an MQTT topic yet, we need to apply a temporary workaround:<br/> 
+                        Add the following URL to the list of application server connections below: 
+                        <b><i>{{targetURL}}/<span class="red">&#123;asId&#125;</span></i></b><br/>
+                        If you use AbeeMap as application server, replace <span class="red">&#123;asId&#125;</span> with "abeemap"!<br/>
+                        <app-connector-configs></app-connector-configs>
+                        <br/>
+                        <p>
+                            This workaround uses the <i>Connector Config Module</i> of <i>ThingPark Location Solver</i> to 
+                            forward resolved locations to a HTTP-MQTT bridge so that messages will be published at the 
+                            topic mentioned at point #1.
+                        </p>
+                    </li>
+                </ol> 
+
+
+                <br/><br/>
+
+
+            </mat-expansion-panel>
+            <br />
+
+
+            <mat-expansion-panel 
+                [expanded]="integrationsService.panel4Opened" 
+                (opened)="integrationsService.panel4Opened=true"
+                (closed)="integrationsService.panel4Opened=false"
+            >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>settings</mat-icon>
+                        <mat-icon>arrow_backward</mat-icon>
+                        <mat-icon>computer</mat-icon>
+                        &nbsp;
+                        App Server to Location Solver Connections
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <p>
+                    Please configure your application server so that it publishes downlink messages to the following MQTT topic:
+                    <b><i>{{userId}}/AS_LE</i></b><br/>
+                </p>
+                <p>
+                    If you only use the AbeeMap application server, you don't need to do anything, since AbeeMap automatically publishes downlink messages to the appropriate topic.
+                </p>
+
+            </mat-expansion-panel>
+            <br />
+
+
+            <mat-expansion-panel 
+                [expanded]="integrationsService.panel5Opened" 
+                (opened)="integrationsService.panel5Opened=true"
+                (closed)="integrationsService.panel5Opened=false"
+            >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         <mat-icon>vpn_key</mat-icon>&nbsp;
                         API Keys
                     </mat-panel-title>
-                    <!-- <mat-panel-description>
-                        You cam manage your API Keys here.
-                    </mat-panel-description> -->
                 </mat-expansion-panel-header>
+
                 <app-api-keys></app-api-keys>
+
             </mat-expansion-panel>
 
 

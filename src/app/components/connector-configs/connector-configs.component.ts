@@ -8,7 +8,7 @@ import { DxLocationApiService } from '../../services/dx-location-api.service';
 @Component({
   selector: 'app-connector-configs',
   templateUrl: './connector-configs.component.html',
-  styleUrls: ['./connector-configs.component.css']
+  styleUrls: ['./connector-configs.component.scss']
 })
 export class ConnectorConfigsComponent implements OnInit {
 

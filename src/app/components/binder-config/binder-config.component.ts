@@ -10,7 +10,7 @@ import { CONFIG } from '../../../environments/environment';
 @Component({
   selector: 'app-binder-config',
   templateUrl: './binder-config.component.html',
-  styleUrls: ['./binder-config.component.css']
+  styleUrls: ['./binder-config.component.scss']
 })
 export class BinderConfigComponent implements OnInit {
 
