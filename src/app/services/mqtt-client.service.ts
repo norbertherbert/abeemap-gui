@@ -28,10 +28,10 @@ export class MqttClientService implements OnInit {
   ngOnInit(): void {
 
     this.client = new PahoMQTT.Client(
-      `${CONFIG.MQTT_WEBSICKET_PROTOCOL}://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_PORT}/${CONFIG.MQTT_WEBSOCKET_PATH}`,
+      `${CONFIG.MQTT_WEBSOCKET_PROTOCOL}://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_WSS_PORT}/${CONFIG.MQTT_WEBSOCKET_PATH}`,
       CONFIG.MQTT_CLIENT_ID_PREFIX + Math.floor(Math.random() * 1000000)
     );
-    // this.client = new PahoMQTT.Client(CONFIG.MQTT_BROKER, Number(CONFIG.MQTT_PORT), CONFIG.MQTT_CLIENT_ID);
+    // this.client = new PahoMQTT.Client(CONFIG.MQTT_BROKER, Number(CONFIG.MQTT_WSS_PORT), CONFIG.MQTT_CLIENT_ID);
 
     this.client.onConnectionLost = (responseObject:any) => {
       // this.connected = false;
@@ -159,8 +159,10 @@ export class MqttClientService implements OnInit {
     }
 
     const subscriberId = sessionStorage.getItem('mqttsbs_' + CONFIG.client_id);
+    const mqttTopic = sessionStorage.getItem('mqtttop_' + CONFIG.client_id);
+
     this.client.unsubscribe(
-      `${subscriberId}/${CONFIG.MQTT_TOPIC}`,
+      mqttTopic,
       {
         onSuccess: () => {
           this.subscribed = false;
@@ -175,7 +177,7 @@ export class MqttClientService implements OnInit {
   }
 
   reportEvent(event:string) {
-    this.snackBar.open(event, 'asdf', {
+    this.snackBar.open(event, 'OK', {
       panelClass: ['green-snackbar'],
       duration: 3000,
     });

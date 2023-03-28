@@ -28,7 +28,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.map = L.map('map', {
         fullscreenControl: true,
-        fullscreenControlOptions: { position: 'topleft' }, 
+        fullscreenControlOptions: { position: 'topleft' },
       });
       this.leafletMapService.initMap(this.map);
 

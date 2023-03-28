@@ -37,3 +37,7 @@
   height: 100%;
   z-index: 5;
 }
+
+.leaflet-tile {
+  filter: hue-rotate(45deg) !important;
+}

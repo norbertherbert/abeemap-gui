@@ -12,12 +12,20 @@
   left: 50px;
   top: 7px;
   z-index: 10;
+  margin-right: 70px;
 }
 
 .control-button {
   //width: 65px !important;
   min-width: unset !important;
   height: 30px;
+  margin-left: 5px;
+  margin-top: 4px;
+  padding-left: 9px;
+  padding-right: 0px;
+}
+
+mat-slide-toggle {
   margin-left: 5px;
   margin-top: 4px;
   padding-left: 9px;

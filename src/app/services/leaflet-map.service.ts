@@ -29,18 +29,24 @@ import { BeaconSettingsPopupComponent } from '../components/beacon-settings-popu
 
 
 
-
-
 const DEVICE_NAMES = {
-  '20635f0281000140':	['JY', 'Actility'],
-  '20635f028100014d':	['MH', 'Actility'],
-  '20635f0281000152':	['CY', 'Actility'],
+//   '20635f02410011e8': ["Mike", 'Actility'], // Hartree",
+//   '20635f02410011fc': ["Pia", 'Actility'], // Miranda",
+//   '20635f024100129c': ["Allan", 'Actility'], // Kjeldbjerg",
+//   '20635f0241001454': ["Alper", 'Actility'], // Yegin",
+//   '20635f024100145a': ["Sabrina", 'Actility'], // A.",
+//   '20635f0241001380': ["Amy", 'Actility'], // Garland",
+//   '20635f024100142c': ["Jeff", 'Actility'], // Martin",
+//   '20635f0241000b96': ["Markus", 'Actility'], // Ulsass",
+//   '20635f0241000b9a': ["Michael", 'Actility'], // Vierling",
+//   '20635f0241000b89': ["Violet", 'Actility'], // Su",
+//   '20635f0172000004': ['Alex', 'Actility'], 
+//   '20635f0172000006': ['Thior', 'Actility'],
+//   '20635f0241001429': ['1429', 'Actility'],
 }
 
 
-
-
-
+const DEFAULT_ZOOM_LEVEL = 19;
 
 const ICONS_FOLDER = './assets/';
 
@@ -163,10 +169,10 @@ const baseLayers = {
 
 
 const FLOORPLAN_IMAGE_URL_01 = './assets/actility_floorplan.png';
-const imageCoordinatesX_01 = 2.3335;
+const imageCoordinatesX_01 = 2.33358;
 const imageCoordinatesY_01 = 48.8745900;
 const imageHeight_01 = 0.00029;
-const imageWidth_01 = 0.00057;
+const imageWidth_01 = 0.00055;
 const FLOORPLAN_IMAGE_BOUNDS_01:any = [
   [imageCoordinatesY_01, imageCoordinatesX_01], 
   [imageCoordinatesY_01+imageHeight_01, imageCoordinatesX_01+imageWidth_01]
@@ -220,6 +226,8 @@ const searchControl = GeoSearchControl({
   providedIn: 'root'
 })
 export class LeafletMapService implements OnInit {
+
+  beaconMapInEditMode = false;
 
   beaconsFeatureGroup = L.featureGroup();
   devicesFeatureGroup = L.featureGroup();
@@ -328,18 +336,30 @@ export class LeafletMapService implements OnInit {
   initMap(map:any) {
 
     map.addLayer(TILES_OSM);
+    // map.addLayer(TILES_GOOGLE_SAT);
     map.addLayer(floorplanImages);
     map.addLayer(this.devicesFeatureGroup);
-    // map.addLayer(this.beaconsFeatureGroup);
-    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_02, {padding: [150, 150]});
+    map.addLayer(this.beaconsFeatureGroup);
+    
+    // let bounds = L.latLng(                    [
+    //   26.275137, 49.954776,
+    // ],).toBounds(100);
+    // map.fitBounds(bounds, {padding: [150, 150]});
+
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_01, {padding: [150, 150]});
+
+    map.setZoom(DEFAULT_ZOOM_LEVEL);
+    // map.setView({lat: 0, lng: 0}, DEFAULT_ZOOM_LEVEL);
     
     map.addControl(
       L.control.layers(baseLayers, {
-        'People': this.devicesFeatureGroup,
+        'Trackerd objects': this.devicesFeatureGroup,
         'Beacon map': this.beaconsFeatureGroup,
         ...baseOverlays
       })
     );
+
+    this.beaconMapInEditMode = false;
 
     map.addControl(searchControl);
 
@@ -352,7 +372,9 @@ export class LeafletMapService implements OnInit {
     map.addLayer(floorplanImages);
     // map.addLayer(this.devicesFeatureGroup);
     map.addLayer(this.beaconsFeatureGroup);
-    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_02, {padding: [150, 150]});
+    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_01, {padding: [150, 150]});
+
+    map.setZoom(DEFAULT_ZOOM_LEVEL);
     
     map.addControl(
       L.control.layers(baseLayers, {
@@ -363,6 +385,7 @@ export class LeafletMapService implements OnInit {
     );
 
     this.initGeoman(map);
+    this.beaconMapInEditMode = true;
 
     map.addControl(searchControl);
 
@@ -370,21 +393,43 @@ export class LeafletMapService implements OnInit {
 
   zoomToFloorplan01(map:any) {
     map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_01, {padding: [150, 150]});
+    map.setZoom(DEFAULT_ZOOM_LEVEL);
+
+    map.setView([
+      (FLOORPLAN_IMAGE_BOUNDS_01[0][0] + FLOORPLAN_IMAGE_BOUNDS_01[1][0])/2, 
+      (FLOORPLAN_IMAGE_BOUNDS_01[0][1] + FLOORPLAN_IMAGE_BOUNDS_01[1][1])/2
+    ], DEFAULT_ZOOM_LEVEL);
+
     // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS_01, {padding: [150, 150]});
   }
 
   zoomToFloorplan02(map:any) {
-    map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_02, {padding: [150, 150]});
+    // map.fitBounds(FLOORPLAN_IMAGE_BOUNDS_02, {padding: [150, 150]});
+    // map.setZoom(DEFAULT_ZOOM_LEVEL);
+
+    map.setView([
+      (FLOORPLAN_IMAGE_BOUNDS_02[0][0] + FLOORPLAN_IMAGE_BOUNDS_02[1][0])/2, 
+      (FLOORPLAN_IMAGE_BOUNDS_02[0][1] + FLOORPLAN_IMAGE_BOUNDS_02[1][1])/2
+    ], DEFAULT_ZOOM_LEVEL);
+
     // map.flyToBounds(FLOORPLAN_IMAGE_BOUNDS_02, {padding: [150, 150]});
   }
   
   zoomToBeacons(map:any) {
-    map.fitBounds(this.beaconsFeatureGroup.getBounds(), {padding: [150, 150]});
+    // map.fitBounds(this.beaconsFeatureGroup.getBounds(), {padding: [150, 150]});
+    // map.setZoom(DEFAULT_ZOOM_LEVEL);
+
+    map.setView(this.beaconsFeatureGroup.getBounds().getCenter(), DEFAULT_ZOOM_LEVEL);
+
     // map.flyToBounds(this.beaconsFeatureGroup.getBounds()) // , {padding: [50, 50]});
   }
 
   zoomToDevices(map:any) {
-    map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
+    // map.fitBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
+    // map.setZoom(DEFAULT_ZOOM_LEVEL);
+
+    map.setView(this.devicesFeatureGroup.getBounds().getCenter(), DEFAULT_ZOOM_LEVEL);
+
     // map.flyToBounds(this.devicesFeatureGroup.getBounds(), {padding: [150, 150]});
   }
 
@@ -423,6 +468,7 @@ export class LeafletMapService implements OnInit {
 
   createPopupFunction(leafletId:any, name:any, mac:any, id:any) {
     return (layer:any) => {
+      if (!this.beaconMapInEditMode) return;
       const popupEl: NgElement & WithProperties<BeaconSettingsPopupComponent> = document.createElement('app-beacon-settings-popup') as any;
       popupEl.params = { leafletId, name, mac, id };
       // Listen to the close event
@@ -659,7 +705,5 @@ export class LeafletMapService implements OnInit {
     });
 
   }
-
-
 
 }

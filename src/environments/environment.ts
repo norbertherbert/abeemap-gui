@@ -14,6 +14,9 @@ export const CONFIG:any = {
   client_id: 'abeemap',
   scope: 'sso_user abeemap_user',
 
+  realm: 'rnd',
+  // realm: 'dev1',
+
   // DXAPI_URL: 'http://localhost:8080',
   // DXAPI_URL: 'https://nano-things.net/abeemap_api',
   DXAPI_URL: 'https://nano-things.net/abeemap_api_preview',
@@ -26,11 +29,13 @@ export const CONFIG:any = {
 
   // MQTT_BROKER: 'nano-things.net',
   MQTT_BROKER: 'mqtt.preview.thingpark.com',
-	MQTT_WEBSICKET_PROTOCOL: "wss",
+	MQTT_WEBSOCKET_PROTOCOL: "wss",
   MQTT_WEBSOCKET_PATH: 'mqtt',
-  MQTT_PORT: '880', // for wss
+  MQTT_WSS_PORT: '880', // for wss
+  MQTT_SSL_PORT: '8883',
   MQTT_CLIENT_ID_PREFIX: 'abeemap-gui_',
-  MQTT_TOPIC: "LE/dev1/AS/#", // Platform specific
+
+  DX_LOCATION_API: "https://dx-api.preview.thingpark.com/location/latest/api",
 
 };
 

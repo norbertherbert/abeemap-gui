@@ -5,14 +5,14 @@
     <h2 *ngIf="!formTypeIsCreate">Edit Binder Config</h2>
     <h2 *ngIf="formTypeIsCreate">Create Binder Config</h2>
 
-    <button mat-icon-button color="primary" (click)="goBack()">
-      <mat-icon matTooltip="Go back">arrow_back</mat-icon>
+    <button mat-icon-button color="primary" (click)="goBack()" matTooltip="Go back">
+      <mat-icon>arrow_back</mat-icon>
     </button>
-    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()">
-      <mat-icon matTooltip="Create Binder Config">check</mat-icon>
+    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()" matTooltip="Create Binder Config">
+      <mat-icon>check</mat-icon>
     </button>
-    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="save()">
-      <mat-icon matTooltip="Save Binder Config">save</mat-icon>
+    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="save()" matTooltip="Save Binder Config">
+      <mat-icon>save</mat-icon>
     </button>
 
   </div>
@@ -43,14 +43,14 @@
   </div>
 
   <div id="component-footer">
-    <button mat-icon-button color="primary" (click)="goBack()">
-      <mat-icon matTooltip="Go back">arrow_back</mat-icon>
+    <button mat-icon-button color="primary" (click)="goBack()" matTooltip="Go back">
+      <mat-icon>arrow_back</mat-icon>
     </button>
-    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()">
-      <mat-icon matTooltip="Create Binder Config">check</mat-icon>
+    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()" matTooltip="Create Binder Config">
+      <mat-icon>check</mat-icon>
     </button>
-    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="save()">
-      <mat-icon matTooltip="Save Binder Config">save</mat-icon>
+    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="save()" matTooltip="Save Binder Config">
+      <mat-icon>save</mat-icon>
     </button>
   </div>
 

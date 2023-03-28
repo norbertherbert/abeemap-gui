@@ -5,15 +5,15 @@
     <h2 *ngIf="formTypeIsCreate">Create API Key</h2>
     <h2 *ngIf="!formTypeIsCreate">Reset API Key</h2>
 
-    <button mat-icon-button color="primary" (click)="goBack()">
-      <mat-icon matTooltip="Go back">arrow_back</mat-icon>
+    <button mat-icon-button color="primary" (click)="goBack()" matTooltip="Go back">
+      <mat-icon>arrow_back</mat-icon>
     </button>
-    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()">
-      <mat-icon matTooltip="Create API Key">check</mat-icon>
+    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()" matTooltip="Create API Key">
+      <mat-icon>check</mat-icon>
     </button>
     &nbsp;&nbsp;
-    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="reset()">
-      <mat-icon matTooltip="Reset API Key">redo</mat-icon>
+    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="reset()" matTooltip="Reset API Key">
+      <mat-icon>redo</mat-icon>
     </button>
 
   </div>
@@ -44,15 +44,15 @@
   </div>
 
   <div id="component-footer">
-    <button mat-icon-button color="primary" (click)="goBack()">
-      <mat-icon matTooltip="Go back">arrow_back</mat-icon>
+    <button mat-icon-button color="primary" (click)="goBack()" matTooltip="Go back">
+      <mat-icon>arrow_back</mat-icon>
     </button>
-    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()">
-      <mat-icon matTooltip="Create API Key">check</mat-icon>
+    <button *ngIf="formTypeIsCreate" mat-icon-button color="primary" (click)="create()" matTooltip="Create API Key">
+      <mat-icon>check</mat-icon>
     </button>
     &nbsp;&nbsp;
-    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="reset()">
-      <mat-icon matTooltip="Reset API Key">redo</mat-icon>
+    <button *ngIf="!formTypeIsCreate" mat-icon-button color="primary" (click)="reset()" matTooltip="Reset API Key">
+      <mat-icon>redo</mat-icon>
     </button>
   </div>
 

@@ -41,9 +41,11 @@
     </div>
 
     <div class="menu-items-right">
-      <a mat-button (click)="mqttToggle()"> 
-        <mat-icon *ngIf="mqttConnected" matTooltip="MQTT Client: CONNECTED. Click to disconnect!">link</mat-icon>  
-        <mat-icon *ngIf="!mqttConnected" matTooltip="MQTT Client: DISCONNECTED. Click to connect!">link_off</mat-icon>  
+      <a mat-button (click)="mqttToggle()" *ngIf="mqttConnected" matTooltip="MQTT Client: CONNECTED. Click to disconnect!">
+        <mat-icon>link</mat-icon>
+      </a>
+      <a mat-button (click)="mqttToggle()" *ngIf="!mqttConnected" matTooltip="MQTT Client: DISCONNECTED. Click to connect!">
+        <mat-icon>link_off</mat-icon>  
       </a>
       <a *ngIf="!userId" mat-button (click)="login()">
           login

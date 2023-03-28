@@ -27,19 +27,22 @@
                     </mat-error>
                 </mat-form-field> -->
                 <mat-form-field class="full-width-input">
+                    <mat-label>User name</mat-label>
                     <input matInput autocomplete="username" placeholder="User name" formControlName="userName" required>
                     <mat-error *ngIf="isFieldInvalid('userName')">
                         Please inform your User name
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="full-width-input">
+                    <mat-label>Password</mat-label>
                     <input matInput autocomplete="current-password" name="password" type="password" placeholder="Password" formControlName="password" required>
                     <mat-error *ngIf="isFieldInvalid('password')">
                         Please inform your Password
                     </mat-error>
                 </mat-form-field>
-                <mat-form-field class="full-width-input">
-                    <input matInput id="api-key" type="text" autocomplete="new-password" placeholder="MQTT API Key" formControlName="mqttAPIKey">
+                <mat-form-field floatLabel="always" class="full-width-input">
+                    <mat-label>MQTT API Key</mat-label>
+                    <input matInput id="api-key" type="text" autocomplete="new-password" formControlName="mqttAPIKey">
                     <button *ngIf="form.get('mqttAPIKey')?.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearMQTTAPIKey()">
                         <mat-icon>close</mat-icon>
                     </button>

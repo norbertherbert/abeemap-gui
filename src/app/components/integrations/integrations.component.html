@@ -1,7 +1,8 @@
 <div id="component-container">
     <div id="component-header">
-        <mat-icon>integration_instructions</mat-icon>
         <h2>{{ componentTitle }}</h2>
+    </div>
+    <div id="component-body">
 
         <p>
             The dataflow between end-devices and application server is represented by the following diagram:
@@ -26,127 +27,8 @@
 
         <br/>
 
-        
-    </div>
-    <div id="component-body">
         <mat-accordion>
-            <br />
 
-            <mat-expansion-panel 
-                [expanded]="integrationsService.panel1Opened" 
-                (opened)="integrationsService.panel1Opened=true"
-                (closed)="integrationsService.panel1Opened=false"
-            >
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <mat-icon>lan</mat-icon>&nbsp;
-                        <mat-icon>arrow_forward</mat-icon>
-                        <mat-icon>settings</mat-icon>
-                        &nbsp;
-                        LoRaWAN Network Server to Location Solver Connections
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-
-                <p>
-                    Please configure your <i>LoRaWAN Network Server</i> so that it publishes uplink messages to the following MQTT topic:
-                    <b><i>{{userId}}/NS_LE/<span class="red">&#123;nsVendor&#125;</span>/<span class="red">&#123;asId&#125;</span></i></b><br/>
-                </p>
-                <p>
-                    Replace <span class="red">&#123;nsVendor&#125;</span> with the name of the vendor of your <i>LoRaWAN Network Server</i> (e.g.: actility, ttn, helium, loriot, senet). 
-                </p>
-                <p>
-                    Replace <span class="red">&#123;asId&#125;</span> with an arbitrary identifier of your <i>Application Server</i> (e.g.: as01, abeemap, etc).<br/>
-                    We recommend that in case you use the AbeeMap application server, you select 'abeemap' as &#123;asId&#125;. 
-                </p>
-
-            </mat-expansion-panel>
-            <br />
-
-            <mat-expansion-panel 
-                [expanded]="integrationsService.panel2Opened" 
-                (opened)="integrationsService.panel2Opened=true"
-                (closed)="integrationsService.panel2Opened=false"
-            >
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <mat-icon>lan</mat-icon>&nbsp;
-                        <mat-icon>arrow_backward</mat-icon>
-                        <mat-icon>settings</mat-icon>
-                        &nbsp;
-                        Location solver to LoRaWAN Network Server Connections
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-
-                <ol>
-                    <li>
-                        Please configure your <i>LoRaWAN Network Server</i> so that it subscribes to the following MQTT topic for receiving downlink messages:
-                        <b><i>{{userId}}/LE_NS/<span class="red">&#123;nsVendor&#125;</span></i></b><br/>
-                        Replace <span class="red">&#123;nsVendor&#125;</span> with the name of the vendor of your <i>LoRaWAN Network Server</i> (e.g.: actility, ttn, helium, loriot, senet). 
-                    </li>
-                    <li>
-                        In case your <i>LoRaWAN Network Server</i> cannot subscribe to an MQTT topic for receiving downlink messages, you need to apply a workaround:<br/> 
-                        Add the following URL to the list of network server connections below: 
-                        <b><i>https://nano-things.net/tpxle-nit/downlink_to_<span class="red">&#123;nsVendor&#125;</span>/<span class="red">&#123;NIT_API_ID&#125;</span></i></b><br/>
-                        Replace <span class="red">&#123;nsVendor&#125;</span> with the name of the vendor of your <i>LoRaWAN Network Server</i> (e.g.: actility, ttn, helium, loriot, senet). <br/>
-                        Replace <span class="red">&#123;NIT_API_ID&#125;</span> with the <i>NIT API ID</i> you used for configuring the uplink API.<br/>
-                        <app-binder-configs></app-binder-configs>
-                        <br/>
-                        <p>
-                            This workaround uses the <i>Binder Config Module</i> of <i>ThingPark Location Solver</i> to 
-                            forward encoded tracker commands (downlink messages) to your <i>LoRaWAN Network server</i> through a <i>Network Interface Translator</i> (NIT). 
-                        </p>                        
-                    </li>
-                </ol>
-
-
-            </mat-expansion-panel>
-            <br />
-
-            <mat-expansion-panel 
-                [expanded]="integrationsService.panel3Opened" 
-                (opened)="integrationsService.panel3Opened=true"
-                (closed)="integrationsService.panel3Opened=false"
-            >
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <mat-icon>settings</mat-icon>
-                        <mat-icon>arrow_forward</mat-icon>
-                        <mat-icon>computer</mat-icon>
-                        &nbsp;
-                        Location Solver to App Server Connections
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-
-                <ol>
-                    <li>
-                        Please subscribe to the following MQTT topic on your Application Server:
-                        <b><i>{{userId}}/LE_AS/<span class="red">&#123;asId&#125;</span>/#</i></b><br/>
-                        Replace <span class="red">&#123;asId&#125;</span> with an arbitrary identifier of your Application Server (e.g.: as01, abeemap, etc). 
-                        <span class="red">&#123;asId&#125;</span> must be the same as the one you used at the configuration of LoRaWAN Network Server to Location Solver Connections.<br/>
-                        If you only use the <i>AbeeMap</i> application server, you don't need to do anything, since <i>AbeeMap</i> automatically subscribes to the above topic with <i>asId="abeemap"</i>.
-                        <p></p>
-                    </li>
-                    <li>
-                        Since the <i>ThingPark Location Solver</i> cannot publish resolved locations to an MQTT topic yet, we need to apply a temporary workaround:<br/> 
-                        Add the following URL to the list of application server connections below: 
-                        <b><i>{{targetURL}}/<span class="red">&#123;asId&#125;</span></i></b><br/>
-                        If you use AbeeMap as application server, replace <span class="red">&#123;asId&#125;</span> with "abeemap"!<br/>
-                        <app-connector-configs></app-connector-configs>
-                        <br/>
-                        <p>
-                            This workaround uses the <i>Connector Config Module</i> of <i>ThingPark Location Solver</i> to 
-                            forward resolved locations to a HTTP-MQTT bridge so that messages will be published at the 
-                            topic mentioned at point #1.
-                        </p>
-                    </li>
-                </ol> 
-
-
-                <br/><br/>
-
-
-            </mat-expansion-panel>
-            <br />
 
 
             <mat-expansion-panel 
@@ -154,46 +36,339 @@
                 (opened)="integrationsService.panel4Opened=true"
                 (closed)="integrationsService.panel4Opened=false"
             >
+
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <mat-icon>settings</mat-icon>
-                        <mat-icon>arrow_backward</mat-icon>
-                        <mat-icon>computer</mat-icon>
-                        &nbsp;
-                        App Server to Location Solver Connections
+                        <mat-icon>info</mat-icon>&nbsp;
+                        Setup wizard
                     </mat-panel-title>
                 </mat-expansion-panel-header>
 
-                <p>
-                    Please configure your application server so that it publishes downlink messages to the following MQTT topic:
-                    <b><i>{{userId}}/AS_LE</i></b><br/>
-                </p>
-                <p>
-                    If you only use the AbeeMap application server, you don't need to do anything, since AbeeMap automatically publishes downlink messages to the appropriate topic.
-                </p>
+                <mat-stepper orientation="vertical" linear="true" #stepper>
+                    <mat-step [stepControl]="firstFormGroup">
+                    <form [formGroup]="firstFormGroup">
+                        <ng-template matStepLabel>Fill in the form with your configuration parameters</ng-template>
 
-            </mat-expansion-panel>
+                        <br/>
+                        
+                        <mat-card>
+
+                            <mat-card-header>
+                                <mat-card-title>Network Sever Parameters</mat-card-title>
+                                <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+                            </mat-card-header>
+
+                            <mat-card-content>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Network Server</mat-label>
+                                    <mat-select formControlName="nsVendorCtrl" required>
+                                        <mat-option *ngFor="let nsVendor of nsVendors" [value]="nsVendor.id">
+                                        {{nsVendor.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                &nbsp;
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>NS Integration type</mat-label>
+                                    <mat-select formControlName="nsIntegrationTypeCtrl" required>
+                                        <mat-option value="mqtt">MQTT</mat-option>
+                                        <mat-option value="http">HTTP</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <br/>
+                                <mat-form-field 
+                                    *ngIf="firstFormGroup.value.nsIntegrationTypeCtrl == 'http' && ['chirpstack', 'everynet', 'senet', 'loriot'].includes(firstFormGroup.value.nsVendorCtrl || '')" 
+                                    appearance="fill"
+                                    [style.width.px]=435
+                                >
+                                    <mat-label>Downlink API URL</mat-label>
+                                    <input matInput placeholder="DOWNLINK_API_URL" formControlName="downlinkApiUrlCtrl" required>
+                                </mat-form-field>
+
+                                <br/>
+                                <mat-form-field 
+                                    *ngIf="firstFormGroup.value.nsIntegrationTypeCtrl == 'http' && ['chirpstack', 'everynet', 'senet'].includes(firstFormGroup.value.nsVendorCtrl || '')" 
+                                    appearance="fill"
+                                    [style.width.px]=435
+                                >
+                                    <mat-label>Downlink API Key</mat-label>
+                                    <input matInput placeholder="DOWNLINK_API_KEY" formControlName="downlinkApiKeyCtrl" required>
+                                </mat-form-field>
+
+                            </mat-card-content>
+
+                        </mat-card>
+
+                        <br/>
+
+                        <mat-card>
+
+                            <mat-card-header>
+                                <mat-card-title>Application Sever Parameters</mat-card-title>
+                                <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+                            </mat-card-header>
+
+                            <mat-card-content>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>App Server</mat-label>
+                                    <mat-select formControlName="asCtrl" required (selectionChange)="onASChange()">
+                                        <mat-option value="adm">Abeeway Device Manager</mat-option>
+                                        <mat-option value="abeemap">Abeemap</mat-option>
+                                        <mat-option value="other">Other</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                &nbsp;
+
+                                <mat-form-field appearance="fill" *ngIf="firstFormGroup.value.asCtrl==='other' ">
+                                    <mat-label>AS Integration type</mat-label>
+                                    <mat-select formControlName="asIntegrationTypeCtrl" required>
+                                        <mat-option value="mqtt" disabled>MQTT</mat-option>
+                                        <mat-option value="http">HTTP</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                &nbsp;
+
+                                <mat-form-field appearance="fill" *ngIf="firstFormGroup.value.asCtrl==='other' ">
+                                    <mat-label>App Server ID</mat-label>
+                                    <input matInput placeholder="asId" formControlName="asIdCtrl" required>
+                                </mat-form-field>
+
+                                <br/>
+
+                                <mat-form-field 
+                                    *ngIf="firstFormGroup.value.asCtrl==='other' && firstFormGroup.value.asIntegrationTypeCtrl == 'http' " 
+                                    appearance="fill"  
+                                    [style.width.px]=435
+                                >
+                                    <mat-label>App Server URL</mat-label>
+                                    <input matInput placeholder="asUrl" formControlName="asUrlCtrl" required>
+                                </mat-form-field>
+
+                            </mat-card-content>
+
+                        </mat-card>
+                        <br/>
+
+                        <div>
+                        <button mat-button matStepperNext>Next</button>
+                        </div>
+
+                    </form>
+                    </mat-step>
+
+                    <mat-step>
+
+                        <ng-template matStepLabel>Configure your architecture components</ng-template>
+
+                        <br/>
+
+                        <div *ngIf="firstFormGroup.value.nsIntegrationTypeCtrl == 'mqtt' || (firstFormGroup.value.asCtrl == 'other' && firstFormGroup.value.asIntegrationTypeCtrl == 'mqtt')">
+                            Use the <i>Key Management Module</i> of <i>ThingPark Location Solver</i> to create an <i>MQTT API key</i>. 
+                            <ul>
+                                <li>
+                                    Record your key and use it later as a <i>password</i> for connecting to one of the following <i>MQTT Broker</i> URLs:<br/>
+                                    &nbsp;&nbsp;<b><i>{{mqttBrokerSSL}}</i></b> <br/>
+                                    &nbsp;&nbsp;<b><i>{{mqttBrokerWSS}}</i></b> <br/>
+                                </li>
+                                <li>
+                                    The MQTT User Name is not relevant. You can set it as an empty string or as any arbitrary string. <br/> 
+                                </li>
+                            </ul>
+                            <br/>
+                        </div>
+
+                        Configure your <i>Network Server</i> so that 
+                        <ul *ngIf="firstFormGroup.value.nsIntegrationTypeCtrl == 'mqtt'">
+                            <li>
+                                it publishes uplink messages to the following MQTT topic:
+                                <b><i>{{userId}}/NS_LE/{{firstFormGroup.value.nsVendorCtrl}}/{{firstFormGroup.value.asIdCtrl}}</i></b><br/>
+                            </li>
+                            <li>
+                                it subscribes to the following MQTT topic for receiving downlink messages:
+                                <b><i>{{userId}}/LE_NS/{{firstFormGroup.value.nsVendorCtrl}}</i></b><br/>
+                            </li>
+                        </ul>
+
+
+                        <div *ngIf="firstFormGroup.value.nsIntegrationTypeCtrl == 'http'">
+
+                            <ul>
+                                <li>
+                                    it forwards uplink messages to the following URL with HTTP headers listed below: <br/>
+                                    &nbsp;&nbsp;<b><i>https://nano-things.net/tpxle-nit/uplink_from_{{firstFormGroup.value.nsVendorCtrl}}/{{firstFormGroup.value.asIdCtrl}}</i></b> <br/>
+                                    Headers: <br/>
+                                    <span *ngIf="firstFormGroup.value.nsVendorCtrl !== 'loriot'">
+                                        &nbsp;&nbsp; x-client-id:       {{authService.userId}} <br/>
+                                        &nbsp;&nbsp; x-client-secret:   YOUR_PASSWORD <br/>
+                                        &nbsp;&nbsp; x-realm:           {{realm}} <br/>
+                                    </span>
+                                    <span *ngIf="['chirpstack', 'everynet', 'senet'].includes(firstFormGroup.value.nsVendorCtrl || '')">
+                                        &nbsp;&nbsp; x-downlink-api:    {{firstFormGroup.value.downlinkApiUrlCtrl}} <br/>
+                                        &nbsp;&nbsp; x-downlink-apikey: {{firstFormGroup.value.downlinkApiKeyCtrl}} <br/>
+                                    </span>
+                                    <span *ngIf="firstFormGroup.value.nsVendorCtrl === 'loriot'">
+                                        &nbsp;&nbsp; Authorization: {{authService.userId}}|YOUR_PASSWORD|{{realm}}|{{firstFormGroup.value.downlinkApiUrlCtrl}} <br/>
+                                    </span>
+                                </li>
+                            </ul>
+
+                            <div *ngIf="firstFormGroup.value.nsVendorCtrl !== 'proximus'">
+                                Configure the <i>Binder Module</i> of <i>ThingPark Location Solver</i> so that
+                                <ul> 
+                                    <li>
+                                        it forwards downlink messages to the following URL: <br/>
+                                        &nbsp;&nbsp;<b><i>https://nano-things.net/tpxle-nit/downlink_to_{{firstFormGroup.value.nsVendorCtrl}}/{{firstFormGroup.value.asIdCtrl}} </i></b><br/>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div *ngIf="firstFormGroup.value.nsVendorCtrl === 'proximus'">
+                                Sending downlink messages through the <i>Binder Module</i> of <i>ThingPark Location Solver</i> is not supported for Proximus yet for Proximus. <br/><br/>
+                            </div>
+
+                        </div>
+
+
+                        <div *ngIf="firstFormGroup.value.asCtrl === 'other' && firstFormGroup.value.asIntegrationTypeCtrl == 'mqtt' ">
+                            Configure your <i>Application</i> server so that
+                            <ul>
+                                <li>
+                                    it subscribes to the following MQTT topic for receiving uplink messages:
+                                    <b><i>{{userId}}/LE_AS/{{firstFormGroup.value.asIdCtrl}}/#</i></b><br/>
+                                </li>
+                                <li>
+                                    it publishes downlink messages to the following MQTT topic:
+                                    <b><i>{{userId}}/AS_LE</i></b><br/>
+                                </li>
+                            </ul>
+                        </div>
+                        <div *ngIf="firstFormGroup.value.asCtrl === 'other' && firstFormGroup.value.asIntegrationTypeCtrl === 'http' ">
+                            Configure the <i>Connector Config Module</i> of <i>ThingPark Location Solver</i> so that
+                            <ul>
+                                <li>
+                                    it forwards uplink messages to the following URL: <br/>
+                                    &nbsp;&nbsp;<b><i>{{firstFormGroup.value.asUrlCtrl}}</i></b><br/>
+                                </li>
+                            </ul>
+                            Configure your <i>Application Server</i> so that
+                            <ul>
+                                <li>
+                                    it forwards downlink messages (tracker commands) to the following URL: <br/>
+                                    &nbsp;&nbsp;<b><i>{{trackerCommandsAPI}}</i></b><br/>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <div *ngIf="firstFormGroup.value.asCtrl === 'abeemap'">
+                            Configure the <i>Connector Config Module</i> of <i>ThingPark Location Solver</i> so that
+                            <ul>
+                                <li>
+                                    it forwards resolved locations to the following URL: <b><i>{{targetURL}}/{{firstFormGroup.value.asIdCtrl}}</i></b><br/>
+                                    <!-- <app-connector-configs></app-connector-configs>
+                                    <br/> -->
+                                    <p><i>
+                                        (This temporary workaround forwards resolved locations to a HTTP-MQTT bridge that publishes those messages at the appropriate MQTT topic. 
+                                        The workaround is needed until ThingPark Location Solver will support publishing resolved locations to MQTT topics.)
+                                    </i></p>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <!-- <button mat-button matStepperNext>Next</button> -->
+                        <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+                        </div>
+
+                    </mat-step>
+
+                </mat-stepper>
+            </mat-expansion-panel>  
+
             <br />
 
 
-            <mat-expansion-panel 
-                [expanded]="integrationsService.panel5Opened" 
-                (opened)="integrationsService.panel5Opened=true"
-                (closed)="integrationsService.panel5Opened=false"
-            >
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <mat-icon>vpn_key</mat-icon>&nbsp;
-                        API Keys
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
 
-                <app-api-keys></app-api-keys>
+            <mat-card class="tpxle-card">
+                
+                <mat-card-subtitle><b>ThingPark Location Solver</b></mat-card-subtitle>
 
-            </mat-expansion-panel>
+                <mat-card-content>
 
+                    <mat-expansion-panel 
+                        [expanded]="integrationsService.panel1Opened" 
+                        (opened)="integrationsService.panel1Opened=true"
+                        (closed)="integrationsService.panel1Opened=false"
+                    >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>vpn_key</mat-icon>&nbsp;
+                                Key Management Module
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
 
+                        <!-- <app-api-keys></app-api-keys> -->
+
+                    </mat-expansion-panel>
+                    <br />
+
+                    <mat-expansion-panel 
+                        [expanded]="integrationsService.panel2Opened" 
+                        (opened)="integrationsService.panel2Opened=true"
+                        (closed)="integrationsService.panel2Opened=false"
+                    >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>settings</mat-icon>
+                                <mat-icon>arrow_forward</mat-icon>
+                                <mat-icon>lan</mat-icon>
+                                &nbsp;
+                                Binder Module
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        Binder Config Module
+                        <!-- <app-binder-configs></app-binder-configs> -->
+
+                    </mat-expansion-panel>
+                    <br />
+
+                    <mat-expansion-panel 
+                        [expanded]="integrationsService.panel3Opened" 
+                        (opened)="integrationsService.panel3Opened=true"
+                        (closed)="integrationsService.panel3Opened=false"
+                    >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>settings</mat-icon>
+                                <mat-icon>arrow_forward</mat-icon>
+                                <mat-icon>computer</mat-icon>
+                                &nbsp;
+                                Connector Config Module
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        Connector Config Module<br/>
+
+                        <!-- <app-connector-configs></app-connector-configs> -->
+
+                    </mat-expansion-panel>
+                    
+
+                </mat-card-content>
+            </mat-card>
+    
         </mat-accordion>
+
+
 
     </div>
 

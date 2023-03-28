@@ -6,18 +6,34 @@
         </mat-form-field>
     </div>
     <div mat-dialog-actions>
-        <button mat-button (click)="onClear()" matTooltip="Clear content">
-            <mat-icon>check_box_outline_blank</mat-icon>
+
+        <button mat-button (click)="fileInput.click()" matTooltip="Open local file">
+            <mat-icon>file_open</mat-icon>
         </button>
+        <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".json, .geojson, .txt, .text">
+
+        <button mat-button (click)="onSave()" matTooltip="Save to local file">
+            <mat-icon>save</mat-icon>
+        </button>
+
+        <button mat-button (click)="onClear()" matTooltip="Clear content">
+            <!-- <mat-icon>check_box_outline_blank</mat-icon> -->
+            <mat-icon>playlist_remove</mat-icon>
+        </button>
+
         <button mat-button [cdkCopyToClipboard]="data.inputText" matTooltip="Copy to clipboard">
             <mat-icon>content_copy</mat-icon>
         </button>
 
-        <button mat-button [mat-dialog-close]="data.inputText" cdkFocusInitial matTooltip="Apply on Local Map">
+
+
+
+        <button mat-button [mat-dialog-close]="data.inputText" cdkFocusInitial matTooltip="Apply changes on Local Map">
             <mat-icon>done</mat-icon>
         </button>
         <button mat-button (click)="onCancel()" matTooltip="Cancel">
             <mat-icon>close</mat-icon>
         </button>
     </div>
+     
 </div>

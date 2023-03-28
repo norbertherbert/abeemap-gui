@@ -30,6 +30,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { MatStepperModule } from '@angular/material/stepper';
+
+
 const modules = [
     // CommonModule,
 
@@ -61,6 +64,8 @@ const modules = [
     MatExpansionModule,
 
     MatTooltipModule,
+
+    MatStepperModule,
 
 ];
 
