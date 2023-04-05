@@ -72,7 +72,7 @@ export class ApiKeyComponent implements OnInit {
         const dialogRef = this.dialog.open(PopupDialogComponent, {
           data: {
             title: 'API Key Created',
-            message: `"${data.apiKey}"`,
+            message: data.apiKey,
             message2: `Please record this API Key so that you can use it later to authenticate your applications. This key won't be shown again throu this graphical user interface.`
           }
         });
@@ -95,7 +95,7 @@ export class ApiKeyComponent implements OnInit {
           const dialogRef = this.dialog.open(PopupDialogComponent, {
             data: {
               title: 'API Key Reset',
-              message: `"${data.apiKey}"`,
+              message: data.apiKey,
               message2: `Please record this API Key so that you can use it later to authenticate your applications. This key won't be shown again throu this graphical user interface.`
             }
           });

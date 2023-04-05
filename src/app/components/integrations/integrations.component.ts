@@ -16,9 +16,16 @@ import { IntegrationsService } from '../../services/integrations.service';
 })
 export class IntegrationsComponent implements OnInit {
 
+  userId:string|null = ''; 
+  targetURL = '';
+  trackerCommandsAPI = `${CONFIG.DX_LOCATION_API}/trackerCommands`;
+  mqttBrokerWSS = `wss://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_WSS_PORT}/${CONFIG.MQTT_WEBSOCKET_PATH}`;
+  mqttBrokerSSL = `mqtts://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_SSL_PORT}`;
+  componentTitle = 'Integrations';
 
   // wizard
   firstFormGroup = this._formBuilder.group({
+    lePlatformCtrl: [CONFIG.realm, Validators.required],
     nsVendorCtrl: ['actility', Validators.required],
     nsIntegrationTypeCtrl: ['mqtt', Validators.required],
     asCtrl: ['abeemap', Validators.required],
@@ -36,21 +43,12 @@ export class IntegrationsComponent implements OnInit {
     { name: "Chirpstack", id: "chirpstack"},
     { name: "Everynet", id: "everynet"},
     { name: "Helium", id: "helium"},
+    { name: "Kerlink", id: "kerlink"},
     { name: "Loriot", id: "loriot"},
     { name: "Proximus", id: "proximus"},
     { name: "Senet", id: "senet"},
     { name: "TTN", id: "ttn"},
   ]
-
-
-
-  userId:string|null = ''; 
-  targetURL = '';
-  trackerCommandsAPI = `${CONFIG.DX_LOCATION_API}/trackerCommands`;
-  mqttBrokerWSS = `wss://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_WSS_PORT}/${CONFIG.MQTT_WEBSOCKET_PATH}`;
-  mqttBrokerSSL = `mqtts://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_SSL_PORT}`;
-  realm = CONFIG.realm;
-  componentTitle = 'Integrations';
 
   constructor(
     
@@ -84,7 +82,16 @@ export class IntegrationsComponent implements OnInit {
         asIdCtrl.setValue('abeemap');
         break;
       default:
-        asIdCtrl.setValue('AS01');
+        asIdCtrl.setValue('as01');
+    }
+  }
+
+  onPlatformChange() {
+    let nsIntegrationTypeCtrl = this.firstFormGroup.get('nsIntegrationTypeCtrl');
+    if (!nsIntegrationTypeCtrl) return;
+
+    if ((this.firstFormGroup.value.lePlatformCtrl !== 'rnd') && (this.firstFormGroup.value.nsIntegrationTypeCtrl === 'mqtt')) {
+      nsIntegrationTypeCtrl.setValue('http');
     }
   }
 
