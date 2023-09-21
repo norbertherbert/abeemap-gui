@@ -14,73 +14,73 @@ import { BluetoothMapComponent } from './components/bluetooth-map/bluetooth-map.
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/login/login.component';
 
-import { AuthGuard } from './auth/auth.guard';
+import { canActivate } from './auth/auth.guard';
 
 const routes: Routes = [
 
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   {
     path: 'map',
     component: MapComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   {
     path: 'logs',
     component: LogsComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   {
     path: 'bluetooth-map',
     component: BluetoothMapComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   {
     path: 'integrations',
     component: IntegrationsComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   // {
   //   path: 'integrations/:openedPanelIndex',
   //   component: IntegrationsComponent,
-  //   canActivate: [ AuthGuard ],
+  //   canActivate: [ canActivate ],
   // },
   /*
   {
     path: 'connector-configs/create',
     component: ConnectorConfigComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   */  
   {
     path: 'connector-configs/:ref',
     component: ConnectorConfigComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   /*
   {
     path: 'binder-configs/create',
     component: BinderConfigComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   */
   {
     path: 'binder-configs/:ref',
     component: BinderConfigComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   {
     path: 'api-keys/:ref',
     component: ApiKeyComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   {
     path: 'user',
     component: UserComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ canActivate ],
   },
   {
     path: 'login',
@@ -90,19 +90,19 @@ const routes: Routes = [
     path: '',
     redirectTo: 'map',
     pathMatch: 'full',
-    // canActivate: [ AuthGuard ],
+    // canActivate: [ canActivate ],
   },
   {
     path: '#',
     redirectTo: 'map',
     pathMatch: 'full',
-    // canActivate: [ AuthGuard ],
+    // canActivate: [ canActivate ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  // providers: [ AuthGuard ]
+  // providers: [ canActivate ]
 })
 export class AppRoutingModule { }

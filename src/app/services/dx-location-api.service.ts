@@ -26,12 +26,9 @@ export class DxLocationApiService {
     const h = new HttpHeaders()
       .set('Accept', '*/*');
 
-    return this.http.get<any>(
-      `${CONFIG.DXAPI_URL}/location-alarm-config/latest/api/bluetoothMap`,
-      {
-        headers: h
-      }
-    )
+    const url = `${CONFIG[this.authService.platform].API_BASE_URL}/location-alarm-config/latest/api/bluetoothMap`;
+
+    return this.http.get<any>( url, { headers: h } )
       .pipe(
 //        map( array => {
 //            return array.filter( (element:any) => {
@@ -57,7 +54,7 @@ export class DxLocationApiService {
     formData.append('file', featuresTextBlob);
 
     return this.http.post<any>(
-      `${CONFIG.DXAPI_URL}/location-alarm-config/latest/api/bluetoothMap`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-alarm-config/latest/api/bluetoothMap`,
       formData,
       {
         headers: h
@@ -81,7 +78,7 @@ export class DxLocationApiService {
       .set('Accept', 'application/json');
 
     return this.http.delete<any>(
-      `${CONFIG.DXAPI_URL}/location-alarm-config/latest/api/bluetoothMap`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-alarm-config/latest/api/bluetoothMap`,
       {
         headers: h
       }
@@ -105,7 +102,7 @@ export class DxLocationApiService {
       .set('accept', 'application/json');
 
     return this.http.get<any>(
-      `${CONFIG.DXAPI_URL}/location-connector/latest/api/connectorConfigs`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-connector/latest/api/connectorConfigs`,
       {
         headers: h
       }
@@ -124,7 +121,7 @@ export class DxLocationApiService {
 
   getConnectorConfig(ref:string) {
     return this.http.get<any>(
-      `${CONFIG.DXAPI_URL}/location-connector/latest/api/connectorConfigs/${ref}`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-connector/latest/api/connectorConfigs/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`Connector Config has been retrieved!`)),
@@ -136,7 +133,7 @@ export class DxLocationApiService {
   deleteConnectorConfig(ref:string) {
 
     return this.http.delete<any>(
-      `${CONFIG.DXAPI_URL}/location-connector/latest/api/connectorConfigs/${ref}`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-connector/latest/api/connectorConfigs/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`The selected Connector Config has been deleted!`)),
@@ -156,7 +153,7 @@ export class DxLocationApiService {
       .set('content-type', 'application/json');
 
     return this.http.post<any>(
-      `${CONFIG.DXAPI_URL}/location-connector/latest/api/connectorConfigs`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-connector/latest/api/connectorConfigs`,
       connectorConfig,
       {
         headers: h
@@ -186,7 +183,7 @@ export class DxLocationApiService {
       .set('content-type', 'application/json');
 
     return this.http.put<any>(
-      `${CONFIG.DXAPI_URL}/location-connector/latest/api/connectorConfigs/${ref}`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-connector/latest/api/connectorConfigs/${ref}`,
       connectorConfig,
       {
         headers: h
@@ -222,7 +219,7 @@ export class DxLocationApiService {
       .set('accept', 'application/json');
 
     return this.http.get<any>(
-      `${CONFIG.DXAPI_URL}/location/latest/api/binderConfigs`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location/latest/api/binderConfigs`,
       {
         headers: h
       }
@@ -242,7 +239,7 @@ export class DxLocationApiService {
 
   getBinderConfig(ref:string) {
     return this.http.get<any>(
-      `${CONFIG.DXAPI_URL}/location/latest/api/binderConfigs/${ref}`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location/latest/api/binderConfigs/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`Connector Config has been retrieved!`)),
@@ -254,7 +251,7 @@ export class DxLocationApiService {
   deleteBinderConfig(ref:string) {
 
     return this.http.delete<any>(
-      `${CONFIG.DXAPI_URL}/location/latest/api/binderConfigs/${ref}`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location/latest/api/binderConfigs/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`The selected Connector Config has been deleted!`)),
@@ -274,7 +271,7 @@ export class DxLocationApiService {
       .set('content-type', 'application/json');
 
     return this.http.post<any>(
-      `${CONFIG.DXAPI_URL}/location/latest/api/binderConfigs`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location/latest/api/binderConfigs`,
       binderConfig,
       {
         headers: h
@@ -304,7 +301,7 @@ export class DxLocationApiService {
       .set('content-type', 'application/json');
 
     return this.http.put<any>(
-      `${CONFIG.DXAPI_URL}/location/latest/api/binderConfigs/${ref}`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location/latest/api/binderConfigs/${ref}`,
       binderConfig,
       {
         headers: h
@@ -336,7 +333,7 @@ export class DxLocationApiService {
       .set('accept', 'application/json');
 
     return this.http.get<any>(
-      `${CONFIG.DXAPI_URL}/location-key-management/latest/api/apiKeys`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-key-management/latest/api/apiKeys`,
       {
         headers: h
       }
@@ -351,7 +348,7 @@ export class DxLocationApiService {
 
   getAPIKey(ref:string) {
     return this.http.get<any>(
-      `${CONFIG.DXAPI_URL}/location-key-management/latest/api/apiKeys/${ref}`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-key-management/latest/api/apiKeys/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`API Key has been retrieved!`)),
@@ -363,7 +360,7 @@ export class DxLocationApiService {
   deleteAPIKey(ref:string) {
 
     return this.http.delete<any>(
-      `${CONFIG.DXAPI_URL}/location-key-management/latest/api/apiKeys/${ref}`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-key-management/latest/api/apiKeys/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`The selected API Key has been deleted!`)),
@@ -383,7 +380,7 @@ export class DxLocationApiService {
       .set('content-type', 'application/json');
 
     return this.http.post<any>(
-      `${CONFIG.DXAPI_URL}/location-key-management/latest/api/apiKeys`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-key-management/latest/api/apiKeys`,
       apiKey,
       {
         headers: h
@@ -402,7 +399,7 @@ export class DxLocationApiService {
       .set('accept', 'application/json');
 
     return this.http.put<any>(
-      `${CONFIG.DXAPI_URL}/location-key-management/latest/api/apiKeys/${apiKeyId}`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/location-key-management/latest/api/apiKeys/${apiKeyId}`,
       {},
       {
         headers: h

@@ -29,7 +29,7 @@ export class DxCoreApiService {
       // .set('validityPeriod', encodeURIComponent(validityPeriod));
 
     return this.http.get<any>(
-      `${CONFIG.DXAPI_URL}/core/latest/api/devices`,
+      `${CONFIG[this.authService.platform].API_BASE_URL}/core/latest/api/devices`,
       {
         // params: p,
         headers: h
@@ -49,7 +49,7 @@ export class DxCoreApiService {
 
   getGateways(): Observable<any> {
 
-    const url = `${CONFIG.DXAPI_URL}/core/latest/api/baseStations`;
+    const url = `${CONFIG[this.authService.platform].API_BASE_URL}/core/latest/api/baseStations`;
     const h = new HttpHeaders()
       .set('Accept', 'application/json');
     // const p = new HttpParams()

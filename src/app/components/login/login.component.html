@@ -13,19 +13,25 @@
                 <mat-card-title class="centered-card-element">
                     Abeemap Login Form
                 </mat-card-title>
-                <mat-card-subtitle class="centered-card-element">
+                <!-- <mat-card-subtitle class="centered-card-element">
                     Please use your ThingPark Community credentials!
-                </mat-card-subtitle>
+                </mat-card-subtitle> -->
             </mat-card-header>
             <br/>
             <mat-card-content>
                 
-                <!-- <mat-form-field class="full-width-input">
-                    <input matInput placeholder="DX profile" formControlName="prefix" required>
-                    <mat-error *ngIf="isFieldInvalid('prefix')">
-                        Please inform your DX Profile
-                    </mat-error>
-                </mat-form-field> -->
+
+                <mat-form-field appearance="fill" class="full-width-input">
+                    <mat-label>Platform</mat-label>
+                    <mat-select formControlName="platformSelector" (selectionChange)="onPlatformChange()" required>
+                        <mat-option value="ECODX" disabled>ThingPark Community</mat-option> 
+                        <mat-option value="ECOKC" disabled>Abeeway MobileApp</mat-option> 
+                        <mat-option value="PREVDX">ThingPark Community Preview</mat-option> 
+                        <mat-option value="PREVKC">Abeeway MobileApp Preview</mat-option> 
+                    </mat-select>
+                </mat-form-field>
+
+
                 <mat-form-field class="full-width-input">
                     <mat-label>User name</mat-label>
                     <input matInput autocomplete="username" placeholder="User name" formControlName="userName" required>

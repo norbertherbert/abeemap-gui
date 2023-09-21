@@ -62,7 +62,7 @@ export class IntegrationsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let LE_AS_Topic = sessionStorage.getItem('mqtttop_' + CONFIG.client_id);
+    let LE_AS_Topic = this.authService.mqttTopic;
     if (!LE_AS_Topic) return;
     const topicSegments = LE_AS_Topic.split('/');
     this.userId = topicSegments[0];

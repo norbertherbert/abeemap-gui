@@ -2,6 +2,8 @@ import { Injectable, OnInit } from '@angular/core';
 import * as PahoMQTT from 'paho-mqtt';
 import { Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 
+import { AuthService } from '../auth/auth.service';
+
 import { CONFIG } from '../../environments/environment';
 
 import { MatSnackBar} from '@angular/material/snack-bar';
@@ -22,6 +24,7 @@ export class MqttClientService implements OnInit {
   locationUpdateMessage$ = new Subject<any>();
 
   constructor(
+    private authService: AuthService,
     private snackBar: MatSnackBar,
   ) { }
 
@@ -73,9 +76,9 @@ export class MqttClientService implements OnInit {
 
   connect() {
     setTimeout( () => {
-      const mqttUserName = sessionStorage.getItem('mqttusr_' + CONFIG.client_id);
-      const mqttPassword = localStorage.getItem('mqttpwd_' + CONFIG.client_id);
-      const mqttTopic = sessionStorage.getItem('mqtttop_' + CONFIG.client_id);
+      const mqttUserName = this.authService.mqttUserName;
+      const mqttPassword = this.authService.mqttPassword;
+      const mqttTopic = this.authService.mqttTopic;
 
       if ( !(mqttUserName && mqttPassword && mqttTopic) ) {
         console.log(`MQTT CONNECTION FAILURE: No proper MQTT params are cached in localStorage yet!`);
@@ -125,7 +128,7 @@ export class MqttClientService implements OnInit {
       return;
     }
     
-    const mqttTopic = sessionStorage.getItem('mqtttop_' + CONFIG.client_id);
+    const mqttTopic = this.authService.mqttTopic;
 
     console.log(`****************** TOPIC ********************`);
     console.log(mqttTopic);
@@ -158,8 +161,8 @@ export class MqttClientService implements OnInit {
       return;
     }
 
-    const subscriberId = sessionStorage.getItem('mqttsbs_' + CONFIG.client_id);
-    const mqttTopic = sessionStorage.getItem('mqtttop_' + CONFIG.client_id);
+    const subscriberId = this.authService.subscriberId;
+    const mqttTopic = this.authService.mqttTopic;
 
     this.client.unsubscribe(
       mqttTopic,

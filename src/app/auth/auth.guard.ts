@@ -1,58 +1,54 @@
-import { Injectable } from '@angular/core';
+import { inject } from '@angular/core';
 import {
-  CanActivate,
+  CanActivateFn,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  UrlTree,
-  Router,
+  // createUrlTreeFromSnapshot,
+  // Router,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 
 import { AuthService } from './auth.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
+export const canActivate: CanActivateFn = (actdRoute: ActivatedRouteSnapshot, rtrState: RouterStateSnapshot) => {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  const authService = inject(AuthService);
+  // const router = inject(Router);
 
-  canActivate(
-    actdRoute: ActivatedRouteSnapshot,
-    rtrState: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
-    if (
-      'access_token' in actdRoute.queryParams &&
-      'state' in actdRoute.queryParams // &&
-    ) {
+  const queryParams = { ...actdRoute.queryParams };
 
-      const tokenIsValid: boolean = this.authService.setSession(
-        actdRoute.queryParams.access_token,
-        actdRoute.queryParams.state
-      );
+  if ('access_token' in queryParams && 'state' in queryParams) {
 
-      const parsedUrl = new URL(window.location.href);
-      parsedUrl.searchParams.delete('access_token');
-      parsedUrl.searchParams.delete('state');
+    const tokenIsValid: boolean = authService.setSession(
+      queryParams.access_token,
+      queryParams.state
+    );
 
-      window.location.href = parsedUrl.href;
+    // delete queryParams.access_token;
+    // delete queryParams.state;
+    // setTimeout( () => {
+    //     router.navigate([actdRoute.url.join('/')], { queryParams });
+    //     // router.navigate(actdRoute.url, { queryParams });
+    //   }, 500
+    // )
 
-      return false;
-      
-    } else if (this.authService.loggedIn) {
+    const parsedUrl = new URL(window.location.href);
+    parsedUrl.searchParams.delete('access_token');
+    parsedUrl.searchParams.delete('state');
+    window.location.href = parsedUrl.href;
 
-      return true;
+    return false;
+    
+  } else if (authService.loggedIn) {
 
-    } else {
-      this.authService.login(window.location.href);
+    return true;
 
-      return false;
+  } else {
+    
+    authService.login(window.location.href);
 
-    }
+    return false;
+
   }
-
-}
+  
+};

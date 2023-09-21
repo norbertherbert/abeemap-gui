@@ -22,6 +22,14 @@ export class AuthService {
   scope: string|undefined = undefined;
   // customerId: number;
 
+
+  platform: string = '';
+  subscriberId: string|null = null;
+  mqttUserName: string|null = null;
+  mqttTopic: string|null = null;
+  mqttPassword: string|null = null;
+
+
   // roles: string[];
 
   loggedIn = false;
@@ -41,11 +49,17 @@ export class AuthService {
 
   login(redirectURI?: string): void {
     const state = generateState();
-
     
     // setCookie('state_' + CONFIG.client_id, state, 600, CONFIG.redirect_uri);
     sessionStorage.setItem('state_' + CONFIG.client_id, state);
 
+    // const quaryParams = {
+    //   response_type: encodeURIComponent(CONFIG.response_type),
+    //   redirect_uri: encodeURIComponent(redirectURI ? redirectURI : CONFIG.redirect_uri),
+    //   client_id: encodeURIComponent(CONFIG.client_id),
+    //   scope: encodeURIComponent(CONFIG.scope),
+    //   state: encodeURIComponent(state)
+    // }
 
     window.location.href = CONFIG.authorizationUrl +
       '?response_type=' + encodeURIComponent(CONFIG.response_type) +
@@ -54,31 +68,32 @@ export class AuthService {
       '&scope=' + encodeURIComponent(CONFIG.scope) +
       '&state=' + encodeURIComponent(state)
     ;
+
   }
 
   setSession(token: string, state?: string) {
 
     if ( state ) {
 
-
-      // const state1 = getCookie('state_' + CONFIG.client_id);
       const state1 = sessionStorage.getItem('state_' + CONFIG.client_id);
 
-
       if (state1) {
-
-
-        // deleteCookie('state_' + CONFIG.client_id, CONFIG.redirect_uri);
         sessionStorage.removeItem('state_' + CONFIG.client_id);
-   
-
       } else {
         return false;
       }
+
       if (state !== state1) {
         return false;
       }
+
     }
+
+    this.platform = sessionStorage.getItem('platform_' + CONFIG.client_id) || 'PREVDX';
+    this.subscriberId = sessionStorage.getItem('mqttsbs_' + CONFIG.client_id);
+    this.mqttUserName = sessionStorage.getItem('mqttusr_' + CONFIG.client_id);
+    this.mqttTopic =  sessionStorage.getItem('mqtttop_' + CONFIG.client_id);
+    this.mqttPassword = localStorage.getItem('mqttpwd_' + CONFIG.client_id);
 
     const decodedToken: any = jwtDecode(token);
     if (!decodedToken) {
@@ -90,7 +105,7 @@ export class AuthService {
     // this.iss = decodedToken.iss;
     // this.iat = +decodedToken.iat;
     this.exp = +decodedToken.exp;
-    this.userId = decodedToken.client_id;
+    this.userId = decodedToken.client_id || decodedToken.preferred_username;
     this.scope = decodedToken.scope;
     // this.customerId = +decodedToken.customerId;
 
@@ -98,12 +113,7 @@ export class AuthService {
     // this.loggedInAsAdmin = ( this.roles.indexOf('admin') !== -1 );
 
     if (state) {
-
-
-      // setCookie('access_token_' + CONFIG.client_id, this.token, 3600, CONFIG.redirect_uri);
       sessionStorage.setItem('access_token_' + CONFIG.client_id, this.token);
-
-
     }
 
     this.setLoggedIn(true);
@@ -126,14 +136,13 @@ export class AuthService {
     // this.roles = undefined;
     // this.loggedInAsAdmin = undefined;
 
-
-    // deleteCookie('access_token_' + CONFIG.client_id, CONFIG.redirect_uri);
     sessionStorage.removeItem('access_token_' + CONFIG.client_id);
-  
-    // sessionStorage.removeItem('mqttusr_' + CONFIG.client_id);
-    // localStorage.removeItem('mqttpwd_' + CONFIG.client_id);
-    // sessionStorage.removeItem('mqtttop_' + CONFIG.client_id);
 
+    sessionStorage.removeItem('platform_' + CONFIG.client_id);
+    sessionStorage.removeItem('mqttsbs_' + CONFIG.client_id);
+    sessionStorage.removeItem('mqttusr_' + CONFIG.client_id);
+    sessionStorage.removeItem('mqtttop_' + CONFIG.client_id);
+    // localStorage.removeItem('mqttpwd_' + CONFIG.client_id);
 
     this.setLoggedIn(false);
 
