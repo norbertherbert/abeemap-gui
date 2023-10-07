@@ -334,6 +334,7 @@ export class DxLocationApiService {
 
     return this.http.get<any>(
       `${CONFIG[this.authService.platform].API_BASE_URL}/location-key-management/latest/api/apiKeys`,
+      // CONFIG[this.authService.platform].APIKEY_MGMT_URL,
       {
         headers: h
       }
@@ -349,6 +350,7 @@ export class DxLocationApiService {
   getAPIKey(ref:string) {
     return this.http.get<any>(
       `${CONFIG[this.authService.platform].API_BASE_URL}/location-key-management/latest/api/apiKeys/${ref}`,
+      // `${CONFIG[this.authService.platform].APIKEY_MGMT_URL}/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`API Key has been retrieved!`)),
@@ -361,6 +363,7 @@ export class DxLocationApiService {
 
     return this.http.delete<any>(
       `${CONFIG[this.authService.platform].API_BASE_URL}/location-key-management/latest/api/apiKeys/${ref}`,
+      // `${CONFIG[this.authService.platform].APIKEY_MGMT_URL}/${ref}`,
     )
       .pipe(
         tap(_ => this.serviceUtils.log(`The selected API Key has been deleted!`)),
@@ -381,6 +384,7 @@ export class DxLocationApiService {
 
     return this.http.post<any>(
       `${CONFIG[this.authService.platform].API_BASE_URL}/location-key-management/latest/api/apiKeys`,
+      // CONFIG[this.authService.platform].APIKEY_MGMT_URL,
       apiKey,
       {
         headers: h
@@ -400,6 +404,7 @@ export class DxLocationApiService {
 
     return this.http.put<any>(
       `${CONFIG[this.authService.platform].API_BASE_URL}/location-key-management/latest/api/apiKeys/${apiKeyId}`,
+      // `${CONFIG[this.authService.platform].APIKEY_MGMT_URL}/${apiKeyId}`,
       {},
       {
         headers: h

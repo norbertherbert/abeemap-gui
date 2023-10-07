@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
     this.mqttAPIKey = localStorage.getItem('mqttpwd_' + CONFIG.client_id) || '';
     
     this.form = this.fb.group({
-      platformSelector: ['PREVDX', Validators.required],
+      platformSelector: ['ECODX', Validators.required],
       userName: ['', Validators.required],
       password: ['', Validators.required],
       mqttAPIKey: [this.mqttAPIKey]

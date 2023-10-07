@@ -30,9 +30,11 @@ export class MqttClientService implements OnInit {
 
   ngOnInit(): void {
 
+    const PLATFORM_CONFIG = CONFIG[this.authService.platform]
+
     this.client = new PahoMQTT.Client(
-      `${CONFIG.MQTT_WEBSOCKET_PROTOCOL}://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_WSS_PORT}/${CONFIG.MQTT_WEBSOCKET_PATH}`,
-      CONFIG.MQTT_CLIENT_ID_PREFIX + Math.floor(Math.random() * 1000000)
+      `${PLATFORM_CONFIG.MQTT_WS_PROTOCOL}://${PLATFORM_CONFIG.MQTT_WS_BROKER}:${PLATFORM_CONFIG.MQTT_WS_PORT}/${PLATFORM_CONFIG.MQTT_WS_PATH}`,
+      PLATFORM_CONFIG.MQTT_CLIENT_ID_PREFIX + Math.floor(Math.random() * 1000000)
     );
     // this.client = new PahoMQTT.Client(CONFIG.MQTT_BROKER, Number(CONFIG.MQTT_WSS_PORT), CONFIG.MQTT_CLIENT_ID);
 

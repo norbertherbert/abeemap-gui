@@ -59,11 +59,15 @@
 
                             <mat-card-content>
 
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Platform</mat-label>
+                                <mat-form-field appearance="fill" class="le-platform">
+                                    <mat-label>Location Engine Platform</mat-label>
                                     <mat-select formControlName="lePlatformCtrl" (selectionChange)="onPlatformChange()" required>
-                                        <mat-option value="rnd">Community-Preview</mat-option>
-                                        <mat-option value="dev1">Community-Production</mat-option>
+
+                                        <mat-option value="ECODX" >TPXLE Community</mat-option> 
+                                        <mat-option value="ECOKC" >TPXLE MobileApp</mat-option> 
+                                        <mat-option value="PREVDX">TPXLE Community Preview</mat-option> 
+                                        <mat-option value="PREVKC">TPXLE MobileApp Preview</mat-option> 
+
                                     </mat-select>
                                 </mat-form-field>
 
@@ -94,7 +98,8 @@
                                 <mat-form-field appearance="fill">
                                     <mat-label>NS Integration type</mat-label>
                                     <mat-select formControlName="nsIntegrationTypeCtrl" required>
-                                        <mat-option value="mqtt" [disabled]="firstFormGroup.value.lePlatformCtrl !== 'rnd'">MQTT</mat-option>
+                                        <mat-option value="mqtt" [disabled]="(firstFormGroup.value.lePlatformCtrl=='ECOKC')||(firstFormGroup.value.lePlatformCtrl=='PREVKC')">MQTT</mat-option>
+                                        <!-- <mat-option value="mqtt">MQTT</mat-option> -->
                                         <mat-option value="http">HTTP</mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -227,14 +232,14 @@
                                     <span *ngIf="firstFormGroup.value.nsVendorCtrl !== 'loriot'">
                                         &nbsp;&nbsp; x-client-id:       {{authService.userId}} <br/>
                                         &nbsp;&nbsp; x-client-secret:   YOUR_PASSWORD <br/>
-                                        &nbsp;&nbsp; x-realm:           {{firstFormGroup.value.lePlatformCtrl}} <br/>
+                                        &nbsp;&nbsp; x-realm:           {{getPlatformConfig().X_REALM}} <br/>
                                     </span>
                                     <span *ngIf="['chirpstack', 'everynet', 'senet', 'kerlink'].includes(firstFormGroup.value.nsVendorCtrl || '')">
                                         &nbsp;&nbsp; x-downlink-api:    {{firstFormGroup.value.downlinkApiUrlCtrl}} <br/>
                                         &nbsp;&nbsp; x-downlink-apikey: {{firstFormGroup.value.downlinkApiKeyCtrl}} <br/>
                                     </span>
                                     <span *ngIf="firstFormGroup.value.nsVendorCtrl === 'loriot'">
-                                        &nbsp;&nbsp; Authorization: {{authService.userId}}|YOUR_PASSWORD|{{firstFormGroup.value.lePlatformCtrl}}|{{firstFormGroup.value.downlinkApiUrlCtrl}} <br/>
+                                        &nbsp;&nbsp; Authorization: {{authService.userId}}|YOUR_PASSWORD|{{getPlatformConfig().X_REALM}}|{{firstFormGroup.value.downlinkApiUrlCtrl}} <br/>
                                     </span>
                                 </li>
                             </ul>

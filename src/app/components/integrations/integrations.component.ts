@@ -5,7 +5,10 @@ import { CONFIG } from '../../../environments/environment';
 import { AuthService } from '../../auth/auth.service';
 
 //wizard
-import {FormBuilder, Validators} from '@angular/forms';
+import {
+  FormBuilder, 
+  Validators
+} from '@angular/forms';
 
 import { IntegrationsService } from '../../services/integrations.service'; 
 
@@ -18,14 +21,14 @@ export class IntegrationsComponent implements OnInit {
 
   userId:string|null = ''; 
   targetURL = '';
-  trackerCommandsAPI = `${CONFIG.DX_LOCATION_API}/trackerCommands`;
-  mqttBrokerWSS = `wss://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_WSS_PORT}/${CONFIG.MQTT_WEBSOCKET_PATH}`;
-  mqttBrokerSSL = `mqtts://${CONFIG.MQTT_BROKER}:${CONFIG.MQTT_SSL_PORT}`;
+  trackerCommandsAPI = '';
+  mqttBrokerWSS = '';
+  mqttBrokerSSL = '';
   componentTitle = 'Integrations';
 
   // wizard
   firstFormGroup = this._formBuilder.group({
-    lePlatformCtrl: [CONFIG.realm, Validators.required],
+    lePlatformCtrl: ['', Validators.required],
     nsVendorCtrl: ['actility', Validators.required],
     nsIntegrationTypeCtrl: ['mqtt', Validators.required],
     asCtrl: ['abeemap', Validators.required],
@@ -51,16 +54,22 @@ export class IntegrationsComponent implements OnInit {
   ]
 
   constructor(
-    
     // wizard
     private _formBuilder: FormBuilder,
     public authService: AuthService, 
     public integrationsService: IntegrationsService,
 
-
   ) { }
 
   ngOnInit(): void {
+
+    let lePlatformCtrl = this.firstFormGroup.get('lePlatformCtrl');
+    lePlatformCtrl?.setValue(this.authService.platform);
+
+    const platform_config = this.getPlatformConfig();
+    this.trackerCommandsAPI = `${platform_config.API_BASE_URL}/location/latest/api/trackerCommands`;
+    this.mqttBrokerWSS = `${platform_config.MQTT_WS_PROTOCOL}://${platform_config.MQTT_WS_BROKER}:${platform_config.MQTT_WS_PORT}/${platform_config.MQTT_WS_PATH}`;
+    this.mqttBrokerSSL = `${platform_config.MQTT_PROTOCOL}://${platform_config.MQTT_BROKER}:${platform_config.MQTT_PORT}`;
 
     let LE_AS_Topic = this.authService.mqttTopic;
     if (!LE_AS_Topic) return;
@@ -86,11 +95,25 @@ export class IntegrationsComponent implements OnInit {
     }
   }
 
+  getPlatformConfig() {
+    let platformName = this.firstFormGroup.value.lePlatformCtrl;
+    return platformName ? CONFIG[platformName] : CONFIG['ECODX'];
+  }
+
   onPlatformChange() {
+
+    const platform_config = this.getPlatformConfig();
+    this.trackerCommandsAPI = `${platform_config.API_BASE_URL}/location/latest/api/trackerCommands`;
+    this.mqttBrokerWSS = `${platform_config.MQTT_WS_PROTOCOL}://${platform_config.MQTT_WS_BROKER}:${platform_config.MQTT_WS_PORT}/${platform_config.MQTT_WS_PATH}`;
+    this.mqttBrokerSSL = `${platform_config.MQTT_PROTOCOL}://${platform_config.MQTT_BROKER}:${platform_config.MQTT_PORT}`;
+
     let nsIntegrationTypeCtrl = this.firstFormGroup.get('nsIntegrationTypeCtrl');
     if (!nsIntegrationTypeCtrl) return;
 
-    if ((this.firstFormGroup.value.lePlatformCtrl !== 'rnd') && (this.firstFormGroup.value.nsIntegrationTypeCtrl === 'mqtt')) {
+    if (
+      ( (this.firstFormGroup.value.lePlatformCtrl == 'ECOKC') || (this.firstFormGroup.value.lePlatformCtrl == 'PREVKC') )
+      && (this.firstFormGroup.value.nsIntegrationTypeCtrl === 'mqtt')
+    ) {
       nsIntegrationTypeCtrl.setValue('http');
     }
   }
