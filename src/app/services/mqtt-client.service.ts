@@ -91,6 +91,9 @@ export class MqttClientService implements OnInit {
       this.client.connect({
         userName: mqttUserName,
         password: mqttPassword,
+
+        keepAliveInterval: 30,
+
         onSuccess: async () => {
           // this.connected = true;
           this.connected$.next(true);
