@@ -452,7 +452,7 @@ export class LeafletMapService implements OnInit {
     // setTimeout( () =>  TILES_MAPBOX.addTo(map), 1000);
 
     map.on('pm:create', (e:any) => { // e.shape, e.layer
-      this.setupLayer(e.layer, 'Bcn-XX', '00:00:00:00:00:00', '');
+      this.setupLayer(e.layer, 'Bcn-XX', '00:00:00:00:00:00', '', 0);
       this.onExport();
     });
 
@@ -466,15 +466,15 @@ export class LeafletMapService implements OnInit {
   }
 
 
-  createPopupFunction(leafletId:any, name:any, mac:any, id:any) {
+  createPopupFunction(leafletId:any, name:any, mac:any, id:any, floor_number:number) {
     return (layer:any) => {
       if (!this.beaconMapInEditMode) return;
       const popupEl: NgElement & WithProperties<BeaconSettingsPopupComponent> = document.createElement('app-beacon-settings-popup') as any;
-      popupEl.params = { leafletId, name, mac, id };
+      popupEl.params = { leafletId, name, mac, id, floor_number };
       // Listen to the close event
       // popupEl.addEventListener('closed', () => document.body.removeChild(popupEl));
       popupEl.addEventListener('changed', (e:any) => {
-        this.onMarkerChange(e.detail.leafletId, e.detail.name, e.detail.mac, e.detail.id);
+        this.onMarkerChange(e.detail.leafletId, e.detail.name, e.detail.mac, e.detail.id, e.detail.floor_number);
       });
       // Add to the DOM
       document.body.appendChild(popupEl);
@@ -483,7 +483,7 @@ export class LeafletMapService implements OnInit {
   }
 
 
-  setupLayer (l:any, name:string, mac:string, id:string) {
+  setupLayer (l:any, name:string, mac:string, id:string, floor_number:number) {
     // L.PM.reInitLayer(l);
     // l.on('pm:edit', ({ layer }) => {
     l.on('pm:edit', () => {
@@ -498,9 +498,10 @@ export class LeafletMapService implements OnInit {
           name: name,
           mac: mac,
           id: id,
+          floor_number: floor_number,
         }
       };
-      l.bindPopup(this.createPopupFunction(leafletId, name, mac, id) as any);
+      l.bindPopup(this.createPopupFunction(leafletId, name, mac, id, floor_number) as any);
       l.bindTooltip(
         name, 
         {
@@ -514,21 +515,22 @@ export class LeafletMapService implements OnInit {
 
   };
 
-  updateMarker (leafletId:any, name:string, mac:string, id:string) {
+  updateMarker (leafletId:any, name:string, mac:string, id:string, floor_number:number) {
     const m:any = this.beaconsFeatureGroup.getLayer(leafletId);
     m.feature.properties.name = name;
     m.feature.properties.mac = mac;
     m.feature.properties.id = id;
+    m.feature.properties.floor_number = parseInt(floor_number.toString()); // workaround to make sure the that it is number in the exported geojson 
     m.getPopup()
-      .setContent(this.createPopupFunction(leafletId, name, mac, id) as any)
+      .setContent(this.createPopupFunction(leafletId, name, mac, id, floor_number) as any)
       .update();
     m.getTooltip()
       .setContent(name)
       .update();
   }
 
-  onMarkerChange(leafletId:any, name:string, mac:string, id:string) {
-    this.updateMarker(leafletId, name, mac, id);
+  onMarkerChange(leafletId:any, name:string, mac:string, id:string, floor_number:number) {
+    this.updateMarker(leafletId, name, mac, id, floor_number);
     this.onExport();
   }
 
@@ -557,7 +559,7 @@ export class LeafletMapService implements OnInit {
             
           }
 
-          group.push([layer, feature.properties.name, feature.properties.mac || '', feature.properties.id] || '');
+          group.push([layer, feature.properties.name, feature.properties.mac || '', feature.properties.id, feature.properties.floor_number || 0] || '');
 
           // this.setupLayer(layer, feature.properties.name, feature.properties.mac || '', feature.properties.id);
           // layer.addTo(this.beaconsFeatureGroup);
@@ -567,7 +569,7 @@ export class LeafletMapService implements OnInit {
 
       this.clearBeaconMap();
 
-      group.forEach( (element:[any,string,string,string]) => {
+      group.forEach( (element:[any,string,string,string,number]) => {
         element[0].addTo(this.beaconsFeatureGroup);
         this.setupLayer(...element);
       });

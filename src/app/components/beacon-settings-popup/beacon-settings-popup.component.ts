@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-interface PopupParams {leafletId:any, name:string, mac:string, id:string}
+interface PopupParams {leafletId:any, name:string, mac:string, id:string, floor_number:number,}
 
 @Component({
   selector: 'app-beacon-settings-popup',
@@ -9,7 +9,7 @@ interface PopupParams {leafletId:any, name:string, mac:string, id:string}
 })
 export class BeaconSettingsPopupComponent implements OnInit {
 
-  @Input() params:PopupParams = {leafletId:'', name:'', mac:'', id:''};
+  @Input() params:PopupParams = {leafletId:'', name:'', mac:'', id:'', floor_number:0,};
   @Output() changed = new EventEmitter<PopupParams>();
   idType = '';
 

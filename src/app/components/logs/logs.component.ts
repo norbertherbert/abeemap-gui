@@ -49,4 +49,16 @@ export class LogsComponent implements OnInit {
     return d1.toISOString().slice(0, 19).replace('T', ' ');
   }
 
+  formatMessageType(element:any) {
+    if (element.uplinkPayload) {
+      let formatted = element.uplinkPayload.messageType;
+      if (element.uplinkPayload.eventType) {
+        formatted += `:${element.uplinkPayload.eventType}`;
+      }
+      return formatted;
+    } else {
+      return "";
+    }
+  }
+
 }

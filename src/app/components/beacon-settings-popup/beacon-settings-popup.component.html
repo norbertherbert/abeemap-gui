@@ -30,5 +30,14 @@
             (change)="onChange()"
         >
     </mat-form-field><br/>
+    <mat-form-field>
+        <mat-label>floor_number:</mat-label>
+        <input class="full-width-input"
+            [(ngModel)]="params.floor_number" 
+            matInput 
+            placeholder="floor_number"
+            (change)="onChange()"
+        >
+    </mat-form-field><br/>
     <button mat-button (click)="onSave()">Save</button>
 </div>
